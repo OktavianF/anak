@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Star, Trophy, Coins, Map, LogOut, Crown, Sparkles, Gift, Zap, Heart, Settings, ArrowLeft } from 'lucide-react';
+import { Star, Trophy, Coins, LogOut, Crown, Sparkles, Gift, Zap, Heart, Settings, ArrowLeft } from 'lucide-react';
 
 interface ChildProfileScreenProps {
   navigateTo: (screen: string) => void;
@@ -49,17 +49,6 @@ export default function ChildProfileScreen({
     { id: 'brain-champion', name: 'Brain Champion', emoji: '👑', rarity: 'legendary', earned: false, description: 'Juara Otak!' },
     { id: 'super-learner', name: 'Super Learner', emoji: '🌟', rarity: 'epic', earned: false, description: 'Pelajar Super!' },
     { id: 'creativity-king', name: 'Creativity King', emoji: '🎨', rarity: 'rare', earned: false, description: 'Raja Kreativitas!' }
-  ];
-
-  // Adventure progress - game completion map
-  const adventureProgress = [
-    { id: 'memory', name: 'Memory Island', emoji: '🧠', completed: true, unlocked: true, x: 20, y: 60 },
-    { id: 'puzzle', name: 'Puzzle Palace', emoji: '🧩', completed: true, unlocked: true, x: 40, y: 40 },
-    { id: 'pattern', name: 'Pattern Peak', emoji: '🎯', completed: true, unlocked: true, x: 60, y: 20 },
-    { id: 'word', name: 'Word Woods', emoji: '📚', completed: false, unlocked: true, x: 80, y: 40 },
-    { id: 'number', name: 'Number Nexus', emoji: '🔢', completed: false, unlocked: true, x: 70, y: 70 },
-    { id: 'creative', name: 'Creative Castle', emoji: '🎨', completed: false, unlocked: false, x: 50, y: 80 },
-    { id: 'final', name: 'Champion City', emoji: '👑', completed: false, unlocked: false, x: 90, y: 60 }
   ];
 
   const getRarityColor = (rarity: string) => {
@@ -216,65 +205,6 @@ export default function ChildProfileScreen({
 
       {/* Main Content Tabs */}
       <div className="px-6 pb-20">
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {/* Achievements Trophy Room */}
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white/25 backdrop-blur-md rounded-3xl p-6 border border-white/40 text-center"
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <motion.div
-              animate={{ rotate: [0, 15, -15, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="text-4xl mb-2"
-            >
-              🏆
-            </motion.div>
-            <div className="text-white font-heading text-sm">Trophy Room</div>
-          </motion.button>
-
-          {/* Adventure Map */}
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white/25 backdrop-blur-md rounded-3xl p-6 border border-white/40 text-center"
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="text-4xl mb-2"
-            >
-              🗺️
-            </motion.div>
-            <div className="text-white font-heading text-sm">Adventure Map</div>
-          </motion.button>
-
-          {/* Customization Shop */}
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            onClick={() => setShowCustomization(true)}
-            className="bg-white/25 backdrop-blur-md rounded-3xl p-6 border border-white/40 text-center"
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <motion.div
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              className="text-4xl mb-2"
-            >
-              🛍️
-            </motion.div>
-            <div className="text-white font-heading text-sm">Shop</div>
-          </motion.button>
-        </div>
 
         {/* Achievement Gallery */}
         <motion.div
@@ -334,77 +264,6 @@ export default function ChildProfileScreen({
           </div>
         </motion.div>
 
-        {/* Adventure Progress Map */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white/20 backdrop-blur-lg rounded-3xl p-6 mb-6 border border-white/30"
-        >
-          <div className="text-center mb-4">
-            <h2 className="text-white font-heading text-2xl mb-2">🗺️ Adventure Map 🗺️</h2>
-          </div>
-          
-          <div className="relative h-40 bg-gradient-to-br from-green-400/30 to-blue-400/30 rounded-2xl overflow-hidden">
-            {/* Adventure Path */}
-            <svg className="absolute inset-0 w-full h-full">
-              <motion.path
-                d="M 20 60 Q 40 40 60 20 Q 80 40 70 70 Q 50 80 90 60"
-                stroke="rgba(255,255,255,0.5)"
-                strokeWidth="3"
-                fill="none"
-                strokeDasharray="8,4"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
-              />
-            </svg>
-            
-            {/* Adventure Locations */}
-            {adventureProgress.map((location, index) => (
-              <motion.div
-                key={location.id}
-                className={`absolute w-12 h-12 rounded-full flex items-center justify-center text-2xl border-3 ${
-                  location.completed 
-                    ? 'bg-green-500 border-white shadow-green-500/50' 
-                    : location.unlocked 
-                      ? 'bg-blue-500 border-white shadow-blue-500/50' 
-                      : 'bg-gray-500/50 border-gray-300'
-                } shadow-xl`}
-                style={{ 
-                  left: `${location.x}%`, 
-                  top: `${location.y}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ 
-                  scale: 1, 
-                  rotate: 0,
-                  y: location.completed ? [0, -5, 0] : 0
-                }}
-                transition={{ 
-                  delay: index * 0.2,
-                  y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-                }}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                {location.emoji}
-                
-                {location.completed && (
-                  <motion.div
-                    className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center"
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  >
-                    ⭐
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
         {/* Safe Exit Button */}
         <motion.button
           initial={{ opacity: 0, y: 30 }}
@@ -416,12 +275,11 @@ export default function ChildProfileScreen({
           whileTap={{ scale: 0.98 }}
         >
           <LogOut className="w-6 h-6" />
-          <span>Ganti Pemain</span>
+          <span>Kembali</span>
           <motion.div
             animate={{ x: [0, 5, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            👋
           </motion.div>
         </motion.button>
       </div>

@@ -44,8 +44,12 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
           className="bg-white rounded-3xl p-6 shadow-lg text-center"
         >
           {/* Doctor Avatar */}
-          <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <span className="text-4xl">{doctor.image}</span>
+          <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 overflow-hidden">
+            <img 
+              src={doctor.image} 
+              alt={doctor.name}
+              className="w-full h-full object-cover"
+            />
           </div>
           
           {/* Doctor Info */}

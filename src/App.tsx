@@ -59,7 +59,7 @@ export default function App() {
   
   // Profile customization state
   const [profileData, setProfileData] = useState({
-    avatar: 'https://images.unsplash.com/photo-1758782213616-7b4cd41eff29?w=200&h=200&fit=crop&auto=format',
+    avatar: '🦄',
     backgroundColor: '#3B82F6', // blue-500
     favoriteColor: 'blue',
     badges: ['super-star', 'brain-explorer']
@@ -363,21 +363,48 @@ export default function App() {
   };
 
   // Update CHC assessment function
-  const updateChcAssessment = (chcDomain: string, sessionData: any) => {
+  const updateChcAssessment = (gameType: string, sessionData: any) => {
+    // Map game types to CHC domains
+    const gameToChcMapping: { [key: string]: string } = {
+      'numberSequence': 'fluidReasoning',
+      'patternRecognition': 'visualProcessing', 
+      'memory': 'workingMemory',
+      'wordPuzzle': 'comprehensionKnowledge',
+      'motor': 'reactionSpeed',
+      'auditory': 'auditoryProcessing',
+      'processing': 'processingSpeed',
+      'longTermMemory': 'longTermMemory'
+    };
+    
+    const chcDomain = gameToChcMapping[gameType];
+    
+    // If domain doesn't exist, just return without error
+    if (!chcDomain) {
+      console.warn(`Unknown game type: ${gameType}`);
+      return;
+    }
+    
     setChcAssessments(prev => {
       const domain = prev[chcDomain as keyof typeof prev];
+      
+      // Safety check: ensure domain exists
+      if (!domain) {
+        console.warn(`CHC domain not found: ${chcDomain}`);
+        return prev;
+      }
+      
       const newSessions = [...domain.sessions, sessionData];
       const totalPlayed = domain.totalPlayed + 1;
       
-      // Calculate averages
-      const totalTime = newSessions.reduce((sum, session) => sum + session.timeSpent, 0);
-      const totalErrors = newSessions.reduce((sum, session) => sum + session.errors, 0);
-      const totalScore = newSessions.reduce((sum, session) => sum + session.score, 0);
+      // Calculate averages with safety checks
+      const totalTime = newSessions.reduce((sum, session) => sum + (session?.timeSpent || 0), 0);
+      const totalErrors = newSessions.reduce((sum, session) => sum + (session?.errors || 0), 0);
+      const totalScore = newSessions.reduce((sum, session) => sum + (session?.score || 0), 0);
       
-      const averageTime = Math.round(totalTime / totalPlayed);
-      const averageErrors = Math.round((totalErrors / totalPlayed) * 10) / 10;
-      const averageScore = Math.round(totalScore / totalPlayed);
-      const bestScore = Math.max(domain.bestScore, sessionData.score);
+      const averageTime = totalPlayed > 0 ? Math.round(totalTime / totalPlayed) : 0;
+      const averageErrors = totalPlayed > 0 ? Math.round((totalErrors / totalPlayed) * 10) / 10 : 0;
+      const averageScore = totalPlayed > 0 ? Math.round(totalScore / totalPlayed) : 0;
+      const bestScore = Math.max(domain.bestScore, sessionData?.score || 0);
       
       // Determine development level based on performance
       let developmentLevel = 'Perlu Perhatian Lebih';
@@ -407,6 +434,7 @@ export default function App() {
     setAppMode('parent');
     setIsParentMode(true);
     setCurrentScreen('home'); // Navigate to parent dashboard
+    setShowPINModal(false); // Close PIN modal if open
   };
 
   const switchToChildMode = () => {
@@ -561,13 +589,43 @@ export default function App() {
 
     // Child-First: Show Child Interface or Parent Interface based on appMode
     if (appMode === 'child') {
-      // Child Interface - Always show GameScreen (gallery of games) with parent access button
-      return <GameScreen 
-        {...commonProps} 
-        chcAssessments={chcAssessments} 
-        requestParentAccess={requestParentAccess}
-        showParentAccessButton={true}
-      />;
+      // Child Interface - Show appropriate screen based on currentScreen
+      switch (currentScreen) {
+        case 'memory-game':
+          return <MemoryGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
+        case 'word-puzzle-game':
+          return <WordPuzzleGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
+        case 'number-sequence-game':
+          return <NumberSequenceGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
+        case 'pattern-recognition-game':
+          return <PatternRecognitionGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
+        case 'child-assessment':
+          return <ChildAssessmentScreen 
+            navigateTo={navigateTo} 
+            childName={childName} 
+            isParentMode={isParentMode} 
+            setIsParentMode={setIsParentMode}
+            chcAssessments={chcAssessments}
+          />;
+        case 'child-profile':
+          return <ChildProfileScreen
+            navigateTo={navigateTo}
+            childName={childName}
+            isParentMode={isParentMode}
+            setIsParentMode={setIsParentMode}
+            collectedStickers={collectedStickers}
+            profileData={profileData}
+            updateProfile={updateProfile}
+          />;
+        default:
+          // Default to GameScreen (gallery of games) with parent access button
+          return <GameScreen 
+            {...commonProps} 
+            chcAssessments={chcAssessments} 
+            requestParentAccess={requestParentAccess}
+            showParentAccessButton={true}
+          />;
+      }
     }
 
     // Parent Interface - Full app functionality
@@ -619,7 +677,7 @@ export default function App() {
       case 'motor-tips':
         return <MotorTipsScreen {...commonProps} childAge={childAge} addSticker={addSticker} />;
       case 'motor-test-game':
-        return <MotorTestGameScreen {...commonProps} childName={childName} updateTestResults={updateChcTestResults} updateGameAssessment={updateChcAssessment} />;
+        return <MotorTestGameScreen {...commonProps} childName={childName} updateTestResults={updateChcTestResults} />;
       case 'progress':
         return <ProgressScreen {...commonProps} childName={childName} chcTestResults={chcTestResults} chcAssessments={chcAssessments} />;
       case 'profile':
