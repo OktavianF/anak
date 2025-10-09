@@ -621,7 +621,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               <div className="w-full h-full flex items-center justify-center relative">
                 {card.isFlipped || card.isMatched ? (
                   <motion.span 
-                    className={`text-xl sm:text-2xl ${card.isMatched ? 'drop-shadow-md' : ''}`}
+                    className={`text-4xl sm:text-5xl ${card.isMatched ? 'drop-shadow-md' : ''}`}
                     initial={{ rotateY: -90, scale: 0.5 }}
                     animate={{ rotateY: 0, scale: 1 }}
                     transition={{ 
@@ -634,7 +634,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   </motion.span>
                 ) : (
                   <motion.div
-                    className="text-white text-xl"
+                    className="text-white text-4xl sm:text-5xl"
                     whileHover={{ scale: 1.2, rotate: 10 }}
                     animate={{ 
                       scale: [1, 1.05, 1],
