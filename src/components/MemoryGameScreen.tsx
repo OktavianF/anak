@@ -27,7 +27,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
 
   // Card emojis for the memory game - more variety and fun
   const cardEmojis = ['🐱', '🐶', '🐸', '🦊', '🐰', '🐨', '🐼', '🦁', '🦄', '🐯', '🐵', '🐧', '🦋', '🐝', '🌸', '🌟', '🎈', '🍎'];
-  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
+  const [difficulty] = useState<'easy' | 'medium' | 'hard'>('easy');
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -431,58 +431,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             </div>
           </motion.div>
 
-          {/* Difficulty Selection */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl p-6 shadow-sm mb-6"
-          >
-            <h3 className="text-gray-900 font-heading font-bold text-lg mb-4">Pilih Tingkat Kesulitan:</h3>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { level: 'easy', label: 'Mudah', cards: '6 Kartu', emoji: '😊' },
-                { level: 'medium', label: 'Sedang', cards: '8 Kartu', emoji: '😐' },
-                { level: 'hard', label: 'Sulit', cards: '10 Kartu', emoji: '😤' }
-              ].map((diff) => (
-                <motion.button
-                  key={diff.level}
-                  onClick={() => setDifficulty(diff.level as 'easy' | 'medium' | 'hard')}
-                  className={`p-4 rounded-2xl border-2 text-center transition-all ${
-                    difficulty === diff.level
-                      ? diff.level === 'easy' ? 'border-green-500 bg-green-50' :
-                        diff.level === 'medium' ? 'border-yellow-500 bg-yellow-50' :
-                        'border-red-500 bg-red-50'
-                      : 'border-gray-200 bg-white hover:border-gray-300'
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div className="text-2xl mb-2">
-                    {diff.emoji}
-                  </div>
-                  <div className={`font-heading font-bold text-sm ${
-                    difficulty === diff.level
-                      ? diff.level === 'easy' ? 'text-green-700' :
-                        diff.level === 'medium' ? 'text-yellow-700' :
-                        'text-red-700'
-                      : 'text-gray-600'
-                  }`}>
-                    {diff.label}
-                  </div>
-                  <div className={`font-body text-xs ${
-                    difficulty === diff.level
-                      ? diff.level === 'easy' ? 'text-green-600' :
-                        diff.level === 'medium' ? 'text-yellow-600' :
-                        'text-red-600'
-                      : 'text-gray-500'
-                  }`}>
-                    {diff.cards}
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+          {/* Difficulty Selection removed, default is 'Mudah' (easy) */}
 
           {/* Target Info */}
           <motion.div
