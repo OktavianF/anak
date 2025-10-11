@@ -234,27 +234,6 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
             </div>
           </motion.div>
         ))}
-
-        {/* Emergency Contact */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-red-50 border border-red-200 rounded-2xl p-4 mt-6"
-        >
-          <div className="text-center">
-            <div className="text-3xl mb-2">🚨</div>
-            <h3 className="text-red-700 font-heading font-bold text-base mb-1">
-              Kondisi Darurat?
-            </h3>
-            <p className="text-red-600 text-sm font-body mb-3">
-              Segera hubungi layanan gawat darurat terdekat
-            </p>
-            <button className="bg-red-500 text-white px-6 py-2 rounded-xl font-body font-semibold text-sm">
-              Hubungi 119
-            </button>
-          </div>
-        </motion.div>
       </div>
 
       {/* Bottom Navigation */}

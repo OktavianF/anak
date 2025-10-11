@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import NewSplashScreen from './components/NewSplashScreen';
-import LoginScreen from './components/LoginScreen';
 import SurveyScreen from './components/SurveyScreen';
 import HomeScreen from './components/HomeScreen';
 import CognitiveTestScreen from './components/CognitiveTestScreen';
@@ -32,6 +31,17 @@ import ChildProfileScreen from './components/ChildProfileScreen';
 import PINInputModal from './components/PINInputModal';
 
 export default function App() {
+  // Sticker notification state
+  const [stickerNotification, setStickerNotification] = useState<{
+    id: string;
+    name: string;
+    emoji: string;
+    description: string;
+    rarity: string;
+  } | null>(null);
+
+  // MBTI result state for personality test
+  const [mbtiResult, setMbtiResult] = useState<string | null>(null);
   // Core application state with Authentication
   const [appMode, setAppMode] = useState<'child' | 'parent'>('child');
   const [currentScreen, setCurrentScreen] = useState('splash');
@@ -58,24 +68,18 @@ export default function App() {
   });
   
   // Profile customization state
-  const [profileData, setProfileData] = useState({
+  type ProfileData = {
+    avatar: string;
+    backgroundColor: string;
+    favoriteColor: string;
+    badges: string[];
+  };
+  const [profileData, setProfileData] = useState<ProfileData>({
     avatar: '🦄',
     backgroundColor: '#3B82F6', // blue-500
     favoriteColor: 'blue',
     badges: ['super-star', 'brain-explorer']
   });
-
-  // MBTI Test Result
-  const [mbtiResult, setMbtiResult] = useState<any>(null);
-
-  // Sticker Notification State
-  const [stickerNotification, setStickerNotification] = useState<{
-    id: string;
-    name: string;
-    emoji: string;
-    description: string;
-    rarity: string;
-  } | null>(null);
 
   // CHC-Based Test Results State
   const [chcTestResults, setChcTestResults] = useState({
@@ -90,8 +94,6 @@ export default function App() {
       chcDomain: 'Gf',
       narrowAbilityScores: {
         inductiveReasoning: 0,
-        deductiveReasoning: 0,
-        quantitativeReasoning: 0
       },
       developmentLevel: 'Belum Diukur',
       ageEquivalent: null,
@@ -154,8 +156,6 @@ export default function App() {
     // Long-Term Storage and Retrieval (Glr)
     longTermMemory: {
       completed: false,
-      score: 0,
-      total: 10,
       percentage: 0,
       completedDate: null,
       timeSpent: 0,
@@ -525,7 +525,8 @@ export default function App() {
   React.useEffect(() => {
     if (currentScreen === 'splash') {
       const timer = setTimeout(() => {
-        setCurrentScreen('login');
+        setIsAuthenticated(true);
+        setCurrentScreen('home'); // or 'game', or any main screen you want
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -568,8 +569,6 @@ export default function App() {
       switch (currentScreen) {
         case 'splash':
           return <NewSplashScreen />;
-        case 'login':
-          return <LoginScreen navigateTo={handleLogin} />;
         case 'survey':
           return <SurveyScreen 
             navigateTo={handleSurveyComplete} 
@@ -632,8 +631,6 @@ export default function App() {
     switch (currentScreen) {
       case 'splash':
         return <NewSplashScreen />;
-      case 'login':
-        return <LoginScreen navigateTo={handleLogin} />;
       case 'survey':
         return <SurveyScreen 
           navigateTo={handleSurveyComplete} 

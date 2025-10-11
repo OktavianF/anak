@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Search, Home, MessageSquare, BarChart3, User, Users, Brain, MessageCircle, Theater, Target, Gamepad2, Calendar, Clock, AlertCircle, Award, Sparkles, Trophy, Play, Star, ChevronRight } from 'lucide-react';
+import { UserRound } from 'lucide-react';
 
 interface HomeScreenProps {
   navigateTo: (screen: string) => void;
@@ -121,14 +122,8 @@ export default function HomeScreen({
             <button className="p-2">
               <Search className="w-6 h-6 text-gray-600" />
             </button>
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-md bg-blue-100">
-              <img 
-                src={profileData?.avatar || 'https://images.unsplash.com/photo-1758782213616-7b4cd41eff29?w=100&h=100&fit=crop&auto=format'} 
-                alt="Profile" 
-                className="w-full h-full object-cover"
-                loading="lazy"
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
-              />
+            <div className="w-10 h-10 rounded-full flex items-center justify-center border-2 border-white shadow-md bg-purple-100">
+              <UserRound className="w-7 h-7 text-purple-400" strokeWidth={2.2} />
             </div>
           </div>
         </div>
@@ -379,26 +374,28 @@ export default function HomeScreen({
       <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100">
         <div className="flex justify-around py-3">
           {[
-            { icon: Home, label: 'Home', screen: 'home', active: true },
+            { icon: Home, label: 'Home', screen: 'home' },
             { icon: MessageSquare, label: 'Consultation', screen: 'consultation' },
             { icon: Users, label: 'Community', screen: 'community' },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
             { icon: User, label: 'Profile', screen: 'profile' }
-          ].map((item) => (
-            <motion.button
-              key={item.screen}
-              onClick={() => navigateTo(item.screen)}
-              className={`flex flex-col items-center space-y-1 py-2 px-2 ${
-                item.active 
-                  ? 'text-orange-500' 
-                  : 'text-gray-400'
-              }`}
-              whileTap={{ scale: 0.95 }}
-            >
-              <item.icon size={18} />
-              <span className="text-xs font-body font-medium">{item.label}</span>
-            </motion.button>
-          ))}
+          ].map((item) => {
+            // Determine active tab by comparing with current screen
+            const isActive = item.screen === 'home';
+            return (
+              <motion.button
+                key={item.screen}
+                onClick={() => navigateTo(item.screen)}
+                className={`flex flex-col items-center space-y-1 py-2 px-2 ${
+                  isActive ? 'text-purple-500' : 'text-gray-400'
+                }`}
+                whileTap={{ scale: 0.95 }}
+              >
+                <item.icon size={18} />
+                <span className="text-xs font-body font-medium">{item.label}</span>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
     </div>

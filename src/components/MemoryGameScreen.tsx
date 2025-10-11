@@ -25,9 +25,10 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
   const [gameTime, setGameTime] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
-  // Card emojis for the memory game - more variety and fun
-  const cardEmojis = ['🐱', '🐶', '🐸', '🦊', '🐰', '🐨', '🐼', '🦁', '🦄', '🐯', '🐵', '🐧', '🦋', '🐝', '🌸', '🌟', '🎈', '🍎'];
-  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
+  // Card emojis for the memory game - only 3 pairs for easy mode
+  const cardEmojis = ['🐱', '🐶', '🐸'];
+  // Difficulty is always 'easy' now
+  const difficulty: 'easy' = 'easy';
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -39,26 +40,21 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
 
   useEffect(() => {
     if (!gameStarted) {
-      // Select cards based on difficulty
-      const cardCount = difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10;
-      const selectedEmojis = cardEmojis.slice(0, cardCount);
-      
-      // Create pairs of cards with proper unique IDs
-      const pairedEmojis = [...selectedEmojis, ...selectedEmojis];
+      // Only 3 pairs for easy mode
+      const selectedEmojis = cardEmojis.slice(0, 3); // 3 unique emojis
+      const pairedEmojis = [...selectedEmojis, ...selectedEmojis]; // 6 cards
       const gameCards = pairedEmojis.map((emoji, index) => ({
         id: index,
         emoji,
         isFlipped: false,
         isMatched: false,
       }));
-      
-      // Shuffle cards using Fisher-Yates algorithm for better randomization
+      // Shuffle cards using Fisher-Yates algorithm
       const shuffledCards = [...gameCards];
       for (let i = shuffledCards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
       }
-      
       setCards(shuffledCards);
       setFlippedCards([]);
       setMatchedPairs(0);
@@ -166,8 +162,8 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
   }, [isTimerRunning, gameCompleted]);
 
   useEffect(() => {
-    const cardCount = difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10;
-    if (matchedPairs === cardCount && matchedPairs > 0 && !gameCompletionHandled) {
+  const cardCount = 3; // 3 pairs for easy mode
+  if (matchedPairs === cardCount && matchedPairs > 0 && !gameCompletionHandled) {
       setIsTimerRunning(false);
       setGameCompleted(true);
       setGameCompletionHandled(true);
@@ -570,56 +566,6 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             </div>
           </motion.div>
 
-          {/* Difficulty Selection */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl p-6 shadow-lg mb-6 border-2 border-purple-100"
-          >
-            <h3 className="text-gray-900 font-heading font-bold text-lg mb-4 flex items-center gap-2">
-              🎚️ Pilih Tingkat Kesulitan:
-            </h3>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { level: 'easy', label: 'Mudah', cards: '6 Kartu', emoji: '😊', gradient: 'from-green-400 to-green-500', border: 'border-green-500', bg: 'bg-green-50' },
-                { level: 'medium', label: 'Sedang', cards: '8 Kartu', emoji: '😐', gradient: 'from-yellow-400 to-orange-400', border: 'border-yellow-500', bg: 'bg-yellow-50' },
-                { level: 'hard', label: 'Sulit', cards: '10 Kartu', emoji: '😤', gradient: 'from-red-400 to-pink-500', border: 'border-red-500', bg: 'bg-red-50' }
-              ].map((diff) => (
-                <motion.button
-                  key={diff.level}
-                  onClick={() => setDifficulty(diff.level as 'easy' | 'medium' | 'hard')}
-                  className={`p-4 rounded-2xl border-3 text-center transition-all ${
-                    difficulty === diff.level
-                      ? `${diff.border} ${diff.bg} border-3 shadow-lg`
-                      : 'border-gray-200 bg-white hover:border-gray-300 border-2'
-                  }`}
-                  whileHover={{ scale: 1.05, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={difficulty === diff.level ? { y: [0, -5, 0] } : {}}
-                  transition={{ duration: 0.5 }}
-                >
-                  <motion.div 
-                    className="text-3xl mb-2"
-                    animate={{ rotate: difficulty === diff.level ? [0, 10, -10, 0] : 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    {diff.emoji}
-                  </motion.div>
-                  <div className={`font-heading font-bold text-sm ${
-                    difficulty === diff.level ? 'text-gray-800' : 'text-gray-600'
-                  }`}>
-                    {diff.label}
-                  </div>
-                  <div className={`font-body text-xs ${
-                    difficulty === diff.level ? 'text-gray-700' : 'text-gray-500'
-                  }`}>
-                    {diff.cards}
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
 
           {/* Target Info */}
           <motion.div
@@ -629,7 +575,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             className="bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 border-2 border-yellow-300 rounded-2xl p-6 mb-6 shadow-lg"
           >
             <h3 className="text-orange-700 font-heading font-bold text-base mb-3 flex items-center gap-2">
-              🎯 Target Bintang ({difficulty === 'easy' ? 'Mudah' : difficulty === 'medium' ? 'Sedang' : 'Sulit'}):
+              🎯 Target Bintang
             </h3>
             <div className="space-y-2">
               {[
@@ -811,7 +757,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                 initial={{ scale: 1.3, color: '#FFD700' }}
                 animate={{ scale: 1, color: '#FFFFFF' }}
               >
-                {matchedPairs}/{difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10}
+                {matchedPairs}/3
               </motion.span>
               <p className="text-purple-100 font-body text-xs">💝 Pasangan</p>
             </motion.div>
@@ -874,24 +820,6 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Cheerleader Mascot */}
-      <motion.div
-        className="fixed bottom-4 right-4 z-40 text-6xl"
-        animate={{
-          y: [0, -10, 0],
-          rotate: [0, 5, -5, 0]
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {matchedPairs >= (difficulty === 'easy' ? 4 : difficulty === 'medium' ? 6 : 8) ? '🎊' :
-         matchedPairs >= (difficulty === 'easy' ? 2 : difficulty === 'medium' ? 3 : 4) ? '😊' :
-         '🤔'}
-      </motion.div>
 
       {/* Game Board */}
       <div className="px-4 py-6 relative z-10">
@@ -960,7 +888,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                     }}
                   >
                     <motion.span 
-                      className={`text-3xl ${card.isMatched ? 'drop-shadow-lg' : ''}`}
+                      className={`text-6xl ${card.isMatched ? 'drop-shadow-lg' : ''}`}
                       animate={card.isMatched ? { scale: [1, 1.2], rotate: [0, 360] } : {}}
                       transition={{ duration: 0.5, repeat: 1, repeatType: 'reverse' }}
                     >
@@ -1061,7 +989,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               initial={{ scale: 1.5, color: '#FFD700' }}
               animate={{ scale: 1, color: '#7C3AED' }}
             >
-              {matchedPairs}/{difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10}
+              {matchedPairs}/3
             </motion.span>
           </div>
           <div className="w-full h-4 bg-white/50 rounded-full overflow-hidden border-2 border-purple-300 shadow-inner relative">
@@ -1069,7 +997,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               className="h-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-full relative overflow-hidden"
               initial={{ width: 0 }}
               animate={{ 
-                width: `${(matchedPairs / (difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10)) * 100}%`,
+                width: `${(matchedPairs / 3) * 100}%`,
                 backgroundPosition: ['0% 50%', '100% 50%']
               }}
               transition={{ 
@@ -1088,11 +1016,11 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               />
             </motion.div>
             {/* Progress stars */}
-            {[...Array(difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10)].map((_, i) => (
+            {[...Array(3)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute top-1/2 transform -translate-y-1/2 text-xs"
-                style={{ left: `${(i + 0.5) * (100 / (difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10))}%` }}
+                style={{ left: `${(i + 0.5) * (100 / 3)}%` }}
                 animate={i < matchedPairs ? { scale: [1, 1.5, 1], rotate: [0, 360] } : {}}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
@@ -1110,8 +1038,8 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
         >
           <p className="text-purple-700 font-heading font-bold">
             {matchedPairs === 0 ? '🎮 Ayo mulai!' :
-             matchedPairs < (difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10) / 2 ? '💪 Kamu bisa!' :
-             matchedPairs < (difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10) - 2 ? '🔥 Hampir selesai!' :
+             matchedPairs < 2 ? '💪 Kamu bisa!' :
+             matchedPairs < 3 ? '🔥 Hampir selesai!' :
              '🏆 Tinggal sedikit lagi!'}
           </p>
         </motion.div>

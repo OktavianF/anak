@@ -141,52 +141,6 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
           ))}
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-2xl p-6 mt-8"
-        >
-          <h3 className="text-orange-700 font-heading font-bold text-lg mb-4 text-center">
-            Dipercaya Ribuan Orang Tua
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-heading font-bold text-orange-600 mb-1">500+</div>
-              <div className="text-xs text-orange-600 font-body">Konsultasi</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-heading font-bold text-orange-600 mb-1">15+</div>
-              <div className="text-xs text-orange-600 font-body">Dokter Ahli</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-heading font-bold text-orange-600 mb-1">4.8★</div>
-              <div className="text-xs text-orange-600 font-body">Rating</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Emergency Contact */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="bg-red-50 border border-red-200 rounded-2xl p-4 mt-6"
-        >
-          <div className="text-center">
-            <div className="text-3xl mb-2">🚨</div>
-            <h3 className="text-red-700 font-heading font-bold text-base mb-1">
-              Kondisi Darurat?
-            </h3>
-            <p className="text-red-600 text-sm font-body mb-3">
-              Segera hubungi layanan gawat darurat terdekat
-            </p>
-            <button className="bg-red-500 text-white px-6 py-2 rounded-xl font-body font-semibold text-sm">
-              Hubungi 119
-            </button>
-          </div>
-        </motion.div>
       </div>
 
       {/* Bottom Navigation */}
@@ -194,25 +148,27 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
         <div className="flex justify-around py-3">
           {[
             { icon: Home, label: 'Home', screen: 'home' },
-            { icon: MessageSquare, label: 'Consultation', screen: 'consultation', active: true },
+            { icon: MessageSquare, label: 'Consultation', screen: 'consultation' },
             { icon: Users, label: 'Community', screen: 'community' },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
             { icon: User, label: 'Profile', screen: 'profile' }
-          ].map((item) => (
-            <motion.button
-              key={item.screen}
-              onClick={() => navigateTo(item.screen)}
-              className={`flex flex-col items-center space-y-1 py-2 px-3 ${
-                item.active && isParentMode
-                  ? 'text-orange-500' 
-                  : 'text-gray-400'
-              }`}
-              whileTap={{ scale: 0.95 }}
-            >
-              <item.icon size={16} />
-              <span className="text-xs font-body font-medium">{item.label}</span>
-            </motion.button>
-          ))}
+          ].map((item) => {
+            // Determine active tab by comparing with current screen
+            const isActive = item.screen === 'consultation';
+            return (
+              <motion.button
+                key={item.screen}
+                onClick={() => navigateTo(item.screen)}
+                className={`flex flex-col items-center space-y-1 py-2 px-3 ${
+                  isActive ? 'text-purple-500' : 'text-gray-400'
+                }`}
+                whileTap={{ scale: 0.95 }}
+              >
+                <item.icon size={16} />
+                <span className="text-xs font-body font-medium">{item.label}</span>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
     </div>
