@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
+// Helper to obtain a cross-browser AudioContext constructor without using `any`.
+const getAudioContextConstructor = (): (new () => AudioContext) | null => {
+  const win = window as unknown as {
+    AudioContext?: typeof AudioContext;
+    webkitAudioContext?: typeof AudioContext;
+  };
+  return win.AudioContext ?? win.webkitAudioContext ?? null;
+};
+
 interface AudioContextType {
   playSound: (soundType: string) => void;
   playBackgroundMusic: () => void;
@@ -66,7 +75,9 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
   const createBackgroundMusic = (): HTMLAudioElement => {
     // Create a simple, cheerful background melody using Web Audio API
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = getAudioContextConstructor();
+    if (!AudioCtor) return new Audio();
+    const audioContext = new AudioCtor();
     const destination = audioContext.createMediaStreamDestination();
 
     // Create oscillators for a simple melody
@@ -105,8 +116,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
     // Play melody in loop
     const playMelody = () => {
-      melody.forEach((note, index) => {
-        createMelodyNote(note.note, currentTime + index * 0.6, note.duration);
+      melody.forEach((note, i) => {
+        createMelodyNote(note.note, currentTime + i * 0.6, note.duration);
       });
       currentTime += melody.length * 0.6 + 1; // Add pause between loops
     };
@@ -215,12 +226,14 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     notes: { freq: number; duration: number; type: OscillatorType }[],
     volume: number
   ): HTMLAudioElement => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = getAudioContextConstructor();
+    if (!AudioCtor) return new Audio();
+    const audioContext = new AudioCtor();
     const destination = audioContext.createMediaStreamDestination();
 
     let currentTime = audioContext.currentTime;
 
-    notes.forEach((note, index) => {
+    notes.forEach((note) => {
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -277,10 +290,13 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    if (!isMuted) {
-      stopBackgroundMusic();
-    }
+    setIsMuted((prev) => {
+      const next = !prev;
+      if (next) {
+        stopBackgroundMusic();
+      }
+      return next;
+    });
   };
 
   const contextValue: AudioContextType = {
@@ -301,7 +317,9 @@ export const useSimpleAudio = () => {
 
   const playClickSound = () => {
     if (isMuted) return;
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = getAudioContextConstructor();
+    if (!AudioCtor) return;
+    const audioContext = new AudioCtor();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
@@ -322,12 +340,14 @@ export const useSimpleAudio = () => {
   const playSuccessSound = () => {
     if (isMuted) return;
     // Simple success sound implementation
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = getAudioContextConstructor();
+    if (!AudioCtor) return;
+    const audioContext = new AudioCtor();
 
     const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5
     let startTime = audioContext.currentTime;
 
-    frequencies.forEach((freq, index) => {
+    frequencies.forEach((freq) => {
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -348,12 +368,10 @@ export const useSimpleAudio = () => {
     });
   };
 
-  const toggleMute = () => setIsMuted(!isMuted);
-
   return {
     playClickSound,
     playSuccessSound,
-    toggleMute,
+    toggleMute: toggleMuteFunctional,
     isMuted,
   };
 };
