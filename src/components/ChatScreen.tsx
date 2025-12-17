@@ -4,7 +4,11 @@ import { ArrowLeft, Send, Paperclip, Camera, Mic, MoreVertical } from 'lucide-re
 
 interface ChatScreenProps {
   navigateTo: (screen: string) => void;
-  doctor: any;
+  doctor: {
+    name: string;
+    image: string;
+    id?: number | string;
+  } | null;
 }
 
 export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
