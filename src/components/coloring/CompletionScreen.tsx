@@ -13,27 +13,25 @@ export default function CompletionScreen({ selectedImage, onPlayAgain }: Complet
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 200, damping: 15 }}
+        transition={{ type: 'spring', stiffness: 200, damping: 15 }}
         className="bg-white rounded-3xl p-8 text-center max-w-sm mx-4 shadow-2xl"
       >
         <motion.div
-          animate={{ 
+          animate={{
             scale: [1, 1.2, 1],
-            rotate: [0, 10, -10, 0]
+            rotate: [0, 10, -10, 0],
           }}
           transition={{ duration: 0.8, repeat: 2 }}
           className="text-8xl mb-4"
         >
           🎨
         </motion.div>
-        
-        <h2 className="text-gray-900 font-heading font-bold text-2xl mb-2">
-          Karya Seni Indah! ✨
-        </h2>
+
+        <h2 className="text-gray-900 font-heading font-bold text-2xl mb-2">Karya Seni Indah! ✨</h2>
         <p className="text-gray-600 font-body text-base mb-4">
           Kamu berhasil mewarnai {selectedImage.title} dengan sempurna!
         </p>
-        
+
         <div className="bg-purple-50 rounded-2xl p-4 mb-6">
           <div className="flex items-center justify-center space-x-2 mb-2">
             <Trophy className="w-5 h-5 text-purple-600" />
@@ -53,7 +51,7 @@ export default function CompletionScreen({ selectedImage, onPlayAgain }: Complet
             <Share2 className="w-4 h-4" />
             <span>Bagikan</span>
           </motion.button>
-          
+
           <motion.button
             className="flex-1 bg-green-500 text-white py-2 px-4 rounded-xl font-body font-semibold text-sm flex items-center justify-center space-x-2"
             whileHover={{ scale: 1.05 }}

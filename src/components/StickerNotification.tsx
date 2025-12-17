@@ -29,21 +29,31 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case 'common': return 'from-gray-400 to-gray-500';
-      case 'rare': return 'from-blue-400 to-blue-600';
-      case 'epic': return 'from-purple-400 to-purple-600';
-      case 'legendary': return 'from-yellow-400 to-orange-500';
-      default: return 'from-gray-400 to-gray-500';
+      case 'common':
+        return 'from-gray-400 to-gray-500';
+      case 'rare':
+        return 'from-blue-400 to-blue-600';
+      case 'epic':
+        return 'from-purple-400 to-purple-600';
+      case 'legendary':
+        return 'from-yellow-400 to-orange-500';
+      default:
+        return 'from-gray-400 to-gray-500';
     }
   };
 
   const getRarityBorder = (rarity: string) => {
     switch (rarity) {
-      case 'common': return 'border-gray-300';
-      case 'rare': return 'border-blue-400';
-      case 'epic': return 'border-purple-400';
-      case 'legendary': return 'border-yellow-400';
-      default: return 'border-gray-300';
+      case 'common':
+        return 'border-gray-300';
+      case 'rare':
+        return 'border-blue-400';
+      case 'epic':
+        return 'border-purple-400';
+      case 'legendary':
+        return 'border-yellow-400';
+      default:
+        return 'border-gray-300';
     }
   };
 
@@ -56,13 +66,21 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
           initial={{ opacity: 0, scale: 0.5, y: -50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: -50 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 max-w-sm mx-4"
         >
-          <div className={`bg-white rounded-3xl p-6 shadow-2xl border-3 ${getRarityBorder(sticker.rarity)} relative overflow-hidden`}>
+          <div
+            className={`bg-white rounded-3xl p-6 shadow-2xl border-3 ${getRarityBorder(
+              sticker.rarity
+            )} relative overflow-hidden`}
+          >
             {/* Background Glow Effect */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${getRarityColor(sticker.rarity)} opacity-10 rounded-3xl`} />
-            
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${getRarityColor(
+                sticker.rarity
+              )} opacity-10 rounded-3xl`}
+            />
+
             {/* Sparkle Animation for Legendary */}
             {sticker.rarity === 'legendary' && (
               <>
@@ -99,9 +117,7 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
                 >
                   <Trophy className="w-6 h-6 text-yellow-500" />
                 </motion.div>
-                <h3 className="text-gray-900 font-heading font-bold text-lg">
-                  Stiker Baru!
-                </h3>
+                <h3 className="text-gray-900 font-heading font-bold text-lg">Stiker Baru!</h3>
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 10, 0] }}
                   transition={{ duration: 0.5, repeat: 2, delay: 0.1 }}
@@ -113,9 +129,9 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
               {/* Sticker Emoji */}
               <motion.div
                 className="text-6xl mb-4"
-                animate={{ 
+                animate={{
                   scale: [1, 1.2, 1],
-                  rotate: [0, 5, -5, 0]
+                  rotate: [0, 5, -5, 0],
                 }}
                 transition={{ duration: 0.8, repeat: 2 }}
               >
@@ -123,17 +139,17 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
               </motion.div>
 
               {/* Rarity Badge */}
-              <div className={`inline-block px-3 py-1 rounded-full text-xs font-body font-bold text-white bg-gradient-to-r ${getRarityColor(sticker.rarity)} mb-3`}>
+              <div
+                className={`inline-block px-3 py-1 rounded-full text-xs font-body font-bold text-white bg-gradient-to-r ${getRarityColor(
+                  sticker.rarity
+                )} mb-3`}
+              >
                 {sticker.rarity.toUpperCase()}
               </div>
 
               {/* Sticker Info */}
-              <h4 className="text-gray-900 font-heading font-bold text-xl mb-2">
-                {sticker.name}
-              </h4>
-              <p className="text-gray-600 font-body text-sm mb-4">
-                {sticker.description}
-              </p>
+              <h4 className="text-gray-900 font-heading font-bold text-xl mb-2">{sticker.name}</h4>
+              <p className="text-gray-600 font-body text-sm mb-4">{sticker.description}</p>
 
               {/* Confetti Animation */}
               <div className="absolute inset-0 pointer-events-none">
@@ -142,7 +158,14 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
                     key={i}
                     className="absolute w-2 h-2 rounded-full"
                     style={{
-                      backgroundColor: ['#FFD700', '#FF69B4', '#00CED1', '#32CD32', '#FF6347', '#9370DB'][i % 6],
+                      backgroundColor: [
+                        '#FFD700',
+                        '#FF69B4',
+                        '#00CED1',
+                        '#32CD32',
+                        '#FF6347',
+                        '#9370DB',
+                      ][i % 6],
                       left: `${10 + i * 7}%`,
                       top: `${20 + (i % 4) * 15}%`,
                     }}
@@ -151,12 +174,12 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
                       x: [0, (i - 6) * 15, 0],
                       rotate: [0, 720],
                       scale: [1, 1.5, 0],
-                      opacity: [1, 1, 0]
+                      opacity: [1, 1, 0],
                     }}
                     transition={{
                       duration: 2.5,
                       delay: i * 0.1,
-                      ease: "easeOut"
+                      ease: 'easeOut',
                     }}
                   />
                 ))}

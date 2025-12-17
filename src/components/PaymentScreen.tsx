@@ -22,29 +22,29 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
       name: 'DANA',
       icon: '💙',
       description: 'Saldo atau metode pembayaran di app',
-      selected: selectedMethod === 'dana'
+      selected: selectedMethod === 'dana',
     },
     {
       id: 'ovo',
       name: 'OVO',
-      icon: '💜', 
+      icon: '💜',
       description: 'Bayar dari saldo OVO kamu',
-      selected: selectedMethod === 'ovo'
+      selected: selectedMethod === 'ovo',
     },
     {
       id: 'gopay',
       name: 'Go-Pay',
       icon: '💚',
       description: 'Scan QR Code di Gojek',
-      selected: selectedMethod === 'gopay'
-    }
+      selected: selectedMethod === 'gopay',
+    },
   ];
 
   const virtualAccounts = [
     { id: 'bca', name: 'BCA Virtual Account', icon: '🏦' },
     { id: 'mandiri', name: 'Mandiri Virtual Account', icon: '🏦' },
     { id: 'bni', name: 'BNI Virtual Account', icon: '🏦' },
-    { id: 'bri', name: 'BRI Virtual Account', icon: '🏦' }
+    { id: 'bri', name: 'BRI Virtual Account', icon: '🏦' },
   ];
 
   const handlePayment = () => {
@@ -67,7 +67,7 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
           <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
             >
               <Clock className="w-8 h-8 text-blue-600" />
             </motion.div>
@@ -75,9 +75,7 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
           <h3 className="text-xl font-heading font-bold text-gray-900 mb-2">
             Memproses Pembayaran
           </h3>
-          <p className="text-gray-600 font-body">
-            Mohon tunggu sebentar...
-          </p>
+          <p className="text-gray-600 font-body">Mohon tunggu sebentar...</p>
         </motion.div>
       </div>
     );
@@ -132,8 +130,8 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setSelectedMethod(method.id)}
                 className={`w-full bg-white rounded-2xl p-4 shadow-sm border-2 transition-all ${
-                  method.selected 
-                    ? 'border-orange-500 bg-orange-50' 
+                  method.selected
+                    ? 'border-orange-500 bg-orange-50'
                     : 'border-gray-100 hover:border-gray-200'
                 }`}
               >
@@ -143,15 +141,13 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
                     <h4 className="text-gray-900 font-heading font-semibold text-base">
                       {method.name}
                     </h4>
-                    <p className="text-gray-500 font-body text-sm">
-                      {method.description}
-                    </p>
+                    <p className="text-gray-500 font-body text-sm">{method.description}</p>
                   </div>
-                  <div className={`w-4 h-4 rounded-full border-2 transition-all ${
-                    method.selected
-                      ? 'border-orange-500 bg-orange-500'
-                      : 'border-gray-300'
-                  }`}>
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 transition-all ${
+                      method.selected ? 'border-orange-500 bg-orange-500' : 'border-gray-300'
+                    }`}
+                  >
                     {method.selected && (
                       <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5" />
                     )}
@@ -175,7 +171,7 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
                 onClick={() => setSelectedMethod(va.id)}
                 className={`w-full bg-white rounded-2xl p-4 shadow-sm border-2 transition-all ${
                   selectedMethod === va.id
-                    ? 'border-orange-500 bg-orange-50' 
+                    ? 'border-orange-500 bg-orange-50'
                     : 'border-gray-100 hover:border-gray-200'
                 }`}
               >
@@ -186,11 +182,13 @@ export default function PaymentScreen({ navigateTo, doctor }: PaymentScreenProps
                       {va.name}
                     </h4>
                   </div>
-                  <div className={`w-4 h-4 rounded-full border-2 transition-all ${
-                    selectedMethod === va.id
-                      ? 'border-orange-500 bg-orange-500'
-                      : 'border-gray-300'
-                  }`}>
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 transition-all ${
+                      selectedMethod === va.id
+                        ? 'border-orange-500 bg-orange-500'
+                        : 'border-gray-300'
+                    }`}
+                  >
                     {selectedMethod === va.id && (
                       <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5" />
                     )}

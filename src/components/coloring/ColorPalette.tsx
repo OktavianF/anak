@@ -10,9 +10,7 @@ interface ColorPaletteProps {
 export default function ColorPalette({ selectedColor, onColorSelect }: ColorPaletteProps) {
   return (
     <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
-      <h3 className="text-gray-900 font-heading font-semibold text-base mb-4">
-        Pilih Warna 🎨
-      </h3>
+      <h3 className="text-gray-900 font-heading font-semibold text-base mb-4">Pilih Warna 🎨</h3>
       <div className="grid grid-cols-6 gap-3">
         {colors.map((color, index) => (
           <motion.button

@@ -5,16 +5,76 @@ import anakLogo from 'figma:asset/e98844b3cc7b597ff0b79e0a631a430f264ab517.png';
 export default function SplashScreen() {
   // Floating geometric shapes data
   const floatingShapes = [
-    { type: 'triangle', color: 'bg-blue-300', size: 'w-8 h-8', position: 'top-20 left-10', rotation: '0deg' },
-    { type: 'square', color: 'bg-purple-500', size: 'w-12 h-12', position: 'top-16 left-1/3', rotation: '45deg' },
-    { type: 'triangle', color: 'bg-red-500', size: 'w-16 h-16', position: 'top-24 right-12', rotation: '0deg' },
-    { type: 'square', color: 'bg-blue-600', size: 'w-20 h-20', position: 'top-1/3 right-8', rotation: '30deg' },
-    { type: 'triangle', color: 'bg-orange-500', size: 'w-24 h-24', position: 'top-12 left-4', rotation: '0deg' },
-    { type: 'square', color: 'bg-yellow-300', size: 'w-16 h-16', position: 'bottom-1/2 left-12', rotation: '60deg' },
-    { type: 'triangle', color: 'bg-pink-500', size: 'w-12 h-12', position: 'bottom-1/3 left-6', rotation: '0deg' },
-    { type: 'triangle', color: 'bg-green-400', size: 'w-6 h-6', position: 'bottom-1/4 right-16', rotation: '0deg' },
-    { type: 'triangle', color: 'bg-red-400', size: 'w-8 h-8', position: 'bottom-20 left-20', rotation: '0deg' },
-    { type: 'square', color: 'bg-yellow-400', size: 'w-32 h-32', position: 'bottom-12 right-4', rotation: '45deg' },
+    {
+      type: 'triangle',
+      color: 'bg-blue-300',
+      size: 'w-8 h-8',
+      position: 'top-20 left-10',
+      rotation: '0deg',
+    },
+    {
+      type: 'square',
+      color: 'bg-purple-500',
+      size: 'w-12 h-12',
+      position: 'top-16 left-1/3',
+      rotation: '45deg',
+    },
+    {
+      type: 'triangle',
+      color: 'bg-red-500',
+      size: 'w-16 h-16',
+      position: 'top-24 right-12',
+      rotation: '0deg',
+    },
+    {
+      type: 'square',
+      color: 'bg-blue-600',
+      size: 'w-20 h-20',
+      position: 'top-1/3 right-8',
+      rotation: '30deg',
+    },
+    {
+      type: 'triangle',
+      color: 'bg-orange-500',
+      size: 'w-24 h-24',
+      position: 'top-12 left-4',
+      rotation: '0deg',
+    },
+    {
+      type: 'square',
+      color: 'bg-yellow-300',
+      size: 'w-16 h-16',
+      position: 'bottom-1/2 left-12',
+      rotation: '60deg',
+    },
+    {
+      type: 'triangle',
+      color: 'bg-pink-500',
+      size: 'w-12 h-12',
+      position: 'bottom-1/3 left-6',
+      rotation: '0deg',
+    },
+    {
+      type: 'triangle',
+      color: 'bg-green-400',
+      size: 'w-6 h-6',
+      position: 'bottom-1/4 right-16',
+      rotation: '0deg',
+    },
+    {
+      type: 'triangle',
+      color: 'bg-red-400',
+      size: 'w-8 h-8',
+      position: 'bottom-20 left-20',
+      rotation: '0deg',
+    },
+    {
+      type: 'square',
+      color: 'bg-yellow-400',
+      size: 'w-32 h-32',
+      position: 'bottom-12 right-4',
+      rotation: '45deg',
+    },
   ];
 
   return (
@@ -24,23 +84,23 @@ export default function SplashScreen() {
         <motion.div
           key={index}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: 0.9, 
+          animate={{
+            opacity: 0.9,
             scale: 1,
             y: [0, -15, 0],
-            rotate: [0, 10, 0]
+            rotate: [0, 10, 0],
           }}
-          transition={{ 
+          transition={{
             opacity: { duration: 0.5, delay: index * 0.1 },
             scale: { duration: 0.5, delay: index * 0.1 },
-            y: { duration: 4 + index * 0.3, repeat: Infinity, ease: "easeInOut" },
-            rotate: { duration: 5 + index * 0.2, repeat: Infinity, ease: "easeInOut" }
+            y: { duration: 4 + index * 0.3, repeat: Infinity, ease: 'easeInOut' },
+            rotate: { duration: 5 + index * 0.2, repeat: Infinity, ease: 'easeInOut' },
           }}
           className={`absolute ${shape.position} ${shape.size} ${shape.color} shadow-lg`}
-          style={{ 
+          style={{
             transform: `rotate(${shape.rotation})`,
             clipPath: shape.type === 'triangle' ? 'polygon(50% 0%, 0% 100%, 100% 100%)' : undefined,
-            borderRadius: shape.type === 'square' ? '8px' : undefined
+            borderRadius: shape.type === 'square' ? '8px' : undefined,
           }}
         />
       ))}
@@ -51,12 +111,12 @@ export default function SplashScreen() {
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
-          transition={{ duration: 1, type: "spring", stiffness: 150 }}
+          transition={{ duration: 1, type: 'spring', stiffness: 150 }}
           className="mb-12"
         >
-          <motion.img 
-            src={anakLogo} 
-            alt="ANAK Logo" 
+          <motion.img
+            src={anakLogo}
+            alt="ANAK Logo"
             className="w-40 h-40 mx-auto object-contain"
             animate={{
               y: [-5, 5, -5],
@@ -64,7 +124,7 @@ export default function SplashScreen() {
             transition={{
               duration: 3,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: 'easeInOut',
             }}
           />
         </motion.div>
@@ -82,7 +142,7 @@ export default function SplashScreen() {
           <h2 className="font-heading font-bold text-2xl mb-8 leading-tight">
             DAN AKTIVITAS KOGNITIF
           </h2>
-          
+
           {/* Three dots indicator */}
           <div className="flex justify-center space-x-3 mb-8">
             {[0, 1, 2].map((dot) => (
@@ -91,9 +151,7 @@ export default function SplashScreen() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1 + dot * 0.1 }}
-                className={`w-3 h-3 rounded-full ${
-                  dot === 0 ? 'bg-white' : 'bg-white/40'
-                }`}
+                className={`w-3 h-3 rounded-full ${dot === 0 ? 'bg-white' : 'bg-white/40'}`}
               />
             ))}
           </div>

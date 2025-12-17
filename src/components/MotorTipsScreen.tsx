@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Home, MessageSquare, BarChart3, User, Users, Play, Download, Clock, FileText, Trophy, Gamepad2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  Home,
+  MessageSquare,
+  BarChart3,
+  User,
+  Users,
+  Play,
+  Download,
+  Clock,
+  FileText,
+  Trophy,
+  Gamepad2,
+} from 'lucide-react';
 
 interface MotorTipsScreenProps {
   navigateTo: (screen: string) => void;
@@ -9,7 +22,12 @@ interface MotorTipsScreenProps {
   addSticker?: (sticker: string) => void;
 }
 
-export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6, addSticker }: MotorTipsScreenProps) {
+export default function MotorTipsScreen({
+  navigateTo,
+  isParentMode,
+  childAge = 6,
+  addSticker,
+}: MotorTipsScreenProps) {
   const [selectedCategory, setSelectedCategory] = useState<'gross' | 'fine'>('gross');
 
   // Age-appropriate content based on survey data
@@ -32,10 +50,11 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           title: 'Bermain Bola Sederhana',
           type: 'video',
           duration: '8 menit',
-          description: 'Latihan menendang, melempar, dan menangkap bola dengan cara yang menyenangkan',
+          description:
+            'Latihan menendang, melempar, dan menangkap bola dengan cara yang menyenangkan',
           thumbnail: '⚽',
           difficulty: 'Mudah',
-          benefits: ['Koordinasi mata-kaki', 'Keseimbangan', 'Konsentrasi']
+          benefits: ['Koordinasi mata-kaki', 'Keseimbangan', 'Konsentrasi'],
         },
         {
           title: 'Senam Pagi Anak',
@@ -44,7 +63,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Gerakan senam sederhana untuk mengembangkan fleksibilitas dan kekuatan',
           thumbnail: '🤸‍♀️',
           difficulty: 'Mudah',
-          benefits: ['Fleksibilitas', 'Kekuatan otot', 'Koordinasi']
+          benefits: ['Fleksibilitas', 'Kekuatan otot', 'Koordinasi'],
         },
         {
           title: 'Permainan Lari Obstacle',
@@ -53,7 +72,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Panduan membuat track obstacle sederhana di rumah',
           thumbnail: '🏃‍♂️',
           difficulty: 'Mudah',
-          benefits: ['Kelincahan', 'Kecepatan', 'Problem solving']
+          benefits: ['Kelincahan', 'Kecepatan', 'Problem solving'],
         },
         {
           title: 'Yoga untuk Anak Pemula',
@@ -62,8 +81,8 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Pose yoga dasar yang aman dan menyenangkan untuk anak',
           thumbnail: '🧘‍♀️',
           difficulty: 'Mudah',
-          benefits: ['Keseimbangan', 'Konsentrasi', 'Relaksasi']
-        }
+          benefits: ['Keseimbangan', 'Konsentrasi', 'Relaksasi'],
+        },
       ],
       middle: [
         {
@@ -73,7 +92,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Teknik dasar basket: dribbling, shooting, passing',
           thumbnail: '🏀',
           difficulty: 'Sedang',
-          benefits: ['Koordinasi tangan-mata', 'Timing', 'Konsentrasi']
+          benefits: ['Koordinasi tangan-mata', 'Timing', 'Konsentrasi'],
         },
         {
           title: 'Gymnastics Fun',
@@ -82,7 +101,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Gerakan senam lantai sederhana yang aman',
           thumbnail: '🤸‍♀️',
           difficulty: 'Sedang',
-          benefits: ['Fleksibilitas', 'Kekuatan', 'Kepercayaan diri']
+          benefits: ['Fleksibilitas', 'Kekuatan', 'Kepercayaan diri'],
         },
         {
           title: 'Martial Arts untuk Anak',
@@ -91,8 +110,8 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Gerakan dasar beladiri yang fokus pada disiplin dan kontrol',
           thumbnail: '🥋',
           difficulty: 'Sedang',
-          benefits: ['Disiplin', 'Koordinasi', 'Fokus']
-        }
+          benefits: ['Disiplin', 'Koordinasi', 'Fokus'],
+        },
       ],
       late: [
         {
@@ -102,7 +121,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Teknik sepakbola tingkat menengah dengan strategi',
           thumbnail: '⚽',
           difficulty: 'Menantang',
-          benefits: ['Strategi', 'Teamwork', 'Atletis']
+          benefits: ['Strategi', 'Teamwork', 'Atletis'],
         },
         {
           title: 'Athletic Training',
@@ -111,9 +130,9 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Program latihan atletik yang terstruktur',
           thumbnail: '🏃‍♂️',
           difficulty: 'Menantang',
-          benefits: ['Stamina', 'Kecepatan', 'Kekuatan']
-        }
-      ]
+          benefits: ['Stamina', 'Kecepatan', 'Kekuatan'],
+        },
+      ],
     },
     fine: {
       title: 'Motorik Halus',
@@ -128,7 +147,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Teknik melukis dengan jari untuk melatih kreativitas',
           thumbnail: '🎨',
           difficulty: 'Mudah',
-          benefits: ['Kreativitas', 'Koordinasi jari', 'Ekspresi diri']
+          benefits: ['Kreativitas', 'Koordinasi jari', 'Ekspresi diri'],
         },
         {
           title: 'Origami Sederhana',
@@ -137,7 +156,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Panduan melipat kertas dengan bentuk-bentuk sederhana',
           thumbnail: '📜',
           difficulty: 'Mudah',
-          benefits: ['Presisi', 'Konsentrasi', 'Mengikuti instruksi']
+          benefits: ['Presisi', 'Konsentrasi', 'Mengikuti instruksi'],
         },
         {
           title: 'Playdough Activities',
@@ -146,7 +165,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Berbagai permainan dengan plastisin untuk melatih jari',
           thumbnail: '🎭',
           difficulty: 'Mudah',
-          benefits: ['Kekuatan jari', 'Kreativitas', 'Tekstur']
+          benefits: ['Kekuatan jari', 'Kreativitas', 'Tekstur'],
         },
         {
           title: 'Tracing & Writing',
@@ -155,8 +174,8 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Lembar kerja untuk latihan menebalkan garis dan huruf',
           thumbnail: '✏️',
           difficulty: 'Mudah',
-          benefits: ['Kontrol pensil', 'Menulis', 'Konsentrasi']
-        }
+          benefits: ['Kontrol pensil', 'Menulis', 'Konsentrasi'],
+        },
       ],
       middle: [
         {
@@ -166,7 +185,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Teknik menggambar dengan detail dan proporsi',
           thumbnail: '🖊️',
           difficulty: 'Sedang',
-          benefits: ['Detail', 'Presisi', 'Artistik']
+          benefits: ['Detail', 'Presisi', 'Artistik'],
         },
         {
           title: 'Paper Craft Projects',
@@ -175,7 +194,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Proyek kerajinan kertas yang lebih kompleks',
           thumbnail: '📄',
           difficulty: 'Sedang',
-          benefits: ['Perencanaan', 'Eksekusi', 'Kreativitas']
+          benefits: ['Perencanaan', 'Eksekusi', 'Kreativitas'],
         },
         {
           title: 'Beading & Threading',
@@ -184,8 +203,8 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Membuat gelang dan kalung dengan manik-manik',
           thumbnail: '📿',
           difficulty: 'Sedang',
-          benefits: ['Koordinasi mata-tangan', 'Pola', 'Kesabaran']
-        }
+          benefits: ['Koordinasi mata-tangan', 'Pola', 'Kesabaran'],
+        },
       ],
       late: [
         {
@@ -195,7 +214,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Seni menulis indah dengan teknik kaligrafi',
           thumbnail: '🖋️',
           difficulty: 'Menantang',
-          benefits: ['Presisi tinggi', 'Estetika', 'Konsentrasi']
+          benefits: ['Presisi tinggi', 'Estetika', 'Konsentrasi'],
         },
         {
           title: 'Model Making',
@@ -204,20 +223,24 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
           description: 'Membuat model 3D dengan bahan sederhana',
           thumbnail: '🏗️',
           difficulty: 'Menantang',
-          benefits: ['Perencanaan 3D', 'Problem solving', 'Teknis']
-        }
-      ]
-    }
+          benefits: ['Perencanaan 3D', 'Problem solving', 'Teknis'],
+        },
+      ],
+    },
   };
 
   const currentTips = motorTips[selectedCategory][ageGroup];
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Mudah': return 'bg-green-100 text-green-700';
-      case 'Sedang': return 'bg-yellow-100 text-yellow-700';
-      case 'Menantang': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
+      case 'Mudah':
+        return 'bg-green-100 text-green-700';
+      case 'Sedang':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'Menantang':
+        return 'bg-red-100 text-red-700';
+      default:
+        return 'bg-gray-100 text-gray-700';
     }
   };
 
@@ -334,9 +357,7 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
             <h2 className="text-gray-900 font-heading font-bold text-lg">
               {motorTips[selectedCategory].title}
             </h2>
-            <span className="text-sm text-gray-500 font-body">
-              {currentTips.length} aktivitas
-            </span>
+            <span className="text-sm text-gray-500 font-body">{currentTips.length} aktivitas</span>
           </div>
 
           {currentTips.map((tip, index) => (
@@ -349,16 +370,16 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
             >
               <div className="flex items-start space-x-4">
                 {/* Thumbnail */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${motorTips[selectedCategory].color} rounded-2xl flex items-center justify-center shadow-sm`}>
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${motorTips[selectedCategory].color} rounded-2xl flex items-center justify-center shadow-sm`}
+                >
                   <span className="text-2xl">{tip.thumbnail}</span>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-heading font-bold text-base text-gray-900">
-                      {tip.title}
-                    </h3>
+                    <h3 className="font-heading font-bold text-base text-gray-900">{tip.title}</h3>
                     <div className="flex items-center space-x-2">
                       {tip.type === 'video' ? (
                         <div className="flex items-center space-x-1 text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">
@@ -380,7 +401,11 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
 
                   {/* Difficulty and Benefits */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-body font-medium ${getDifficultyColor(tip.difficulty)}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-body font-medium ${getDifficultyColor(
+                        tip.difficulty
+                      )}`}
+                    >
                       {tip.difficulty}
                     </span>
                   </div>
@@ -404,8 +429,8 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
                   <div className="flex space-x-3">
                     <motion.button
                       className={`flex-1 ${
-                        tip.type === 'video' 
-                          ? 'bg-blue-500 hover:bg-blue-600' 
+                        tip.type === 'video'
+                          ? 'bg-blue-500 hover:bg-blue-600'
                           : 'bg-purple-500 hover:bg-purple-600'
                       } text-white px-4 py-2 rounded-xl font-body font-semibold text-sm flex items-center justify-center space-x-2`}
                       whileHover={{ scale: 1.02 }}
@@ -454,8 +479,8 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
                 Tips untuk Orang Tua
               </h3>
               <p className="text-orange-600 font-body text-sm leading-relaxed">
-                Dampingi anak saat melakukan aktivitas dan berikan pujian atas usahanya. 
-                Konsistensi latihan lebih penting daripada kesempurnaan.
+                Dampingi anak saat melakukan aktivitas dan berikan pujian atas usahanya. Konsistensi
+                latihan lebih penting daripada kesempurnaan.
               </p>
             </div>
           </div>
@@ -467,10 +492,14 @@ export default function MotorTipsScreen({ navigateTo, isParentMode, childAge = 6
         <div className="flex justify-around py-3">
           {[
             { icon: Home, label: 'Home', screen: 'home' },
-            { icon: MessageSquare, label: 'Consultation', screen: isParentMode ? 'consultation' : 'tips' },
+            {
+              icon: MessageSquare,
+              label: 'Consultation',
+              screen: isParentMode ? 'consultation' : 'tips',
+            },
             { icon: Users, label: 'Community', screen: 'community' },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
-            { icon: User, label: 'Profile', screen: 'profile' }
+            { icon: User, label: 'Profile', screen: 'profile' },
           ].map((item) => (
             <motion.button
               key={item.screen}

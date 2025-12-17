@@ -25,7 +25,11 @@ interface LetterTile {
   isCorrect?: boolean;
 }
 
-export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGameAssessment }: WordPuzzleGameScreenProps) {
+export default function WordPuzzleGameScreen({
+  navigateTo,
+  addSticker,
+  updateGameAssessment,
+}: WordPuzzleGameScreenProps) {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [letters, setLetters] = useState<LetterTile[]>([]);
@@ -43,92 +47,107 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
   const [showImage, setShowImage] = useState(false);
 
   // Memoize word data to prevent recreation on every render
-  const wordData = useMemo<WordData[]>(() => [
-    { 
-      word: 'KUCING', 
-      hint: 'Hewan peliharaan yang suka minum susu', 
-      category: 'Hewan', 
-      difficulty: 'easy',
-      imageUrl: 'https://images.unsplash.com/photo-1701496966210-4eea1d7f7210?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXRlJTIwY2F0JTIwa2l0dGVufGVufDF8fHx8MTc1OTUxMjg4N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'RUMAH', 
-      hint: 'Tempat tinggal keluarga', 
-      category: 'Tempat', 
-      difficulty: 'easy',
-      imageUrl: 'https://images.unsplash.com/photo-1756435292384-1bf32eff7baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBob3VzZSUyMGhvbWV8ZW58MXx8fHwxNzU5NTQ2MjMyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'BUNGA', 
-      hint: 'Tumbuhan yang berwarna-warni dan harum', 
-      category: 'Alam', 
-      difficulty: 'easy',
-      imageUrl: 'https://images.unsplash.com/photo-1564230259732-38be02d788df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMGZsb3dlcnMlMjBnYXJkZW58ZW58MXx8fHwxNzU5NTQ2MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'MATAHARI', 
-      hint: 'Benda langit yang memberikan cahaya di siang hari', 
-      category: 'Alam', 
-      difficulty: 'medium',
-      imageUrl: 'https://images.unsplash.com/photo-1721849282256-8e2b66f03f4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmlnaHQlMjBzdW4lMjBzdW5zaGluZXxlbnwxfHx8fDE3NTk0MzY0MjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'SEKOLAH', 
-      hint: 'Tempat anak-anak belajar bersama guru', 
-      category: 'Tempat', 
-      difficulty: 'easy',
-      imageUrl: 'https://images.unsplash.com/photo-1699347914988-c61ec13c99c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBidWlsZGluZyUyMGVkdWNhdGlvbnxlbnwxfHx8fDE3NTk0MzA4NjN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'PELANGI', 
-      hint: 'Lengkungan warna-warni yang muncul setelah hujan', 
-      category: 'Alam', 
-      difficulty: 'medium',
-      imageUrl: 'https://images.unsplash.com/photo-1630416995029-b91cea387e31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYWluYm93JTIwc2t5JTIwY29sb3JmdWx8ZW58MXx8fHwxNzU5NTQ2MjQ1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'BINTANG', 
-      hint: 'Titik cahaya kecil yang terlihat di malam hari', 
-      category: 'Alam', 
-      difficulty: 'easy',
-      imageUrl: 'https://images.unsplash.com/photo-1700979685622-1df98c74702f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFycnklMjBuaWdodCUyMHNreSUyMHN0YXJzfGVufDF8fHx8MTc1OTU0NjI0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'PESAWAT', 
-      hint: 'Kendaraan yang bisa terbang di langit', 
-      category: 'Kendaraan', 
-      difficulty: 'medium',
-      imageUrl: 'https://images.unsplash.com/photo-1683806900937-1695468e808b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhaXJwbGFuZSUyMGZseWluZyUyMHNreXxlbnwxfHx8fDE3NTk1NDU5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'MAKANAN', 
-      hint: 'Yang kita makan setiap hari', 
-      category: 'Kebutuhan', 
-      difficulty: 'medium',
-      imageUrl: 'https://images.unsplash.com/photo-1646299501330-c46c84c0c936?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWxpY2lvdXMlMjBmb29kJTIwbWVhbHxlbnwxfHx8fDE3NTk1NDYyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'KOMPUTER', 
-      hint: 'Mesin pintar untuk bekerja dan belajar', 
-      category: 'Teknologi', 
-      difficulty: 'medium',
-      imageUrl: 'https://images.unsplash.com/photo-1754928864131-21917af96dfd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb21wdXRlciUyMGxhcHRvcHxlbnwxfHx8fDE3NTk1NDYyNTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'DINOSAURUS', 
-      hint: 'Hewan purba raksasa yang sudah punah', 
-      category: 'Hewan', 
-      difficulty: 'hard',
-      imageUrl: 'https://images.unsplash.com/photo-1719932617023-687af4067d14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaW5vc2F1ciUyMGZvc3NpbCUyMGFuY2llbnR8ZW58MXx8fHwxNzU5NTQ2MjYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    },
-    { 
-      word: 'PERPUSTAKAAN', 
-      hint: 'Tempat menyimpan dan meminjam buku', 
-      category: 'Tempat', 
-      difficulty: 'hard',
-      imageUrl: 'https://images.unsplash.com/photo-1660479123634-2c700dfbbbdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaWJyYXJ5JTIwYm9va3MlMjByZWFkaW5nfGVufDF8fHx8MTc1OTQ3NDIzNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-    }
-  ], []);
+  const wordData = useMemo<WordData[]>(
+    () => [
+      {
+        word: 'KUCING',
+        hint: 'Hewan peliharaan yang suka minum susu',
+        category: 'Hewan',
+        difficulty: 'easy',
+        imageUrl:
+          'https://images.unsplash.com/photo-1701496966210-4eea1d7f7210?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXRlJTIwY2F0JTIwa2l0dGVufGVufDF8fHx8MTc1OTUxMjg4N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'RUMAH',
+        hint: 'Tempat tinggal keluarga',
+        category: 'Tempat',
+        difficulty: 'easy',
+        imageUrl:
+          'https://images.unsplash.com/photo-1756435292384-1bf32eff7baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBob3VzZSUyMGhvbWV8ZW58MXx8fHwxNzU5NTQ2MjMyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'BUNGA',
+        hint: 'Tumbuhan yang berwarna-warni dan harum',
+        category: 'Alam',
+        difficulty: 'easy',
+        imageUrl:
+          'https://images.unsplash.com/photo-1564230259732-38be02d788df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMGZsb3dlcnMlMjBnYXJkZW58ZW58MXx8fHwxNzU5NTQ2MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'MATAHARI',
+        hint: 'Benda langit yang memberikan cahaya di siang hari',
+        category: 'Alam',
+        difficulty: 'medium',
+        imageUrl:
+          'https://images.unsplash.com/photo-1721849282256-8e2b66f03f4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmlnaHQlMjBzdW4lMjBzdW5zaGluZXxlbnwxfHx8fDE3NTk0MzY0MjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'SEKOLAH',
+        hint: 'Tempat anak-anak belajar bersama guru',
+        category: 'Tempat',
+        difficulty: 'easy',
+        imageUrl:
+          'https://images.unsplash.com/photo-1699347914988-c61ec13c99c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBidWlsZGluZyUyMGVkdWNhdGlvbnxlbnwxfHx8fDE3NTk0MzA4NjN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'PELANGI',
+        hint: 'Lengkungan warna-warni yang muncul setelah hujan',
+        category: 'Alam',
+        difficulty: 'medium',
+        imageUrl:
+          'https://images.unsplash.com/photo-1630416995029-b91cea387e31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYWluYm93JTIwc2t5JTIwY29sb3JmdWx8ZW58MXx8fHwxNzU5NTQ2MjQ1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'BINTANG',
+        hint: 'Titik cahaya kecil yang terlihat di malam hari',
+        category: 'Alam',
+        difficulty: 'easy',
+        imageUrl:
+          'https://images.unsplash.com/photo-1700979685622-1df98c74702f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFycnklMjBuaWdodCUyMHNreSUyMHN0YXJzfGVufDF8fHx8MTc1OTU0NjI0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'PESAWAT',
+        hint: 'Kendaraan yang bisa terbang di langit',
+        category: 'Kendaraan',
+        difficulty: 'medium',
+        imageUrl:
+          'https://images.unsplash.com/photo-1683806900937-1695468e808b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhaXJwbGFuZSUyMGZseWluZyUyMHNreXxlbnwxfHx8fDE3NTk1NDU5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'MAKANAN',
+        hint: 'Yang kita makan setiap hari',
+        category: 'Kebutuhan',
+        difficulty: 'medium',
+        imageUrl:
+          'https://images.unsplash.com/photo-1646299501330-c46c84c0c936?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWxpY2lvdXMlMjBmb29kJTIwbWVhbHxlbnwxfHx8fDE3NTk1NDYyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'KOMPUTER',
+        hint: 'Mesin pintar untuk bekerja dan belajar',
+        category: 'Teknologi',
+        difficulty: 'medium',
+        imageUrl:
+          'https://images.unsplash.com/photo-1754928864131-21917af96dfd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb21wdXRlciUyMGxhcHRvcHxlbnwxfHx8fDE3NTk1NDYyNTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'DINOSAURUS',
+        hint: 'Hewan purba raksasa yang sudah punah',
+        category: 'Hewan',
+        difficulty: 'hard',
+        imageUrl:
+          'https://images.unsplash.com/photo-1719932617023-687af4067d14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaW5vc2F1ciUyMGZvc3NpbCUyMGFuY2llbnR8ZW58MXx8fHwxNzU5NTQ2MjYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+      {
+        word: 'PERPUSTAKAAN',
+        hint: 'Tempat menyimpan dan meminjam buku',
+        category: 'Tempat',
+        difficulty: 'hard',
+        imageUrl:
+          'https://images.unsplash.com/photo-1660479123634-2c700dfbbbdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaWJyYXJ5JTIwYm9va3MlMjByZWFkaW5nfGVufDF8fHx8MTc1OTQ3NDIzNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      },
+    ],
+    []
+  );
 
   const currentWord = wordData[currentWordIndex];
 
@@ -137,13 +156,13 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
     if (gameStarted) {
       const word = wordData[currentWordIndex];
       if (!word) return;
-      
+
       const wordLetters = word.word.split('').map((letter, index) => ({
         letter,
         id: index,
         isPlaced: false,
         correctPosition: index,
-        currentPosition: null
+        currentPosition: null,
       }));
 
       // Shuffle the letters
@@ -162,68 +181,78 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
     let interval: NodeJS.Timeout;
     if (gameStarted && !gameCompleted) {
       interval = setInterval(() => {
-        setTimeElapsed(prev => prev + 1);
+        setTimeElapsed((prev) => prev + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [gameStarted, gameCompleted]);
 
-  const handleLetterClick = useCallback((letter: LetterTile) => {
-    if (letter.isPlaced) return;
+  const handleLetterClick = useCallback(
+    (letter: LetterTile) => {
+      if (letter.isPlaced) return;
 
-    // Find the next empty slot
-    const nextEmptyIndex = placedLetters.findIndex(slot => slot === null);
-    if (nextEmptyIndex === -1) return;
+      // Find the next empty slot
+      const nextEmptyIndex = placedLetters.findIndex((slot) => slot === null);
+      if (nextEmptyIndex === -1) return;
 
-    const updatedLetter = { ...letter, isPlaced: true, currentPosition: nextEmptyIndex };
-    
-    setLetters(prev => prev.map(l => l.id === letter.id ? updatedLetter : l));
-    setPlacedLetters(prev => {
-      const newPlaced = [...prev];
-      newPlaced[nextEmptyIndex] = updatedLetter;
-      return newPlaced;
-    });
-  }, [placedLetters]);
+      const updatedLetter = { ...letter, isPlaced: true, currentPosition: nextEmptyIndex };
 
-  const handlePlacedLetterClick = useCallback((position: number) => {
-    const letter = placedLetters[position];
-    if (!letter) return;
+      setLetters((prev) => prev.map((l) => (l.id === letter.id ? updatedLetter : l)));
+      setPlacedLetters((prev) => {
+        const newPlaced = [...prev];
+        newPlaced[nextEmptyIndex] = updatedLetter;
+        return newPlaced;
+      });
+    },
+    [placedLetters]
+  );
 
-    const updatedLetter = { ...letter, isPlaced: false, currentPosition: null };
-    
-    setLetters(prev => prev.map(l => l.id === letter.id ? updatedLetter : l));
-    setPlacedLetters(prev => {
-      const newPlaced = [...prev];
-      newPlaced[position] = null;
-      return newPlaced;
-    });
-  }, [placedLetters]);
+  const handlePlacedLetterClick = useCallback(
+    (position: number) => {
+      const letter = placedLetters[position];
+      if (!letter) return;
+
+      const updatedLetter = { ...letter, isPlaced: false, currentPosition: null };
+
+      setLetters((prev) => prev.map((l) => (l.id === letter.id ? updatedLetter : l)));
+      setPlacedLetters((prev) => {
+        const newPlaced = [...prev];
+        newPlaced[position] = null;
+        return newPlaced;
+      });
+    },
+    [placedLetters]
+  );
 
   // Check word completion when all letters are placed
   useEffect(() => {
-    if (placedLetters.every(slot => slot !== null) && placedLetters.length > 0 && !isProcessingWord) {
-      const formedWord = placedLetters.map(letter => letter?.letter || '').join('');
+    if (
+      placedLetters.every((slot) => slot !== null) &&
+      placedLetters.length > 0 &&
+      !isProcessingWord
+    ) {
+      const formedWord = placedLetters.map((letter) => letter?.letter || '').join('');
       const word = wordData[currentWordIndex];
-      
+
       if (formedWord === word.word) {
         setIsProcessingWord(true);
-        
+
         // Calculate word completion time
         const wordCompletionTime = Math.round((Date.now() - currentWordStartTime) / 1000);
-        
+
         // Correct word! Add celebration effects
         let earnedScore = 100;
         if (hintsUsed === 0 && !showImage) earnedScore += 50; // Bonus for no hints
         if (word.difficulty === 'medium') earnedScore += 25;
         if (word.difficulty === 'hard') earnedScore += 50;
-        
-        setScore(prev => prev + earnedScore);
-        setWordsCompleted(prev => prev + 1);
+
+        setScore((prev) => prev + earnedScore);
+        setWordsCompleted((prev) => prev + 1);
 
         // Add celebration animation
-        setPlacedLetters(prev => prev.map(letter => 
-          letter ? { ...letter, isCorrect: true } : letter
-        ));
+        setPlacedLetters((prev) =>
+          prev.map((letter) => (letter ? { ...letter, isCorrect: true } : letter))
+        );
 
         // Update assessment data for this word
         const sessionData = {
@@ -232,13 +261,13 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
           score: earnedScore,
           hintsUsed: hintsUsed + (showImage ? 1 : 0), // Count image as hint
           difficulty: word.difficulty,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
 
         // Move to next word or complete game
         if (currentWordIndex < wordData.length - 1) {
           setTimeout(() => {
-            setCurrentWordIndex(prev => prev + 1);
+            setCurrentWordIndex((prev) => prev + 1);
             setHintsUsed(0);
             setErrors(0);
             setIsProcessingWord(false);
@@ -254,17 +283,17 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
         }
       } else {
         // Wrong answer - count as error
-        setErrors(prev => prev + 1);
+        setErrors((prev) => prev + 1);
       }
     }
   }, [placedLetters, wordData, hintsUsed, currentWordIndex, isProcessingWord]);
 
   const shuffleLetters = () => {
-    const availableLetters = letters.filter(l => !l.isPlaced);
+    const availableLetters = letters.filter((l) => !l.isPlaced);
     const shuffled = [...availableLetters].sort(() => Math.random() - 0.5);
-    
-    setLetters(prev => {
-      const placed = prev.filter(l => l.isPlaced);
+
+    setLetters((prev) => {
+      const placed = prev.filter((l) => l.isPlaced);
       return [...placed, ...shuffled];
     });
   };
@@ -272,25 +301,25 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
   const useHint = () => {
     if (showHint) return;
     setShowHint(true);
-    setHintsUsed(prev => prev + 1);
+    setHintsUsed((prev) => prev + 1);
   };
 
   const useImageHint = () => {
     if (showImage) return;
     setShowImage(true);
-    setHintsUsed(prev => prev + 1);
+    setHintsUsed((prev) => prev + 1);
   };
 
   const resetCurrentWord = () => {
     const word = wordData[currentWordIndex];
     if (!word) return;
-    
+
     const wordLetters = word.word.split('').map((letter, index) => ({
       letter,
       id: index,
       isPlaced: false,
       correctPosition: index,
-      currentPosition: null
+      currentPosition: null,
     }));
 
     // Shuffle the letters
@@ -312,7 +341,7 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
   const getStarRating = () => {
     const averageTimePerWord = timeElapsed / Math.max(wordsCompleted, 1);
     const hintsPerWord = hintsUsed / Math.max(wordsCompleted, 1);
-    
+
     // Better scoring system: consider both time and hints
     if (averageTimePerWord <= 45 && hintsPerWord <= 1) return 3;
     if (averageTimePerWord <= 75 && hintsPerWord <= 2) return 2;
@@ -333,14 +362,14 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="bg-white rounded-3xl p-8 text-center max-w-sm mx-4 shadow-2xl"
         >
           <motion.div
-            animate={{ 
-              scale: [1, 1.2, 1], 
+            animate={{
+              scale: [1, 1.2, 1],
               rotate: [0, 10, -10, 0],
-              y: [0, -10, 0]
+              y: [0, -10, 0],
             }}
             transition={{ duration: 0.8, repeat: 3 }}
             className="text-8xl mb-4 relative"
@@ -352,7 +381,14 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
                 key={i}
                 className="absolute w-2 h-2 rounded-full"
                 style={{
-                  backgroundColor: ['#FFD700', '#FF69B4', '#00CED1', '#32CD32', '#FF6347', '#9370DB'][i],
+                  backgroundColor: [
+                    '#FFD700',
+                    '#FF69B4',
+                    '#00CED1',
+                    '#32CD32',
+                    '#FF6347',
+                    '#9370DB',
+                  ][i],
                   left: `${20 + i * 10}%`,
                   top: `${30 + (i % 2) * 20}%`,
                 }}
@@ -361,31 +397,31 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
                   x: [0, (i - 3) * 15, 0],
                   rotate: [0, 360],
                   scale: [1, 1.5, 0],
-                  opacity: [1, 1, 0]
+                  opacity: [1, 1, 0],
                 }}
                 transition={{
                   duration: 1.5,
                   delay: i * 0.1,
                   repeat: Infinity,
-                  repeatDelay: 1
+                  repeatDelay: 1,
                 }}
               />
             ))}
           </motion.div>
 
-          <h2 className="text-gray-900 font-heading font-bold text-2xl mb-2">
-            Luar Biasa! 🌟
-          </h2>
+          <h2 className="text-gray-900 font-heading font-bold text-2xl mb-2">Luar Biasa! 🌟</h2>
           <p className="text-gray-600 font-body text-base mb-4">
             Kamu telah menyelesaikan semua teka-teki kata!
           </p>
 
           {/* Stars */}
           <div className="flex justify-center space-x-1 mb-4">
-            {[1, 2, 3].map(star => (
-              <Star 
+            {[1, 2, 3].map((star) => (
+              <Star
                 key={star}
-                className={`w-8 h-8 ${star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'}`}
+                className={`w-8 h-8 ${
+                  star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'
+                }`}
               />
             ))}
           </div>
@@ -393,19 +429,31 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
           {/* Stats */}
           <div className="bg-green-50 rounded-2xl p-4 mb-6">
             <div className="text-green-700 font-body text-sm space-y-1">
-              <p>Kata Selesai: <span className="font-bold">{wordsCompleted}/{wordData.length}</span></p>
-              <p>Total Waktu: <span className="font-bold">{formatTime(timeElapsed)}</span></p>
-              <p>Rata-rata/Kata: <span className="font-bold">{Math.round(timeElapsed / Math.max(wordsCompleted, 1))} detik</span></p>
-              <p>Total Hint: <span className="font-bold">{hintsUsed}</span></p>
+              <p>
+                Kata Selesai:{' '}
+                <span className="font-bold">
+                  {wordsCompleted}/{wordData.length}
+                </span>
+              </p>
+              <p>
+                Total Waktu: <span className="font-bold">{formatTime(timeElapsed)}</span>
+              </p>
+              <p>
+                Rata-rata/Kata:{' '}
+                <span className="font-bold">
+                  {Math.round(timeElapsed / Math.max(wordsCompleted, 1))} detik
+                </span>
+              </p>
+              <p>
+                Total Hint: <span className="font-bold">{hintsUsed}</span>
+              </p>
             </div>
           </div>
 
           <div className="bg-yellow-50 rounded-2xl p-4 mb-6">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Trophy className="w-5 h-5 text-yellow-600" />
-              <span className="text-yellow-700 font-body font-semibold">
-                Hadiah Diperoleh!
-              </span>
+              <span className="text-yellow-700 font-body font-semibold">Hadiah Diperoleh!</span>
             </div>
             <p className="text-yellow-600 font-body text-sm">
               Stiker "Word Master" ditambahkan ke koleksimu!
@@ -500,7 +548,9 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
                 <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                   <span className="text-green-600 font-bold text-sm">3</span>
                 </div>
-                <p className="text-gray-600 font-body text-sm">Selesaikan semua kata untuk mendapat hadiah</p>
+                <p className="text-gray-600 font-body text-sm">
+                  Selesaikan semua kata untuk mendapat hadiah
+                </p>
               </div>
             </div>
           </motion.div>
@@ -512,21 +562,25 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
             transition={{ delay: 0.1 }}
             className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-2xl p-6 mb-6"
           >
-            <h3 className="text-blue-700 font-heading font-bold text-base mb-2">
-              Target Bintang:
-            </h3>
+            <h3 className="text-blue-700 font-heading font-bold text-base mb-2">Target Bintang:</h3>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-blue-600 font-body text-sm">3 Bintang ⭐⭐⭐</span>
-                <span className="text-blue-600 font-body text-sm font-bold">≤ 45 detik/kata & ≤ 1 hint/kata</span>
+                <span className="text-blue-600 font-body text-sm font-bold">
+                  ≤ 45 detik/kata & ≤ 1 hint/kata
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-blue-600 font-body text-sm">2 Bintang ⭐⭐</span>
-                <span className="text-blue-600 font-body text-sm font-bold">≤ 75 detik/kata & ≤ 2 hint/kata</span>
+                <span className="text-blue-600 font-body text-sm font-bold">
+                  ≤ 75 detik/kata & ≤ 2 hint/kata
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-blue-600 font-body text-sm">1 Bintang ⭐</span>
-                <span className="text-blue-600 font-body text-sm font-bold">Selesaikan semua kata</span>
+                <span className="text-blue-600 font-body text-sm font-bold">
+                  Selesaikan semua kata
+                </span>
               </div>
             </div>
           </motion.div>
@@ -578,11 +632,15 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
               <p className="text-green-100 font-body text-xs">Skor</p>
             </div>
             <div>
-              <span className="text-white font-heading font-bold text-lg">{currentWordIndex + 1}/{wordData.length}</span>
+              <span className="text-white font-heading font-bold text-lg">
+                {currentWordIndex + 1}/{wordData.length}
+              </span>
               <p className="text-green-100 font-body text-xs">Kata</p>
             </div>
             <div>
-              <span className="text-white font-heading font-bold text-lg">{formatTime(timeElapsed)}</span>
+              <span className="text-white font-heading font-bold text-lg">
+                {formatTime(timeElapsed)}
+              </span>
               <p className="text-green-100 font-body text-xs">Waktu</p>
             </div>
             <div>
@@ -606,20 +664,31 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
               <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full">
                 {currentWord.category}
               </span>
-              <span className={`ml-2 text-xs font-bold px-2 py-1 rounded-full ${
-                currentWord.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
-                currentWord.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                'bg-red-100 text-red-700'
-              }`}>
-                {currentWord.difficulty === 'easy' ? 'Mudah' : 
-                 currentWord.difficulty === 'medium' ? 'Sedang' : 'Sulit'}
+              <span
+                className={`ml-2 text-xs font-bold px-2 py-1 rounded-full ${
+                  currentWord.difficulty === 'easy'
+                    ? 'bg-green-100 text-green-700'
+                    : currentWord.difficulty === 'medium'
+                    ? 'bg-yellow-100 text-yellow-700'
+                    : 'bg-red-100 text-red-700'
+                }`}
+              >
+                {currentWord.difficulty === 'easy'
+                  ? 'Mudah'
+                  : currentWord.difficulty === 'medium'
+                  ? 'Sedang'
+                  : 'Sulit'}
               </span>
             </div>
             <div className="flex space-x-2">
               <motion.button
                 onClick={useImageHint}
                 disabled={showImage}
-                className={`p-2 rounded-xl ${showImage ? 'bg-gray-100 text-gray-400' : 'bg-purple-100 text-purple-600 hover:bg-purple-200'}`}
+                className={`p-2 rounded-xl ${
+                  showImage
+                    ? 'bg-gray-100 text-gray-400'
+                    : 'bg-purple-100 text-purple-600 hover:bg-purple-200'
+                }`}
                 whileTap={{ scale: 0.95 }}
                 title="Lihat Gambar Petunjuk"
               >
@@ -628,7 +697,11 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
               <motion.button
                 onClick={useHint}
                 disabled={showHint}
-                className={`p-2 rounded-xl ${showHint ? 'bg-gray-100 text-gray-400' : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'}`}
+                className={`p-2 rounded-xl ${
+                  showHint
+                    ? 'bg-gray-100 text-gray-400'
+                    : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
+                }`}
                 whileTap={{ scale: 0.95 }}
               >
                 <Lightbulb className="w-5 h-5" />
@@ -652,7 +725,7 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
             >
               <div className="bg-purple-50 rounded-xl p-3">
                 <div className="w-full h-32 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg overflow-hidden">
-                  <img 
+                  <img
                     src={currentWord.imageUrl}
                     alt="Petunjuk Visual"
                     className="w-full h-full object-cover"
@@ -686,8 +759,11 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
                   key={index}
                   onClick={() => handlePlacedLetterClick(index)}
                   className={`w-12 h-12 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center font-bold ${
-                    letter?.isCorrect ? 'bg-gradient-to-br from-green-200 to-green-300 border-green-500 text-green-800 animate-bounce' :
-                    letter ? 'bg-gradient-to-br from-blue-100 to-blue-200 border-blue-400 text-blue-700' : 'bg-gray-50'
+                    letter?.isCorrect
+                      ? 'bg-gradient-to-br from-green-200 to-green-300 border-green-500 text-green-800 animate-bounce'
+                      : letter
+                      ? 'bg-gradient-to-br from-blue-100 to-blue-200 border-blue-400 text-blue-700'
+                      : 'bg-gray-50'
                   } shadow-sm transition-all duration-300`}
                   whileHover={letter ? { scale: 1.05, rotate: 2 } : {}}
                   whileTap={letter ? { scale: 0.95 } : {}}
@@ -700,25 +776,27 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
 
           {/* Available Letters */}
           <div className="flex flex-wrap justify-center gap-2 max-w-full px-2">
-            {letters.filter(l => !l.isPlaced).map((letter) => (
-              <motion.button
-                key={letter.id}
-                onClick={() => handleLetterClick(letter)}
-                className="w-10 h-10 bg-gradient-to-br from-emerald-300 to-emerald-400 border-2 border-emerald-500 rounded-xl flex items-center justify-center font-bold text-emerald-800 hover:from-emerald-400 hover:to-emerald-500 shadow-md"
-                whileHover={{ scale: 1.15, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ 
-                  delay: letter.id * 0.05,
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 20
-                }}
-              >
-                <span className="text-lg drop-shadow-sm">{letter.letter}</span>
-              </motion.button>
-            ))}
+            {letters
+              .filter((l) => !l.isPlaced)
+              .map((letter) => (
+                <motion.button
+                  key={letter.id}
+                  onClick={() => handleLetterClick(letter)}
+                  className="w-10 h-10 bg-gradient-to-br from-emerald-300 to-emerald-400 border-2 border-emerald-500 rounded-xl flex items-center justify-center font-bold text-emerald-800 hover:from-emerald-400 hover:to-emerald-500 shadow-md"
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{
+                    delay: letter.id * 0.05,
+                    type: 'spring',
+                    stiffness: 260,
+                    damping: 20,
+                  }}
+                >
+                  <span className="text-lg drop-shadow-sm">{letter.letter}</span>
+                </motion.button>
+              ))}
           </div>
         </div>
 
@@ -726,13 +804,22 @@ export default function WordPuzzleGameScreen({ navigateTo, addSticker, updateGam
         <div className="bg-white rounded-2xl p-4 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-gray-700 font-body font-medium text-sm">Progress</span>
-            <span className="text-gray-500 font-body text-sm">{wordsCompleted}/{wordData.length}</span>
+            <span className="text-gray-500 font-body text-sm">
+              {wordsCompleted}/{wordData.length}
+            </span>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <motion.div
               className="h-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"
               initial={{ width: 0 }}
-              animate={{ width: `${((wordsCompleted + (placedLetters.filter(l => l !== null).length / currentWord.word.length)) / wordData.length) * 100}%` }}
+              animate={{
+                width: `${
+                  ((wordsCompleted +
+                    placedLetters.filter((l) => l !== null).length / currentWord.word.length) /
+                    wordData.length) *
+                  100
+                }%`,
+              }}
               transition={{ duration: 0.5 }}
             />
           </div>

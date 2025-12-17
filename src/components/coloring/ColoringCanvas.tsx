@@ -7,7 +7,11 @@ interface ColoringCanvasProps {
   onAreaColor: (areaId: string) => void;
 }
 
-export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColor }: ColoringCanvasProps) {
+export default function ColoringCanvas({
+  selectedImage,
+  coloredAreas,
+  onAreaColor,
+}: ColoringCanvasProps) {
   const generateColoringAreas = () => {
     const areas = [];
     for (let i = 0; i < selectedImage.areas; i++) {
@@ -16,7 +20,7 @@ export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColo
         x: (i % 4) * 25,
         y: Math.floor(i / 4) * 25,
         width: 20,
-        height: 20
+        height: 20,
       });
     }
     return areas;
@@ -27,24 +31,41 @@ export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColo
     switch (selectedImage.id) {
       case 'butterfly':
         return {
-          'area-0': '#FF6B6B', 'area-1': '#4ECDC4', 'area-2': '#45B7D1',
-          'area-3': '#96CEB4', 'area-4': '#FFEAA7', 'area-5': '#DDA0DD',
-          'area-6': '#98D8C8', 'area-7': '#F7DC6F'
+          'area-0': '#FF6B6B',
+          'area-1': '#4ECDC4',
+          'area-2': '#45B7D1',
+          'area-3': '#96CEB4',
+          'area-4': '#FFEAA7',
+          'area-5': '#DDA0DD',
+          'area-6': '#98D8C8',
+          'area-7': '#F7DC6F',
         };
       case 'flower':
         return {
-          'area-0': '#FF69B4', 'area-1': '#FFB6C1', 'area-2': '#90EE90',
-          'area-3': '#228B22', 'area-4': '#FFFF00', 'area-5': '#FFA500'
+          'area-0': '#FF69B4',
+          'area-1': '#FFB6C1',
+          'area-2': '#90EE90',
+          'area-3': '#228B22',
+          'area-4': '#FFFF00',
+          'area-5': '#FFA500',
         };
       case 'cat':
         return {
-          'area-0': '#D2691E', 'area-1': '#F4A460', 'area-2': '#000000',
-          'area-3': '#FF69B4', 'area-4': '#FFFFFF', 'area-5': '#808080'
+          'area-0': '#D2691E',
+          'area-1': '#F4A460',
+          'area-2': '#000000',
+          'area-3': '#FF69B4',
+          'area-4': '#FFFFFF',
+          'area-5': '#808080',
         };
       default:
         return {
-          'area-0': '#FF6B6B', 'area-1': '#4ECDC4', 'area-2': '#45B7D1',
-          'area-3': '#96CEB4', 'area-4': '#FFEAA7', 'area-5': '#DDA0DD'
+          'area-0': '#FF6B6B',
+          'area-1': '#4ECDC4',
+          'area-2': '#45B7D1',
+          'area-3': '#96CEB4',
+          'area-4': '#FFEAA7',
+          'area-5': '#DDA0DD',
         };
     }
   };
@@ -56,12 +77,8 @@ export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColo
     <div className="bg-white rounded-3xl p-6 shadow-lg mb-6">
       <div className="text-center mb-6">
         <div className="text-6xl mb-2">{selectedImage.preview}</div>
-        <h2 className="text-gray-900 font-heading font-bold text-xl">
-          {selectedImage.title}
-        </h2>
-        <p className="text-gray-600 font-body text-sm">
-          Ketuk area untuk mewarnai
-        </p>
+        <h2 className="text-gray-900 font-heading font-bold text-xl">{selectedImage.title}</h2>
+        <p className="text-gray-600 font-body text-sm">Ketuk area untuk mewarnai</p>
       </div>
 
       {/* Coloring Canvas with Background Example */}
@@ -86,7 +103,7 @@ export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColo
                 strokeWidth="0.5"
               />
             ))}
-            
+
             {/* Simple outline overlay for example */}
             <g stroke="#374151" strokeWidth="1" fill="none">
               <circle cx="50" cy="40" r="15" opacity="0.3" />
@@ -120,7 +137,7 @@ export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColo
                 whileTap={{ scale: 0.95 }}
               />
             ))}
-            
+
             {/* Simple outline overlay */}
             <motion.g
               initial={{ opacity: 0 }}
@@ -157,7 +174,9 @@ export default function ColoringCanvas({ selectedImage, coloredAreas, onAreaColo
           <motion.div
             className="h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"
             initial={{ width: 0 }}
-            animate={{ width: `${(Object.keys(coloredAreas).length / selectedImage.areas) * 100}%` }}
+            animate={{
+              width: `${(Object.keys(coloredAreas).length / selectedImage.areas) * 100}%`,
+            }}
             transition={{ duration: 0.3 }}
           />
         </div>

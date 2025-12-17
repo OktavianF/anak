@@ -9,7 +9,12 @@ interface CognitiveTestScreenProps {
   updateTestResults: (testType: string, results: any) => void;
 }
 
-export default function CognitiveTestScreen({ navigateTo, addSticker, childName, updateTestResults }: CognitiveTestScreenProps) {
+export default function CognitiveTestScreen({
+  navigateTo,
+  addSticker,
+  childName,
+  updateTestResults,
+}: CognitiveTestScreenProps) {
   const [currentCategory, setCurrentCategory] = useState<'logic' | 'attention' | 'memory'>('logic');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -29,8 +34,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Ya, pasti suka', score: 5 },
             { text: 'Tidak, kucing tidak suka ikan', score: 1 },
             { text: 'Mungkin suka, mungkin tidak', score: 2 },
-            { text: 'Hanya jika ikannya segar', score: 3 }
-          ]
+            { text: 'Hanya jika ikannya segar', score: 3 },
+          ],
         },
         {
           id: 'log2',
@@ -40,8 +45,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: '🌙', score: 5 },
             { text: '⭐', score: 1 },
             { text: '☀️', score: 2 },
-            { text: '⭐🌙', score: 3 }
-          ]
+            { text: '⭐🌙', score: 3 },
+          ],
         },
         {
           id: 'log3',
@@ -51,8 +56,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: '5 bola', score: 1 },
             { text: '3 bola', score: 1 },
             { text: '8 bola', score: 5 },
-            { text: '2 bola', score: 1 }
-          ]
+            { text: '2 bola', score: 1 },
+          ],
         },
         {
           id: 'log4',
@@ -62,8 +67,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Apel', score: 1 },
             { text: 'Pisang', score: 1 },
             { text: 'Mobil', score: 5 },
-            { text: 'Jeruk', score: 1 }
-          ]
+            { text: 'Jeruk', score: 1 },
+          ],
         },
         {
           id: 'log5',
@@ -73,10 +78,10 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Selasa', score: 1 },
             { text: 'Rabu', score: 2 },
             { text: 'Kamis', score: 5 },
-            { text: 'Jumat', score: 1 }
-          ]
-        }
-      ]
+            { text: 'Jumat', score: 1 },
+          ],
+        },
+      ],
     },
     attention: {
       title: 'Tes Perhatian',
@@ -91,8 +96,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: '3 lingkaran', score: 1 },
             { text: '4 lingkaran', score: 5 },
             { text: '5 lingkaran', score: 2 },
-            { text: '6 lingkaran', score: 1 }
-          ]
+            { text: '6 lingkaran', score: 1 },
+          ],
         },
         {
           id: 'att2',
@@ -102,8 +107,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'ANJIG', score: 1 },
             { text: 'ANJING', score: 5 },
             { text: 'ANJNG', score: 1 },
-            { text: 'ANJIN', score: 1 }
-          ]
+            { text: 'ANJIN', score: 1 },
+          ],
         },
         {
           id: 'att3',
@@ -113,8 +118,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Huruf P', score: 1 },
             { text: 'Huruf Q', score: 5 },
             { text: 'Semua sama', score: 1 },
-            { text: 'Tidak ada yang berbeda', score: 2 }
-          ]
+            { text: 'Tidak ada yang berbeda', score: 2 },
+          ],
         },
         {
           id: 'att4',
@@ -124,8 +129,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: '3 angka', score: 1 },
             { text: '4 angka', score: 2 },
             { text: '5 angka', score: 5 },
-            { text: '6 angka', score: 1 }
-          ]
+            { text: '6 angka', score: 1 },
+          ],
         },
         {
           id: 'att5',
@@ -135,10 +140,10 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Yang pertama dan ketiga', score: 1 },
             { text: 'Yang kedua dan keempat', score: 5 },
             { text: 'Semuanya menghadap kanan', score: 1 },
-            { text: 'Tidak ada yang menghadap kanan', score: 2 }
-          ]
-        }
-      ]
+            { text: 'Tidak ada yang menghadap kanan', score: 2 },
+          ],
+        },
+      ],
     },
     memory: {
       title: 'Tes Memori',
@@ -153,8 +158,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: '🐱🐶🐭', score: 1 },
             { text: '🐶🐱🐭', score: 5 },
             { text: '🐭🐱🐶', score: 1 },
-            { text: '🐶🐭🐱', score: 2 }
-          ]
+            { text: '🐶🐭🐱', score: 2 },
+          ],
         },
         {
           id: 'mem2',
@@ -164,8 +169,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Pisang', score: 1 },
             { text: 'Jeruk', score: 1 },
             { text: 'Apel', score: 5 },
-            { text: 'Anggur', score: 1 }
-          ]
+            { text: 'Anggur', score: 1 },
+          ],
         },
         {
           id: 'mem3',
@@ -175,8 +180,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: '3 angka', score: 1 },
             { text: '4 angka', score: 5 },
             { text: '5 angka', score: 1 },
-            { text: '2 angka', score: 1 }
-          ]
+            { text: '2 angka', score: 1 },
+          ],
         },
         {
           id: 'mem4',
@@ -186,8 +191,8 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Biru', score: 1 },
             { text: 'Merah', score: 5 },
             { text: 'Hijau', score: 1 },
-            { text: 'Kuning', score: 1 }
-          ]
+            { text: 'Kuning', score: 1 },
+          ],
         },
         {
           id: 'mem5',
@@ -197,11 +202,11 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             { text: 'Mimi', score: 1 },
             { text: 'Kiki', score: 1 },
             { text: 'Nama kucingnya Mimi', score: 5 },
-            { text: 'Tidak ada nama', score: 2 }
-          ]
-        }
-      ]
-    }
+            { text: 'Tidak ada nama', score: 2 },
+          ],
+        },
+      ],
+    },
   };
 
   const currentTest = testCategories[currentCategory];
@@ -230,14 +235,20 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
 
   const completeTest = (finalAnswers: Record<string, number>) => {
     setIsCompleted(true);
-    
+
     // Calculate scores for each category
-    const logicScore = testCategories.logic.questions.reduce((sum, q) => 
-      sum + (finalAnswers[q.id] || 0), 0);
-    const attentionScore = testCategories.attention.questions.reduce((sum, q) => 
-      sum + (finalAnswers[q.id] || 0), 0);
-    const memoryScore = testCategories.memory.questions.reduce((sum, q) => 
-      sum + (finalAnswers[q.id] || 0), 0);
+    const logicScore = testCategories.logic.questions.reduce(
+      (sum, q) => sum + (finalAnswers[q.id] || 0),
+      0
+    );
+    const attentionScore = testCategories.attention.questions.reduce(
+      (sum, q) => sum + (finalAnswers[q.id] || 0),
+      0
+    );
+    const memoryScore = testCategories.memory.questions.reduce(
+      (sum, q) => sum + (finalAnswers[q.id] || 0),
+      0
+    );
 
     const totalScore = logicScore + attentionScore + memoryScore;
     const maxScore = 75; // 15 questions × 5 max score
@@ -252,33 +263,40 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
       categoryScores: {
         logic: logicScore,
         attention: attentionScore,
-        memory: memoryScore
-      }
+        memory: memoryScore,
+      },
     });
 
     // Award stickers based on performance
     if (logicScore >= 20) addSticker('logic-master');
     if (attentionScore >= 20) addSticker('attention-expert');
     if (memoryScore >= 20) addSticker('memory-champion');
-    
+
     addSticker('cognitive-test-complete');
   };
 
   const getScoreInterpretation = (score: number, maxScore: number) => {
     const percentage = (score / maxScore) * 100;
-    if (percentage >= 90) return { level: 'Sangat Baik', color: 'text-green-600', bg: 'bg-green-50' };
+    if (percentage >= 90)
+      return { level: 'Sangat Baik', color: 'text-green-600', bg: 'bg-green-50' };
     if (percentage >= 75) return { level: 'Baik', color: 'text-blue-600', bg: 'bg-blue-50' };
     if (percentage >= 60) return { level: 'Cukup', color: 'text-yellow-600', bg: 'bg-yellow-50' };
     return { level: 'Perlu Latihan', color: 'text-red-600', bg: 'bg-red-50' };
   };
 
   if (isCompleted) {
-    const logicScore = testCategories.logic.questions.reduce((sum, q) => 
-      sum + (answers[q.id] || 0), 0);
-    const attentionScore = testCategories.attention.questions.reduce((sum, q) => 
-      sum + (answers[q.id] || 0), 0);
-    const memoryScore = testCategories.memory.questions.reduce((sum, q) => 
-      sum + (answers[q.id] || 0), 0);
+    const logicScore = testCategories.logic.questions.reduce(
+      (sum, q) => sum + (answers[q.id] || 0),
+      0
+    );
+    const attentionScore = testCategories.attention.questions.reduce(
+      (sum, q) => sum + (answers[q.id] || 0),
+      0
+    );
+    const memoryScore = testCategories.memory.questions.reduce(
+      (sum, q) => sum + (answers[q.id] || 0),
+      0
+    );
 
     const maxScore = 25; // 5 questions × 5 max score
 
@@ -293,9 +311,7 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             >
               <CheckCircle className="w-10 h-10" />
             </motion.div>
-            <h1 className="font-heading font-bold text-2xl mb-2">
-              Tes Kognitif Selesai!
-            </h1>
+            <h1 className="font-heading font-bold text-2xl mb-2">Tes Kognitif Selesai!</h1>
             <p className="text-blue-100">
               Luar biasa {childName}! Kemampuan kognitifmu berkembang dengan baik
             </p>
@@ -312,11 +328,17 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-bold text-lg">Kemampuan Logika</h3>
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreInterpretation(logicScore, maxScore).bg} ${getScoreInterpretation(logicScore, maxScore).color}`}>
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    getScoreInterpretation(logicScore, maxScore).bg
+                  } ${getScoreInterpretation(logicScore, maxScore).color}`}
+                >
                   {getScoreInterpretation(logicScore, maxScore).level}
                 </div>
               </div>
-              <div className="text-2xl font-bold text-blue-600 mb-2">{logicScore}/{maxScore}</div>
+              <div className="text-2xl font-bold text-blue-600 mb-2">
+                {logicScore}/{maxScore}
+              </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
                   className="bg-blue-500 h-2 rounded-full"
@@ -336,11 +358,17 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-bold text-lg">Kemampuan Perhatian</h3>
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreInterpretation(attentionScore, maxScore).bg} ${getScoreInterpretation(attentionScore, maxScore).color}`}>
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    getScoreInterpretation(attentionScore, maxScore).bg
+                  } ${getScoreInterpretation(attentionScore, maxScore).color}`}
+                >
                   {getScoreInterpretation(attentionScore, maxScore).level}
                 </div>
               </div>
-              <div className="text-2xl font-bold text-orange-600 mb-2">{attentionScore}/{maxScore}</div>
+              <div className="text-2xl font-bold text-orange-600 mb-2">
+                {attentionScore}/{maxScore}
+              </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
                   className="bg-orange-500 h-2 rounded-full"
@@ -360,11 +388,17 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-bold text-lg">Kemampuan Memori</h3>
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreInterpretation(memoryScore, maxScore).bg} ${getScoreInterpretation(memoryScore, maxScore).color}`}>
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    getScoreInterpretation(memoryScore, maxScore).bg
+                  } ${getScoreInterpretation(memoryScore, maxScore).color}`}
+                >
                   {getScoreInterpretation(memoryScore, maxScore).level}
                 </div>
               </div>
-              <div className="text-2xl font-bold text-purple-600 mb-2">{memoryScore}/{maxScore}</div>
+              <div className="text-2xl font-bold text-purple-600 mb-2">
+                {memoryScore}/{maxScore}
+              </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
                   className="bg-purple-500 h-2 rounded-full"
@@ -412,7 +446,9 @@ export default function CognitiveTestScreen({ navigateTo, addSticker, childName,
           <p className="text-white/90 mb-4">{currentTest.description}</p>
           <div className="flex items-center justify-center space-x-2 text-sm">
             <Clock className="w-4 h-4" />
-            <span>Pertanyaan {currentQuestion + 1} dari {totalQuestions}</span>
+            <span>
+              Pertanyaan {currentQuestion + 1} dari {totalQuestions}
+            </span>
           </div>
         </div>
 

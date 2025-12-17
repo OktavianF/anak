@@ -6,7 +6,7 @@ export const coloringImages = [
     difficulty: 'Easy',
     areas: 8,
     preview: '🦊',
-    description: 'Warnai rubah lucu dengan warna favoritmu!'
+    description: 'Warnai rubah lucu dengan warna favoritmu!',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const coloringImages = [
     difficulty: 'Easy',
     areas: 6,
     preview: '🐘',
-    description: 'Beri warna pada gajah yang bahagia!'
+    description: 'Beri warna pada gajah yang bahagia!',
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export const coloringImages = [
     difficulty: 'Medium',
     areas: 12,
     preview: '🦄',
-    description: 'Warnai unicorn ajaib dengan warna pelangi!'
+    description: 'Warnai unicorn ajaib dengan warna pelangi!',
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const coloringImages = [
     difficulty: 'Easy',
     areas: 7,
     preview: '🐰',
-    description: 'Kelinci imut siap untuk diwarnai!'
+    description: 'Kelinci imut siap untuk diwarnai!',
   },
   {
     id: 5,
@@ -42,7 +42,7 @@ export const coloringImages = [
     difficulty: 'Medium',
     areas: 10,
     preview: '🦕',
-    description: 'Dinosaur ramah menanti sentuhan warnamu!'
+    description: 'Dinosaur ramah menanti sentuhan warnamu!',
   },
   {
     id: 6,
@@ -51,8 +51,8 @@ export const coloringImages = [
     difficulty: 'Hard',
     areas: 15,
     preview: '🐇',
-    description: 'Keluarga kelinci yang menggemaskan!'
-  }
+    description: 'Keluarga kelinci yang menggemaskan!',
+  },
 ];
 
 export const colors = [
@@ -67,14 +67,18 @@ export const colors = [
   { name: 'Brown', value: '#A16207' },
   { name: 'Gray', value: '#6B7280' },
   { name: 'Black', value: '#1F2937' },
-  { name: 'White', value: '#F9FAFB' }
+  { name: 'White', value: '#F9FAFB' },
 ];
 
 export const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
-    case 'Easy': return 'bg-green-100 text-green-700';
-    case 'Medium': return 'bg-yellow-100 text-yellow-700';
-    case 'Hard': return 'bg-red-100 text-red-700';
-    default: return 'bg-gray-100 text-gray-700';
+    case 'Easy':
+      return 'bg-green-100 text-green-700';
+    case 'Medium':
+      return 'bg-yellow-100 text-yellow-700';
+    case 'Hard':
+      return 'bg-red-100 text-red-700';
+    default:
+      return 'bg-gray-100 text-gray-700';
   }
 };

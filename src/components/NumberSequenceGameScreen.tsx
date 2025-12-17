@@ -17,7 +17,11 @@ interface SequenceChallenge {
   choices: number[];
 }
 
-export default function NumberSequenceGameScreen({ navigateTo, addSticker, updateGameAssessment }: NumberSequenceGameScreenProps) {
+export default function NumberSequenceGameScreen({
+  navigateTo,
+  addSticker,
+  updateGameAssessment,
+}: NumberSequenceGameScreenProps) {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [challenge, setChallenge] = useState<SequenceChallenge | null>(null);
@@ -42,49 +46,53 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
   const generateChallenge = useCallback((level: number): SequenceChallenge => {
     const patterns = [
       // Easy patterns (levels 1-5)
-      { 
-        type: 'addition', 
-        generate: (start: number, step: number) => Array.from({length: 6}, (_, i) => start + i * step),
-        description: '+' 
+      {
+        type: 'addition',
+        generate: (start: number, step: number) =>
+          Array.from({ length: 6 }, (_, i) => start + i * step),
+        description: '+',
       },
-      { 
-        type: 'subtraction', 
-        generate: (start: number, step: number) => Array.from({length: 6}, (_, i) => start - i * step),
-        description: '-' 
+      {
+        type: 'subtraction',
+        generate: (start: number, step: number) =>
+          Array.from({ length: 6 }, (_, i) => start - i * step),
+        description: '-',
       },
       // Medium patterns (levels 6-10)
-      { 
-        type: 'multiplication', 
-        generate: (start: number, step: number) => Array.from({length: 5}, (_, i) => start * Math.pow(step, i)),
-        description: '×' 
+      {
+        type: 'multiplication',
+        generate: (start: number, step: number) =>
+          Array.from({ length: 5 }, (_, i) => start * Math.pow(step, i)),
+        description: '×',
       },
-      { 
-        type: 'fibonacci', 
+      {
+        type: 'fibonacci',
         generate: () => {
           const fib = [1, 1];
           for (let i = 2; i < 6; i++) {
-            fib[i] = fib[i-1] + fib[i-2];
+            fib[i] = fib[i - 1] + fib[i - 2];
           }
           return fib;
         },
-        description: 'Fibonacci' 
+        description: 'Fibonacci',
       },
       // Hard patterns (levels 11-15)
-      { 
-        type: 'square', 
-        generate: (start: number) => Array.from({length: 5}, (_, i) => Math.pow(start + i, 2)),
-        description: 'n²' 
+      {
+        type: 'square',
+        generate: (start: number) => Array.from({ length: 5 }, (_, i) => Math.pow(start + i, 2)),
+        description: 'n²',
       },
-      { 
-        type: 'complex', 
-        generate: (start: number, step: number) => Array.from({length: 6}, (_, i) => start + i * step + i),
-        description: 'n + step + i' 
-      }
+      {
+        type: 'complex',
+        generate: (start: number, step: number) =>
+          Array.from({ length: 6 }, (_, i) => start + i * step + i),
+        description: 'n + step + i',
+      },
     ];
 
     let difficulty: 'easy' | 'medium' | 'hard';
     let patternIndex: number;
-    
+
     if (level <= 5) {
       difficulty = 'easy';
       patternIndex = Math.floor(Math.random() * 2); // addition, subtraction
@@ -98,7 +106,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
 
     const pattern = patterns[patternIndex];
     let sequence: number[];
-    
+
     switch (pattern.type) {
       case 'addition':
       case 'subtraction':
@@ -126,7 +134,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
     // Choose random position to remove
     const missingIndex = Math.floor(Math.random() * sequence.length);
     const missing = sequence[missingIndex];
-    
+
     // Generate wrong choices
     const choices = [missing];
     while (choices.length < 4) {
@@ -135,7 +143,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
         choices.push(wrongChoice);
       }
     }
-    
+
     // Shuffle choices
     choices.sort(() => Math.random() - 0.5);
 
@@ -145,7 +153,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
       missingIndex,
       difficulty,
       pattern: pattern.description,
-      choices
+      choices,
     };
   }, []);
 
@@ -167,7 +175,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
     let interval: NodeJS.Timeout;
     if (isTimerRunning && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft(prev => {
+        setTimeLeft((prev) => {
           if (prev <= 1) {
             handleWrongAnswer();
             return 30;
@@ -181,20 +189,24 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
 
   const handleAnswer = (answer: number) => {
     if (!challenge || answerFeedback) return;
-    
+
     setSelectedAnswer(answer);
     setIsTimerRunning(false);
-    
+
     if (answer === challenge.missing) {
       setAnswerFeedback('correct');
-      setScore(prev => prev + (challenge.difficulty === 'easy' ? 10 : challenge.difficulty === 'medium' ? 15 : 20));
-      setCorrectAnswers(prev => prev + 1);
-      
+      setScore(
+        (prev) =>
+          prev +
+          (challenge.difficulty === 'easy' ? 10 : challenge.difficulty === 'medium' ? 15 : 20)
+      );
+      setCorrectAnswers((prev) => prev + 1);
+
       setTimeout(() => {
         if (currentLevel >= maxLevel) {
           completeGame();
         } else {
-          setCurrentLevel(prev => prev + 1);
+          setCurrentLevel((prev) => prev + 1);
         }
       }, 1500);
     } else {
@@ -204,8 +216,8 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
 
   const handleWrongAnswer = () => {
     setAnswerFeedback('wrong');
-    setErrors(prev => prev + 1);
-    setLives(prev => {
+    setErrors((prev) => prev + 1);
+    setLives((prev) => {
       const newLives = prev - 1;
       if (newLives <= 0) {
         setTimeout(() => {
@@ -213,7 +225,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
         }, 1500);
       } else {
         setTimeout(() => {
-          setCurrentLevel(prev => prev + 1);
+          setCurrentLevel((prev) => prev + 1);
         }, 1500);
       }
       return newLives;
@@ -222,14 +234,22 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
 
   const completeGame = () => {
     if (gameCompletionHandled) return;
-    
+
     setGameCompletionHandled(true);
     const endTime = new Date();
-    const gameTimeSpent = gameStartTime ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000) : 0;
-    
+    const gameTimeSpent = gameStartTime
+      ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000)
+      : 0;
+
     const stars = getStarRating();
-    const finalScore = calculateAssessmentScore(stars, gameTimeSpent, errors, correctAnswers, hintsUsed);
-    
+    const finalScore = calculateAssessmentScore(
+      stars,
+      gameTimeSpent,
+      errors,
+      correctAnswers,
+      hintsUsed
+    );
+
     const sessionData = {
       timeSpent: gameTimeSpent,
       errors: errors,
@@ -240,9 +260,9 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
       hintsUsed: hintsUsed,
       stars: stars,
       timestamp: new Date().toISOString(),
-      domains: ['Logika', 'Matematika', 'Pattern Recognition']
+      domains: ['Logika', 'Matematika', 'Pattern Recognition'],
     };
-    
+
     updateGameAssessment('numberSequence', sessionData);
     setGameCompleted(true);
     addSticker(lives > 0 ? 'number-master' : 'number-explorer');
@@ -251,13 +271,13 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
   const useHint = () => {
     if (!showHint && challenge) {
       setShowHint(true);
-      setHintsUsed(prev => prev + 1);
+      setHintsUsed((prev) => prev + 1);
     }
   };
 
   const getHintText = () => {
     if (!challenge) return '';
-    
+
     switch (challenge.pattern) {
       case '+':
         return 'Setiap angka bertambah dengan jumlah yang sama';
@@ -279,7 +299,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
   const getStarRating = () => {
     const accuracy = correctAnswers / Math.max(currentLevel - 1, 1);
     const hintsPerLevel = hintsUsed / Math.max(currentLevel - 1, 1);
-    
+
     if (accuracy >= 0.8 && hintsPerLevel <= 0.5) return 3;
     if (accuracy >= 0.6 && hintsPerLevel <= 1) return 2;
     return 1;
@@ -306,24 +326,32 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
     return 'hard';
   };
 
-  const calculateAssessmentScore = (stars: number, timeSpent: number, errors: number, correct: number, hints: number) => {
+  const calculateAssessmentScore = (
+    stars: number,
+    timeSpent: number,
+    errors: number,
+    correct: number,
+    hints: number
+  ) => {
     const baseScore = stars * 30; // 30, 60, or 90
-    
+
     // Accuracy bonus
     const accuracy = correct / Math.max(currentLevel - 1, 1);
     const accuracyBonus = Math.floor(accuracy * 20);
-    
+
     // Time performance (faster = better, but reasonable time)
     const averageTimePerLevel = timeSpent / Math.max(currentLevel - 1, 1);
     const timeBonus = Math.max(0, Math.floor((60 - averageTimePerLevel) / 5)) * 2;
-    
+
     // Error penalty
     const errorPenalty = errors * 3;
-    
+
     // Hint penalty (using hints reduces score)
     const hintPenalty = hints * 2;
-    
-    return Math.round(Math.max(10, baseScore + accuracyBonus + timeBonus - errorPenalty - hintPenalty));
+
+    return Math.round(
+      Math.max(10, baseScore + accuracyBonus + timeBonus - errorPenalty - hintPenalty)
+    );
   };
 
   const getPerformanceLevel = (score: number) => {
@@ -338,22 +366,30 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
   if (gameCompleted) {
     const stars = getStarRating();
     const endTime = new Date();
-    const gameTimeSpent = gameStartTime ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000) : 0;
-    const finalScore = calculateAssessmentScore(stars, gameTimeSpent, errors, correctAnswers, hintsUsed);
+    const gameTimeSpent = gameStartTime
+      ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000)
+      : 0;
+    const finalScore = calculateAssessmentScore(
+      stars,
+      gameTimeSpent,
+      errors,
+      correctAnswers,
+      hintsUsed
+    );
     const performance = getPerformanceLevel(finalScore);
-    
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="bg-white rounded-3xl p-8 text-center max-w-sm mx-4 shadow-2xl"
         >
           <motion.div
-            animate={{ 
-              scale: [1, 1.2, 1], 
-              rotate: [0, 10, -10, 0]
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 10, -10, 0],
             }}
             transition={{ duration: 0.8, repeat: 3 }}
             className="text-8xl mb-4"
@@ -370,10 +406,12 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
 
           {/* Stars */}
           <div className="flex justify-center space-x-1 mb-4">
-            {[1, 2, 3].map(star => (
-              <Star 
+            {[1, 2, 3].map((star) => (
+              <Star
                 key={star}
-                className={`w-8 h-8 ${star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'}`}
+                className={`w-8 h-8 ${
+                  star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'
+                }`}
               />
             ))}
           </div>
@@ -381,19 +419,28 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
           {/* Stats */}
           <div className="bg-blue-50 rounded-2xl p-4 mb-6">
             <div className="text-blue-700 font-body text-sm space-y-1">
-              <p>Level Tercapai: <span className="font-bold">{currentLevel}</span></p>
-              <p>Skor: <span className="font-bold">{score}</span></p>
-              <p>Akurasi: <span className="font-bold">{Math.round((correctAnswers / Math.max(currentLevel - 1, 1)) * 100)}%</span></p>
-              <p>Hint Digunakan: <span className="font-bold">{hintsUsed}</span></p>
+              <p>
+                Level Tercapai: <span className="font-bold">{currentLevel}</span>
+              </p>
+              <p>
+                Skor: <span className="font-bold">{score}</span>
+              </p>
+              <p>
+                Akurasi:{' '}
+                <span className="font-bold">
+                  {Math.round((correctAnswers / Math.max(currentLevel - 1, 1)) * 100)}%
+                </span>
+              </p>
+              <p>
+                Hint Digunakan: <span className="font-bold">{hintsUsed}</span>
+              </p>
             </div>
           </div>
 
           <div className="bg-yellow-50 rounded-2xl p-4 mb-6">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Trophy className="w-5 h-5 text-yellow-600" />
-              <span className="text-yellow-700 font-body font-semibold">
-                Hadiah Diperoleh!
-              </span>
+              <span className="text-yellow-700 font-body font-semibold">Hadiah Diperoleh!</span>
             </div>
             <p className="text-yellow-600 font-body text-sm">
               Stiker "{lives > 0 ? 'Number Master' : 'Number Explorer'}" ditambahkan!
@@ -468,19 +515,25 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-blue-600 font-bold text-sm">1</span>
                 </div>
-                <p className="text-gray-600 font-body text-sm">Perhatikan pola dalam urutan angka</p>
+                <p className="text-gray-600 font-body text-sm">
+                  Perhatikan pola dalam urutan angka
+                </p>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-blue-600 font-bold text-sm">2</span>
                 </div>
-                <p className="text-gray-600 font-body text-sm">Pilih angka yang tepat untuk melengkapi urutan</p>
+                <p className="text-gray-600 font-body text-sm">
+                  Pilih angka yang tepat untuk melengkapi urutan
+                </p>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-blue-600 font-bold text-sm">3</span>
                 </div>
-                <p className="text-gray-600 font-body text-sm">Selesaikan 15 level dengan 3 nyawa</p>
+                <p className="text-gray-600 font-body text-sm">
+                  Selesaikan 15 level dengan 3 nyawa
+                </p>
               </div>
             </div>
           </motion.div>
@@ -497,15 +550,21 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
             </h3>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">Level 1-5</span>
+                <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">
+                  Level 1-5
+                </span>
                 <span className="text-gray-600 font-body text-sm">Penjumlahan & Pengurangan</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-bold">Level 6-10</span>
+                <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-bold">
+                  Level 6-10
+                </span>
                 <span className="text-gray-600 font-body text-sm">Perkalian & Fibonacci</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold">Level 11-15</span>
+                <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold">
+                  Level 11-15
+                </span>
                 <span className="text-gray-600 font-body text-sm">Kuadrat & Pola Kompleks</span>
               </div>
             </div>
@@ -513,9 +572,9 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
 
           <motion.button
             onClick={() => {
-             setGameStarted(true);
-             setGameStartTime(new Date());
-           }}
+              setGameStarted(true);
+              setGameStartTime(new Date());
+            }}
             className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-4 px-6 rounded-2xl font-heading font-bold text-lg shadow-lg"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -559,7 +618,9 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
           <div className="flex items-center justify-between text-center">
             <div>
-              <span className="text-white font-heading font-bold text-lg">Level {currentLevel}</span>
+              <span className="text-white font-heading font-bold text-lg">
+                Level {currentLevel}
+              </span>
               <p className="text-blue-100 font-body text-xs">dari {maxLevel}</p>
             </div>
             <div>
@@ -598,13 +659,20 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
         >
           <div className="flex items-center justify-between mb-3">
             <div>
-              <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                challenge.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
-                challenge.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                'bg-red-100 text-red-700'
-              }`}>
-                {challenge.difficulty === 'easy' ? 'Mudah' : 
-                 challenge.difficulty === 'medium' ? 'Sedang' : 'Sulit'}
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-bold ${
+                  challenge.difficulty === 'easy'
+                    ? 'bg-green-100 text-green-700'
+                    : challenge.difficulty === 'medium'
+                    ? 'bg-yellow-100 text-yellow-700'
+                    : 'bg-red-100 text-red-700'
+                }`}
+              >
+                {challenge.difficulty === 'easy'
+                  ? 'Mudah'
+                  : challenge.difficulty === 'medium'
+                  ? 'Sedang'
+                  : 'Sulit'}
               </span>
               <span className="ml-2 bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full">
                 Pola: {challenge.pattern}
@@ -613,7 +681,11 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
             <motion.button
               onClick={useHint}
               disabled={showHint}
-              className={`p-2 rounded-xl ${showHint ? 'bg-gray-100 text-gray-400' : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'}`}
+              className={`p-2 rounded-xl ${
+                showHint
+                  ? 'bg-gray-100 text-gray-400'
+                  : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
+              }`}
               whileTap={{ scale: 0.95 }}
             >
               <Lightbulb className="w-5 h-5" />
@@ -666,7 +738,7 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
                       ? 'bg-gradient-to-br from-green-400 to-green-500 text-white'
                       : 'bg-gradient-to-br from-red-400 to-red-500 text-white'
                     : 'bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 hover:from-gray-200 hover:to-gray-300'
-                } ${!!answerFeedback ? 'cursor-not-allowed' : 'hover:scale-105'}`}
+                } ${answerFeedback ? 'cursor-not-allowed' : 'hover:scale-105'}`}
                 whileHover={!answerFeedback ? { scale: 1.05 } : {}}
                 whileTap={!answerFeedback ? { scale: 0.95 } : {}}
                 initial={{ opacity: 0, y: 20 }}
@@ -699,8 +771,8 @@ export default function NumberSequenceGameScreen({ navigateTo, addSticker, updat
               }`}
             >
               <p className="font-bold">
-                {answerFeedback === 'correct' 
-                  ? '🎉 Benar! Jawaban yang tepat!' 
+                {answerFeedback === 'correct'
+                  ? '🎉 Benar! Jawaban yang tepat!'
                   : `❌ Salah! Jawaban yang benar adalah ${challenge.missing}`}
               </p>
             </motion.div>

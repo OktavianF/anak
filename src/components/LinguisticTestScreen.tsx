@@ -9,8 +9,15 @@ interface LinguisticTestScreenProps {
   updateTestResults: (testType: string, results: any) => void;
 }
 
-export default function LinguisticTestScreen({ navigateTo, addSticker, childName, updateTestResults }: LinguisticTestScreenProps) {
-  const [currentCategory, setCurrentCategory] = useState<'receptive' | 'expressive' | 'phonemic'>('receptive');
+export default function LinguisticTestScreen({
+  navigateTo,
+  addSticker,
+  childName,
+  updateTestResults,
+}: LinguisticTestScreenProps) {
+  const [currentCategory, setCurrentCategory] = useState<'receptive' | 'expressive' | 'phonemic'>(
+    'receptive'
+  );
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [isCompleted, setIsCompleted] = useState(false);
@@ -30,8 +37,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: '🐱', score: 5 },
             { text: '🐶', score: 1 },
             { text: '🐰', score: 1 },
-            { text: '🐦', score: 1 }
-          ]
+            { text: '🐦', score: 1 },
+          ],
         },
         {
           id: 'rec2',
@@ -41,8 +48,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Mobil', score: 1 },
             { text: 'Rumah', score: 5 },
             { text: 'Sekolah', score: 2 },
-            { text: 'Pasar', score: 3 }
-          ]
+            { text: 'Pasar', score: 3 },
+          ],
         },
         {
           id: 'rec3',
@@ -53,8 +60,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Kakak', score: 1 },
             { text: 'Adik', score: 5 },
             { text: 'Ayah', score: 1 },
-            { text: 'Ibu', score: 1 }
-          ]
+            { text: 'Ibu', score: 1 },
+          ],
         },
         {
           id: 'rec4',
@@ -64,8 +71,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Besar', score: 2 },
             { text: 'Pendek', score: 5 },
             { text: 'Kecil', score: 3 },
-            { text: 'Panjang', score: 1 }
-          ]
+            { text: 'Panjang', score: 1 },
+          ],
         },
         {
           id: 'rec5',
@@ -75,10 +82,10 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: '🏃', score: 1 },
             { text: '😴', score: 1 },
             { text: '🍽️', score: 5 },
-            { text: '📚', score: 1 }
-          ]
-        }
-      ]
+            { text: '📚', score: 1 },
+          ],
+        },
+      ],
     },
     expressive: {
       title: 'Tes Ekspresif',
@@ -93,8 +100,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'buah', score: 5 },
             { text: 'batu', score: 1 },
             { text: 'kertas', score: 1 },
-            { text: 'kayu', score: 1 }
-          ]
+            { text: 'kayu', score: 1 },
+          ],
         },
         {
           id: 'exp2',
@@ -104,8 +111,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Aku mau!', score: 1 },
             { text: 'Permisi, boleh saya...?', score: 5 },
             { text: 'Kasih aku!', score: 1 },
-            { text: 'Ambil aja!', score: 1 }
-          ]
+            { text: 'Ambil aja!', score: 1 },
+          ],
         },
         {
           id: 'exp3',
@@ -115,8 +122,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Selamat malam', score: 1 },
             { text: 'Selamat pagi', score: 5 },
             { text: 'Selamat sore', score: 1 },
-            { text: 'Dah!', score: 2 }
-          ]
+            { text: 'Dah!', score: 2 },
+          ],
         },
         {
           id: 'exp4',
@@ -126,8 +133,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Anak bermain bola', score: 5 },
             { text: 'Bola', score: 2 },
             { text: 'Main', score: 3 },
-            { text: 'Anak', score: 2 }
-          ]
+            { text: 'Anak', score: 2 },
+          ],
         },
         {
           id: 'exp5',
@@ -137,10 +144,10 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Oke', score: 1 },
             { text: 'Ya', score: 1 },
             { text: 'Terima kasih', score: 5 },
-            { text: 'Baik', score: 2 }
-          ]
-        }
-      ]
+            { text: 'Baik', score: 2 },
+          ],
+        },
+      ],
     },
     phonemic: {
       title: 'Tes Fonemik',
@@ -156,8 +163,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Meja', score: 1 },
             { text: 'Bola', score: 5 },
             { text: 'Tas', score: 1 },
-            { text: 'Kursi', score: 1 }
-          ]
+            { text: 'Kursi', score: 1 },
+          ],
         },
         {
           id: 'pho2',
@@ -168,8 +175,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: '2 suku kata', score: 2 },
             { text: '3 suku kata', score: 1 },
             { text: '4 suku kata', score: 5 },
-            { text: '1 suku kata', score: 1 }
-          ]
+            { text: '1 suku kata', score: 1 },
+          ],
         },
         {
           id: 'pho3',
@@ -180,8 +187,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Kaki', score: 1 },
             { text: 'Rata', score: 5 },
             { text: 'Hidung', score: 1 },
-            { text: 'Mulut', score: 1 }
-          ]
+            { text: 'Mulut', score: 1 },
+          ],
         },
         {
           id: 'pho4',
@@ -192,8 +199,8 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'Suara R', score: 1 },
             { text: 'Suara M', score: 1 },
             { text: 'Suara A', score: 2 },
-            { text: 'Suara H', score: 5 }
-          ]
+            { text: 'Suara H', score: 5 },
+          ],
         },
         {
           id: 'pho5',
@@ -204,11 +211,11 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             { text: 'USU', score: 5 },
             { text: 'SUS', score: 2 },
             { text: 'SUU', score: 1 },
-            { text: 'Tetap SUSU', score: 1 }
-          ]
-        }
-      ]
-    }
+            { text: 'Tetap SUSU', score: 1 },
+          ],
+        },
+      ],
+    },
   };
 
   const currentTest = testCategories[currentCategory];
@@ -246,14 +253,20 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
 
   const completeTest = (finalAnswers: Record<string, number>) => {
     setIsCompleted(true);
-    
+
     // Calculate scores for each category
-    const receptiveScore = testCategories.receptive.questions.reduce((sum, q) => 
-      sum + (finalAnswers[q.id] || 0), 0);
-    const expressiveScore = testCategories.expressive.questions.reduce((sum, q) => 
-      sum + (finalAnswers[q.id] || 0), 0);
-    const phonemicScore = testCategories.phonemic.questions.reduce((sum, q) => 
-      sum + (finalAnswers[q.id] || 0), 0);
+    const receptiveScore = testCategories.receptive.questions.reduce(
+      (sum, q) => sum + (finalAnswers[q.id] || 0),
+      0
+    );
+    const expressiveScore = testCategories.expressive.questions.reduce(
+      (sum, q) => sum + (finalAnswers[q.id] || 0),
+      0
+    );
+    const phonemicScore = testCategories.phonemic.questions.reduce(
+      (sum, q) => sum + (finalAnswers[q.id] || 0),
+      0
+    );
 
     const totalScore = receptiveScore + expressiveScore + phonemicScore;
     const maxScore = 75; // 15 questions × 5 max score
@@ -268,33 +281,40 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
       categoryScores: {
         receptive: receptiveScore,
         expressive: expressiveScore,
-        phonemic: phonemicScore
-      }
+        phonemic: phonemicScore,
+      },
     });
 
     // Award stickers based on performance
     if (receptiveScore >= 20) addSticker('receptive-master');
     if (expressiveScore >= 20) addSticker('expressive-star');
     if (phonemicScore >= 20) addSticker('phonemic-expert');
-    
+
     addSticker('linguistic-test-complete');
   };
 
   const getScoreInterpretation = (score: number, maxScore: number) => {
     const percentage = (score / maxScore) * 100;
-    if (percentage >= 90) return { level: 'Sangat Baik', color: 'text-green-600', bg: 'bg-green-50' };
+    if (percentage >= 90)
+      return { level: 'Sangat Baik', color: 'text-green-600', bg: 'bg-green-50' };
     if (percentage >= 75) return { level: 'Baik', color: 'text-blue-600', bg: 'bg-blue-50' };
     if (percentage >= 60) return { level: 'Cukup', color: 'text-yellow-600', bg: 'bg-yellow-50' };
     return { level: 'Perlu Latihan', color: 'text-red-600', bg: 'bg-red-50' };
   };
 
   if (isCompleted) {
-    const receptiveScore = testCategories.receptive.questions.reduce((sum, q) => 
-      sum + (answers[q.id] || 0), 0);
-    const expressiveScore = testCategories.expressive.questions.reduce((sum, q) => 
-      sum + (answers[q.id] || 0), 0);
-    const phonemicScore = testCategories.phonemic.questions.reduce((sum, q) => 
-      sum + (answers[q.id] || 0), 0);
+    const receptiveScore = testCategories.receptive.questions.reduce(
+      (sum, q) => sum + (answers[q.id] || 0),
+      0
+    );
+    const expressiveScore = testCategories.expressive.questions.reduce(
+      (sum, q) => sum + (answers[q.id] || 0),
+      0
+    );
+    const phonemicScore = testCategories.phonemic.questions.reduce(
+      (sum, q) => sum + (answers[q.id] || 0),
+      0
+    );
 
     const maxScore = 25; // 5 questions × 5 max score
 
@@ -309,9 +329,7 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             >
               <CheckCircle className="w-10 h-10" />
             </motion.div>
-            <h1 className="font-heading font-bold text-2xl mb-2">
-              Tes Linguistik Selesai!
-            </h1>
+            <h1 className="font-heading font-bold text-2xl mb-2">Tes Linguistik Selesai!</h1>
             <p className="text-pink-100">
               Hebat {childName}! Kemampuan bahasamu berkembang dengan baik
             </p>
@@ -328,11 +346,17 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-bold text-lg">Kemampuan Reseptif</h3>
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreInterpretation(receptiveScore, maxScore).bg} ${getScoreInterpretation(receptiveScore, maxScore).color}`}>
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    getScoreInterpretation(receptiveScore, maxScore).bg
+                  } ${getScoreInterpretation(receptiveScore, maxScore).color}`}
+                >
                   {getScoreInterpretation(receptiveScore, maxScore).level}
                 </div>
               </div>
-              <div className="text-2xl font-bold text-pink-600 mb-2">{receptiveScore}/{maxScore}</div>
+              <div className="text-2xl font-bold text-pink-600 mb-2">
+                {receptiveScore}/{maxScore}
+              </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
                   className="bg-pink-500 h-2 rounded-full"
@@ -352,11 +376,17 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-bold text-lg">Kemampuan Ekspresif</h3>
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreInterpretation(expressiveScore, maxScore).bg} ${getScoreInterpretation(expressiveScore, maxScore).color}`}>
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    getScoreInterpretation(expressiveScore, maxScore).bg
+                  } ${getScoreInterpretation(expressiveScore, maxScore).color}`}
+                >
                   {getScoreInterpretation(expressiveScore, maxScore).level}
                 </div>
               </div>
-              <div className="text-2xl font-bold text-blue-600 mb-2">{expressiveScore}/{maxScore}</div>
+              <div className="text-2xl font-bold text-blue-600 mb-2">
+                {expressiveScore}/{maxScore}
+              </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
                   className="bg-blue-500 h-2 rounded-full"
@@ -376,11 +406,17 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-bold text-lg">Kemampuan Fonemik</h3>
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreInterpretation(phonemicScore, maxScore).bg} ${getScoreInterpretation(phonemicScore, maxScore).color}`}>
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    getScoreInterpretation(phonemicScore, maxScore).bg
+                  } ${getScoreInterpretation(phonemicScore, maxScore).color}`}
+                >
                   {getScoreInterpretation(phonemicScore, maxScore).level}
                 </div>
               </div>
-              <div className="text-2xl font-bold text-green-600 mb-2">{phonemicScore}/{maxScore}</div>
+              <div className="text-2xl font-bold text-green-600 mb-2">
+                {phonemicScore}/{maxScore}
+              </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
                   className="bg-green-500 h-2 rounded-full"
@@ -437,7 +473,9 @@ export default function LinguisticTestScreen({ navigateTo, addSticker, childName
           <p className="text-white/90 mb-4">{currentTest.description}</p>
           <div className="flex items-center justify-center space-x-2 text-sm">
             <Clock className="w-4 h-4" />
-            <span>Pertanyaan {currentQuestion + 1} dari {totalQuestions}</span>
+            <span>
+              Pertanyaan {currentQuestion + 1} dari {totalQuestions}
+            </span>
           </div>
         </div>
 

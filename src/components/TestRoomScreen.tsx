@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Brain, BookOpen, Star, Trophy, Lock, CheckCircle, Clock, Heart } from 'lucide-react';
+import {
+  ArrowLeft,
+  Brain,
+  BookOpen,
+  Star,
+  Trophy,
+  Lock,
+  CheckCircle,
+  Clock,
+  Heart,
+} from 'lucide-react';
 import ChildMascot from './ChildMascot';
 
 interface TestRoomScreenProps {
@@ -9,8 +19,21 @@ interface TestRoomScreenProps {
   addSticker: (stickerId: string) => void;
 }
 
-export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }: TestRoomScreenProps) {
-  const [currentPhase, setCurrentPhase] = useState<'intro' | 'cognitive' | 'linguistic' | 'talent' | 'results' | 'cognitive-test' | 'linguistic-test' | 'talent-test'>('intro');
+export default function TestRoomScreen({
+  navigateTo,
+  isParentMode,
+  addSticker,
+}: TestRoomScreenProps) {
+  const [currentPhase, setCurrentPhase] = useState<
+    | 'intro'
+    | 'cognitive'
+    | 'linguistic'
+    | 'talent'
+    | 'results'
+    | 'cognitive-test'
+    | 'linguistic-test'
+    | 'talent-test'
+  >('intro');
   const [completedTests, setCompletedTests] = useState<string[]>([]);
   const [testResults, setTestResults] = useState<Record<string, number>>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -23,130 +46,150 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
     {
       id: 'cognitive',
       title: isParentMode ? 'Tes Kognitif' : 'Latihan Otak Super! 🧠',
-      description: isParentMode ? 'Mengukur kemampuan berpikir dan pemecahan masalah' : 'Asyik main teka-teki otak!',
+      description: isParentMode
+        ? 'Mengukur kemampuan berpikir dan pemecahan masalah'
+        : 'Asyik main teka-teki otak!',
       icon: Brain,
       emoji: '🧠',
       color: 'from-blue-400 to-blue-600',
-      duration: isParentMode ? '10 menit' : '10 menit main'
+      duration: isParentMode ? '10 menit' : '10 menit main',
     },
     {
       id: 'linguistic',
       title: isParentMode ? 'Tes Linguistik' : 'Bermain Kata-kata! 📚',
-      description: isParentMode ? 'Mengukur kemampuan bahasa dan komunikasi' : 'Seru banget belajar kata!',
+      description: isParentMode
+        ? 'Mengukur kemampuan bahasa dan komunikasi'
+        : 'Seru banget belajar kata!',
       icon: BookOpen,
       emoji: '📚',
       color: 'from-purple-400 to-purple-600',
-      duration: isParentMode ? '8 menit' : '8 menit main'
+      duration: isParentMode ? '8 menit' : '8 menit main',
     },
     {
       id: 'talent',
       title: isParentMode ? 'Tes Bakat & Minat' : 'Temukan Bakatmu! ⭐',
-      description: isParentMode ? 'Mengetahui bakat alami dan area minat' : 'Cari tahu bakat hebatmu!',
+      description: isParentMode
+        ? 'Mengetahui bakat alami dan area minat'
+        : 'Cari tahu bakat hebatmu!',
       icon: Star,
       emoji: '⭐',
       color: 'from-orange-400 to-orange-600',
-      duration: isParentMode ? '12 menit' : '12 menit main'
-    }
+      duration: isParentMode ? '12 menit' : '12 menit main',
+    },
   ];
 
   // Sample questions for each test type
   const cognitiveQuestions = [
     {
-      question: isParentMode ? "Berapa hasil dari 5 + 3?" : "Hitung yuk: 5 + 3 = ?",
-      options: ["6", "7", "8", "9"],
+      question: isParentMode ? 'Berapa hasil dari 5 + 3?' : 'Hitung yuk: 5 + 3 = ?',
+      options: ['6', '7', '8', '9'],
       correct: 2,
-      type: "math"
+      type: 'math',
     },
     {
-      question: isParentMode ? "Pola selanjutnya: 🔵 🟩 🔵 ?" : "Lanjutkan polanya: 🔵 🟩 🔵 ?",
-      options: ["🔵", "🟩", "🟨", "🟪"],
+      question: isParentMode ? 'Pola selanjutnya: 🔵 🟩 🔵 ?' : 'Lanjutkan polanya: 🔵 🟩 🔵 ?',
+      options: ['🔵', '🟩', '🟨', '🟪'],
       correct: 1,
-      type: "pattern"
+      type: 'pattern',
     },
     {
-      question: isParentMode ? "Manakah yang berbeda?" : "Mana yang tidak sama?",
-      options: ["🐱", "🐶", "🐱", "🐱"],
+      question: isParentMode ? 'Manakah yang berbeda?' : 'Mana yang tidak sama?',
+      options: ['🐱', '🐶', '🐱', '🐱'],
       correct: 1,
-      type: "difference"
+      type: 'difference',
     },
     {
-      question: isParentMode ? "7 - 4 = ?" : "Kurangin yuk: 7 - 4 = ?",
-      options: ["2", "3", "4", "5"],
+      question: isParentMode ? '7 - 4 = ?' : 'Kurangin yuk: 7 - 4 = ?',
+      options: ['2', '3', '4', '5'],
       correct: 1,
-      type: "math"
+      type: 'math',
     },
     {
-      question: isParentMode ? "Urutan dari kecil ke besar: 3, 1, 4, 2" : "Urutkan dari kecil: 3, 1, 4, 2",
-      options: ["1,2,3,4", "4,3,2,1", "2,3,1,4", "3,4,1,2"],
+      question: isParentMode
+        ? 'Urutan dari kecil ke besar: 3, 1, 4, 2'
+        : 'Urutkan dari kecil: 3, 1, 4, 2',
+      options: ['1,2,3,4', '4,3,2,1', '2,3,1,4', '3,4,1,2'],
       correct: 0,
-      type: "sequence"
-    }
+      type: 'sequence',
+    },
   ];
 
   const linguisticQuestions = [
     {
-      question: isParentMode ? "Mana kata yang benar?" : "Pilih kata yang benar!",
-      options: ["Buku", "Bukku", "Buk", "Bukuu"],
+      question: isParentMode ? 'Mana kata yang benar?' : 'Pilih kata yang benar!',
+      options: ['Buku', 'Bukku', 'Buk', 'Bukuu'],
       correct: 0,
-      type: "spelling"
+      type: 'spelling',
     },
     {
       question: isParentMode ? "Lawan kata 'besar' adalah..." : "Kebalikan kata 'besar' itu...",
-      options: ["Tinggi", "Kecil", "Lebar", "Panjang"],
+      options: ['Tinggi', 'Kecil', 'Lebar', 'Panjang'],
       correct: 1,
-      type: "opposite"
+      type: 'opposite',
     },
     {
-      question: isParentMode ? "Kata mana yang sama artinya dengan 'gembira'?" : "Kata apa yang sama artinya dengan 'gembira'?",
-      options: ["Sedih", "Senang", "Marah", "Takut"],
+      question: isParentMode
+        ? "Kata mana yang sama artinya dengan 'gembira'?"
+        : "Kata apa yang sama artinya dengan 'gembira'?",
+      options: ['Sedih', 'Senang', 'Marah', 'Takut'],
       correct: 1,
-      type: "synonym"
+      type: 'synonym',
     },
     {
-      question: isParentMode ? "Suara kucing adalah..." : "Kucing bersuara...",
-      options: ["Guk guk", "Meong", "Moo", "Kukuruyuk"],
+      question: isParentMode ? 'Suara kucing adalah...' : 'Kucing bersuara...',
+      options: ['Guk guk', 'Meong', 'Moo', 'Kukuruyuk'],
       correct: 1,
-      type: "sound"
+      type: 'sound',
     },
     {
-      question: isParentMode ? "Huruf pertama dari kata 'Apel'" : "Huruf pertama dari 'Apel' itu...",
-      options: ["A", "P", "E", "L"],
+      question: isParentMode
+        ? "Huruf pertama dari kata 'Apel'"
+        : "Huruf pertama dari 'Apel' itu...",
+      options: ['A', 'P', 'E', 'L'],
       correct: 0,
-      type: "letter"
-    }
+      type: 'letter',
+    },
   ];
 
   const talentQuestions = [
     {
-      question: isParentMode ? "Aktivitas mana yang paling kamu sukai?" : "Yang paling kamu suka itu...",
-      options: ["Menggambar 🎨", "Bernyanyi 🎵", "Olahraga ⚽", "Membaca 📖"],
+      question: isParentMode
+        ? 'Aktivitas mana yang paling kamu sukai?'
+        : 'Yang paling kamu suka itu...',
+      options: ['Menggambar 🎨', 'Bernyanyi 🎵', 'Olahraga ⚽', 'Membaca 📖'],
       correct: -1, // No correct answer for preference
-      type: "preference"
+      type: 'preference',
     },
     {
-      question: isParentMode ? "Kapan kamu paling kreatif?" : "Kapan kamu paling suka berkreasi?",
-      options: ["Pagi hari ☀️", "Siang hari 🌞", "Sore hari 🌅", "Malam hari 🌙"],
+      question: isParentMode ? 'Kapan kamu paling kreatif?' : 'Kapan kamu paling suka berkreasi?',
+      options: ['Pagi hari ☀️', 'Siang hari 🌞', 'Sore hari 🌅', 'Malam hari 🌙'],
       correct: -1,
-      type: "preference"
+      type: 'preference',
     },
     {
-      question: isParentMode ? "Dengan siapa kamu lebih suka bermain?" : "Kamu lebih suka main dengan...",
-      options: ["Sendiri 😊", "1-2 teman 👯", "Banyak teman 👥", "Keluarga 👨‍👩‍👧‍👦"],
+      question: isParentMode
+        ? 'Dengan siapa kamu lebih suka bermain?'
+        : 'Kamu lebih suka main dengan...',
+      options: ['Sendiri 😊', '1-2 teman 👯', 'Banyak teman 👥', 'Keluarga 👨‍👩‍👧‍👦'],
       correct: -1,
-      type: "preference"
+      type: 'preference',
     },
     {
-      question: isParentMode ? "Warna apa yang paling mewakili perasaanmu?" : "Warna apa yang paling kamu suka?",
-      options: ["Merah ❤️", "Biru 💙", "Hijau 💚", "Kuning 💛"],
+      question: isParentMode
+        ? 'Warna apa yang paling mewakili perasaanmu?'
+        : 'Warna apa yang paling kamu suka?',
+      options: ['Merah ❤️', 'Biru 💙', 'Hijau 💚', 'Kuning 💛'],
       correct: -1,
-      type: "preference"
+      type: 'preference',
     },
     {
-      question: isParentMode ? "Jenis musik apa yang kamu sukai?" : "Musik apa yang bikin kamu semangat?",
-      options: ["Ceria 🎉", "Tenang 😌", "Energik 🔥", "Klasik 🎼"],
+      question: isParentMode
+        ? 'Jenis musik apa yang kamu sukai?'
+        : 'Musik apa yang bikin kamu semangat?',
+      options: ['Ceria 🎉', 'Tenang 😌', 'Energik 🔥', 'Klasik 🎼'],
       correct: -1,
-      type: "preference"
-    }
+      type: 'preference',
+    },
   ];
 
   const getCurrentQuestions = () => {
@@ -172,22 +215,22 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
   const handleAnswer = (selectedIndex: number) => {
     const questions = getCurrentQuestions();
     const currentQuestion = questions[currentQuestionIndex];
-    
+
     // For preference questions, all answers are correct
     const correct = currentQuestion.correct === -1 || selectedIndex === currentQuestion.correct;
-    
+
     setIsCorrect(correct);
     setShowFeedback(true);
-    
+
     if (correct || currentQuestion.correct === -1) {
       setCurrentScore(currentScore + 1);
     } else {
       setLives(lives - 1);
     }
-    
+
     setTimeout(() => {
       setShowFeedback(false);
-      
+
       if (currentQuestionIndex + 1 >= questions.length) {
         // Test completed
         completeTest();
@@ -204,17 +247,17 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
     const testType = currentPhase.replace('-test', '');
     const questions = getCurrentQuestions();
     const score = Math.round((currentScore / questions.length) * 100);
-    
-    setCompletedTests(prev => [...prev, testType]);
-    setTestResults(prev => ({ ...prev, [testType]: score }));
-    
+
+    setCompletedTests((prev) => [...prev, testType]);
+    setTestResults((prev) => ({ ...prev, [testType]: score }));
+
     // Award stickers based on performance
     if (score >= 80) {
       if (testType === 'cognitive') addSticker('brain-master');
       if (testType === 'linguistic') addSticker('word-wizard');
       if (testType === 'talent') addSticker('talent-star');
     }
-    
+
     if (completedTests.length + 1 === testPhases.length) {
       setCurrentPhase('results');
     } else {
@@ -232,12 +275,17 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
     const questions = getCurrentQuestions();
     const currentQuestion = questions[currentQuestionIndex];
     const testType = currentPhase.replace('-test', '');
-    const currentTestData = testPhases.find(p => p.id === testType);
-    
+    const currentTestData = testPhases.find((p) => p.id === testType);
+
     if (!currentQuestion) return null;
 
     return (
-      <div className={`min-h-screen bg-gradient-to-br ${currentTestData?.color.replace('to-', 'to-opacity-20 to-')} from-opacity-20`}>
+      <div
+        className={`min-h-screen bg-gradient-to-br ${currentTestData?.color.replace(
+          'to-',
+          'to-opacity-20 to-'
+        )} from-opacity-20`}
+      >
         {/* Header */}
         <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200 p-6">
           <div className="flex items-center justify-between">
@@ -248,7 +296,7 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
             >
               <ArrowLeft className="text-gray-600" size={20} />
             </motion.button>
-            
+
             <div className="text-center">
               <h1 className="text-xl font-heading font-bold text-gray-800">
                 {currentTestData?.title}
@@ -264,7 +312,7 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
                 </div>
               </div>
             </div>
-            
+
             <div className="text-center">
               <div className="text-lg font-heading font-bold text-gray-800">{currentScore}</div>
               <div className="text-xs text-gray-600 font-body">poin</div>
@@ -287,13 +335,12 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
         <div className="px-6 py-4">
           {/* Mascot */}
           <div className="text-center mb-6">
-            <ChildMascot 
-              mood="encouraging" 
-              size="small" 
+            <ChildMascot
+              mood="encouraging"
+              size="small"
               showMessage={true}
-              message={isParentMode 
-                ? "Pilih jawaban yang tepat" 
-                : "Kamu pasti bisa! Pilih jawabannya ya!"
+              message={
+                isParentMode ? 'Pilih jawaban yang tepat' : 'Kamu pasti bisa! Pilih jawabannya ya!'
               }
             />
           </div>
@@ -308,7 +355,7 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
             <h2 className="text-xl font-heading font-bold text-gray-800 text-center mb-6">
               {currentQuestion.question}
             </h2>
-            
+
             {/* Answer Options */}
             <div className="grid grid-cols-1 gap-3">
               {currentQuestion.options.map((option, index) => (
@@ -317,7 +364,7 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
                   onClick={() => !showFeedback && handleAnswer(index)}
                   className={`p-4 rounded-2xl border-3 transition-all font-body font-semibold text-lg ${
                     showFeedback
-                      ? (index === currentQuestion.correct || currentQuestion.correct === -1)
+                      ? index === currentQuestion.correct || currentQuestion.correct === -1
                         ? 'bg-green-100 border-green-300 text-green-800'
                         : 'bg-gray-100 border-gray-300 text-gray-600'
                       : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-blue-50 hover:border-blue-300'
@@ -348,11 +395,16 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
               </div>
               <p className="font-heading font-bold">
                 {currentQuestion.correct === -1
-                  ? (isParentMode ? 'Pilihan yang bagus!' : 'Pilihan kamu keren!')
+                  ? isParentMode
+                    ? 'Pilihan yang bagus!'
+                    : 'Pilihan kamu keren!'
                   : isCorrect
-                    ? (isParentMode ? 'Benar!' : 'Hebat banget!')
-                    : (isParentMode ? 'Coba lagi!' : 'Ayo semangat!')
-                }
+                  ? isParentMode
+                    ? 'Benar!'
+                    : 'Hebat banget!'
+                  : isParentMode
+                  ? 'Coba lagi!'
+                  : 'Ayo semangat!'}
               </p>
             </motion.div>
           )}
@@ -396,21 +448,22 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
           >
             <div className="flex items-center space-x-4 mb-4">
               <div className="w-16 h-16 rounded-full overflow-hidden border-3 border-white shadow-lg flex-shrink-0 bg-emerald-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1758691462477-976f771224d8?w=150&h=150&fit=crop&auto=format" 
+                <img
+                  src="https://images.unsplash.com/photo-1758691462477-976f771224d8?w=150&h=150&fit=crop&auto=format"
                   alt="Doctor"
                   className="w-full h-full object-cover"
                   loading="lazy"
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
                 />
               </div>
               <div className="flex-1">
                 <div className="bg-emerald-100 rounded-2xl p-4 relative">
                   <p className="text-emerald-800 font-body font-medium">
-                    {isParentMode 
-                      ? "Selamat datang di Ruang Tes! Kita akan melakukan 3 tes untuk memahami kemampuan dan minatmu dengan lebih baik."
-                      : "Halo! Yuk, ikuti 3 petualangan seru untuk mengetahui seberapa hebat kemampuanmu! 🌟"
-                    }
+                    {isParentMode
+                      ? 'Selamat datang di Ruang Tes! Kita akan melakukan 3 tes untuk memahami kemampuan dan minatmu dengan lebih baik.'
+                      : 'Halo! Yuk, ikuti 3 petualangan seru untuk mengetahui seberapa hebat kemampuanmu! 🌟'}
                   </p>
                   <div className="absolute -left-2 top-4 w-4 h-4 bg-emerald-100 transform rotate-45"></div>
                 </div>
@@ -482,9 +535,7 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
                         <h3 className="text-xl text-white mb-1 font-heading font-bold">
                           {phase.title}
                         </h3>
-                        <p className="text-white/90 text-sm mb-2 font-body">
-                          {phase.description}
-                        </p>
+                        <p className="text-white/90 text-sm mb-2 font-body">{phase.description}</p>
                         <div className="flex items-center space-x-3 text-white/80 text-xs">
                           <div className="flex items-center space-x-1">
                             <Clock size={12} />
@@ -579,14 +630,21 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
             <h2 className="text-3xl text-yellow-800 mb-2 font-heading font-bold">
               {isParentMode ? 'Skor Keseluruhan' : 'Skor Totalku!'}
             </h2>
-            <div className="text-5xl text-yellow-600 mb-4 font-heading font-bold">{overallScore}%</div>
+            <div className="text-5xl text-yellow-600 mb-4 font-heading font-bold">
+              {overallScore}%
+            </div>
             <p className="text-yellow-700 font-body text-lg">
-              {overallScore >= 85 
-                ? (isParentMode ? 'Luar Biasa!' : 'Kamu luar biasa banget!') 
-                : overallScore >= 70 
-                  ? (isParentMode ? 'Bagus Sekali!' : 'Kamu keren banget!') 
-                  : (isParentMode ? 'Terus Belajar!' : 'Kamu hebat, terus belajar ya!')
-              }
+              {overallScore >= 85
+                ? isParentMode
+                  ? 'Luar Biasa!'
+                  : 'Kamu luar biasa banget!'
+                : overallScore >= 70
+                ? isParentMode
+                  ? 'Bagus Sekali!'
+                  : 'Kamu keren banget!'
+                : isParentMode
+                ? 'Terus Belajar!'
+                : 'Kamu hebat, terus belajar ya!'}
             </p>
           </motion.div>
 
@@ -630,13 +688,14 @@ export default function TestRoomScreen({ navigateTo, isParentMode, addSticker }:
             transition={{ delay: 1 }}
             className="text-center mb-6"
           >
-            <ChildMascot 
-              mood="celebrating" 
-              size="medium" 
+            <ChildMascot
+              mood="celebrating"
+              size="medium"
               showMessage={true}
-              message={isParentMode 
-                ? "Hasil tes menunjukkan perkembangan yang baik" 
-                : `Selamat! Kamu sudah menyelesaikan semua petualangan dengan hebat!`
+              message={
+                isParentMode
+                  ? 'Hasil tes menunjukkan perkembangan yang baik'
+                  : `Selamat! Kamu sudah menyelesaikan semua petualangan dengan hebat!`
               }
             />
           </motion.div>

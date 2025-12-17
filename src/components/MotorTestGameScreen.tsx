@@ -9,7 +9,12 @@ interface MotorTestGameScreenProps {
   updateTestResults: (testType: string, results: any) => void;
 }
 
-export default function MotorTestGameScreen({ navigateTo, addSticker, childName, updateTestResults }: MotorTestGameScreenProps) {
+export default function MotorTestGameScreen({
+  navigateTo,
+  addSticker,
+  childName,
+  updateTestResults,
+}: MotorTestGameScreenProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(15); // 15 seconds per question
@@ -26,7 +31,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '🏃‍♂️',
       options: ['Menulis', 'Berlari', 'Menggambar', 'Memotong'],
       correct: 1,
-      explanation: 'Berlari menggunakan otot-otot besar tubuh (motorik kasar)'
+      explanation: 'Berlari menggunakan otot-otot besar tubuh (motorik kasar)',
     },
     {
       id: 2,
@@ -34,7 +39,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '⚖️',
       options: ['Berjalan di garis lurus', 'Menulis huruf', 'Melipat kertas', 'Mewarnai'],
       correct: 0,
-      explanation: 'Berjalan di garis lurus melatih keseimbangan tubuh'
+      explanation: 'Berjalan di garis lurus melatih keseimbangan tubuh',
     },
     {
       id: 3,
@@ -42,7 +47,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '✂️',
       options: ['Motorik kasar', 'Motorik halus', 'Keseimbangan', 'Kecepatan'],
       correct: 1,
-      explanation: 'Menggunting memerlukan koordinasi jari-jari (motorik halus)'
+      explanation: 'Menggunting memerlukan koordinasi jari-jari (motorik halus)',
     },
     {
       id: 4,
@@ -50,7 +55,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '👁️',
       options: ['Berlari', 'Menangkap bola', 'Melompat', 'Berteriak'],
       correct: 1,
-      explanation: 'Menangkap bola melatih koordinasi antara mata dan tangan'
+      explanation: 'Menangkap bola melatih koordinasi antara mata dan tangan',
     },
     {
       id: 5,
@@ -58,7 +63,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '🚶‍♂️',
       options: ['Menulis', 'Melompat', 'Mewarnai', 'Menggunting'],
       correct: 1,
-      explanation: 'Melompat adalah gerakan yang memindahkan tubuh dari satu tempat ke tempat lain'
+      explanation: 'Melompat adalah gerakan yang memindahkan tubuh dari satu tempat ke tempat lain',
     },
     {
       id: 6,
@@ -66,7 +71,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '💪',
       options: ['Meremas bola stres', 'Menonton TV', 'Tidur', 'Makan'],
       correct: 0,
-      explanation: 'Meremas bola stres dapat memperkuat otot-otot tangan'
+      explanation: 'Meremas bola stres dapat memperkuat otot-otot tangan',
     },
     {
       id: 7,
@@ -74,7 +79,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '🤸‍♀️',
       options: ['Lari cepat', 'Stretching', 'Angkat beban', 'Berteriak'],
       correct: 1,
-      explanation: 'Stretching atau peregangan melatih fleksibilitas otot'
+      explanation: 'Stretching atau peregangan melatih fleksibilitas otot',
     },
     {
       id: 8,
@@ -82,7 +87,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '✏️',
       options: ['Berlari marathon', 'Menulis dan menggambar', 'Bermain sepakbola', 'Berenang'],
       correct: 1,
-      explanation: 'Menulis dan menggambar memerlukan kontrol otot-otot kecil di jari'
+      explanation: 'Menulis dan menggambar memerlukan kontrol otot-otot kecil di jari',
     },
     {
       id: 9,
@@ -90,7 +95,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '🏃‍♀️',
       options: ['Puzzle', 'Ular tangga', 'Lompat tali', 'Menggambar'],
       correct: 2,
-      explanation: 'Lompat tali melatih kelincahan, koordinasi, dan timing'
+      explanation: 'Lompat tali melatih kelincahan, koordinasi, dan timing',
     },
     {
       id: 10,
@@ -98,8 +103,8 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       image: '❌',
       options: ['Kekuatan', 'Kelincahan', 'Kecerdasan', 'Keseimbangan'],
       correct: 2,
-      explanation: 'Kecerdasan bukan komponen kebugaran jasmani fisik'
-    }
+      explanation: 'Kecerdasan bukan komponen kebugaran jasmani fisik',
+    },
   ];
 
   // Timer countdown
@@ -124,7 +129,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
   const handleAnswer = (selectedIndex: number) => {
     const currentQ = motorQuestions[currentQuestion];
     const correct = selectedIndex === currentQ.correct;
-    
+
     setIsCorrect(correct);
     setShowFeedback(true);
 
@@ -136,7 +141,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
 
     setTimeout(() => {
       setShowFeedback(false);
-      
+
       if (currentQuestion + 1 >= motorQuestions.length || lives <= 1) {
         completeGame();
       } else {
@@ -148,7 +153,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
 
   const completeGame = () => {
     setGamePhase('results');
-    
+
     // Award stickers based on performance
     const percentage = (score / motorQuestions.length) * 100;
     if (percentage >= 80) {
@@ -164,16 +169,19 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
       score: score,
       total: motorQuestions.length,
       percentage: Math.round(percentage),
-      timeSpent: (motorQuestions.length * 15) - (timeLeft), // Approximate time spent
-      livesRemaining: lives
+      timeSpent: motorQuestions.length * 15 - timeLeft, // Approximate time spent
+      livesRemaining: lives,
     });
   };
 
   const getScoreMessage = () => {
     const percentage = (score / motorQuestions.length) * 100;
-    if (percentage >= 80) return { message: '🏆 Luar Biasa! Kamu Motor Master!', color: 'text-yellow-600' };
-    if (percentage >= 60) return { message: '⭐ Bagus Sekali! Kamu Motor Star!', color: 'text-blue-600' };
-    if (percentage >= 40) return { message: '👍 Lumayan! Terus belajar ya!', color: 'text-green-600' };
+    if (percentage >= 80)
+      return { message: '🏆 Luar Biasa! Kamu Motor Master!', color: 'text-yellow-600' };
+    if (percentage >= 60)
+      return { message: '⭐ Bagus Sekali! Kamu Motor Star!', color: 'text-blue-600' };
+    if (percentage >= 40)
+      return { message: '👍 Lumayan! Terus belajar ya!', color: 'text-green-600' };
     return { message: '💪 Semangat! Coba lagi besok!', color: 'text-purple-600' };
   };
 
@@ -186,7 +194,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           className="absolute top-20 left-10 w-20 h-20 bg-white/20 rounded-full"
           animate={{
             scale: [1, 1.2, 1],
-            rotate: [0, 180, 360]
+            rotate: [0, 180, 360],
           }}
           transition={{ duration: 8, repeat: Infinity }}
         />
@@ -194,7 +202,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           className="absolute top-40 right-8 w-16 h-16 bg-yellow-300/30 rounded-full"
           animate={{
             y: [0, -20, 0],
-            x: [0, 10, 0]
+            x: [0, 10, 0],
           }}
           transition={{ duration: 6, repeat: Infinity }}
         />
@@ -202,7 +210,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           className="absolute bottom-32 left-6 w-24 h-24 bg-blue-300/20 rounded-full"
           animate={{
             scale: [1, 1.1, 1],
-            opacity: [0.3, 0.6, 0.3]
+            opacity: [0.3, 0.6, 0.3],
           }}
           transition={{ duration: 4, repeat: Infinity }}
         />
@@ -211,7 +219,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 150, damping: 12 }}
+            transition={{ type: 'spring', stiffness: 150, damping: 12 }}
             className="text-8xl mb-6 relative"
           >
             🏃‍♂️
@@ -219,14 +227,14 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
               className="absolute -top-2 -right-2 text-2xl"
               animate={{
                 rotate: [0, 20, -20, 0],
-                scale: [1, 1.2, 1]
+                scale: [1, 1.2, 1],
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               ⚡
             </motion.div>
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -234,7 +242,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           >
             Motor Challenge!
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -250,23 +258,25 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
             transition={{ delay: 0.4 }}
             className="bg-white/15 backdrop-blur-sm rounded-3xl p-6 mb-8 text-center shadow-xl border border-white/20"
           >
-            <h3 className="font-heading font-bold text-lg mb-4 text-yellow-200">Aturan Permainan:</h3>
+            <h3 className="font-heading font-bold text-lg mb-4 text-yellow-200">
+              Aturan Permainan:
+            </h3>
             <div className="space-y-3 text-sm font-body">
-              <motion.div 
+              <motion.div
                 className="flex items-center justify-center space-x-2 bg-white/10 rounded-2xl p-3"
                 whileHover={{ scale: 1.05 }}
               >
                 <Timer className="w-5 h-5 text-blue-300" />
                 <span>15 detik per pertanyaan</span>
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="flex items-center justify-center space-x-2 bg-white/10 rounded-2xl p-3"
                 whileHover={{ scale: 1.05 }}
               >
                 <Heart className="w-5 h-5 text-red-300" />
                 <span>3 nyawa (salah 3x = game over)</span>
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="flex items-center justify-center space-x-2 bg-white/10 rounded-2xl p-3"
                 whileHover={{ scale: 1.05 }}
               >
@@ -282,7 +292,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
             transition={{ delay: 0.6 }}
             onClick={startGame}
             className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-3xl font-heading font-bold text-lg shadow-2xl border-2 border-white/30"
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
+            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
             whileTap={{ scale: 0.95 }}
           >
             🚀 Mulai Permainan!
@@ -307,7 +317,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
   if (gamePhase === 'results') {
     const { message, color } = getScoreMessage();
     const percentage = (score / motorQuestions.length) * 100;
-    
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 relative overflow-hidden">
         {/* Celebration particles */}
@@ -316,7 +326,14 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
             key={`particle-${i}`}
             className="absolute w-3 h-3 rounded-full"
             style={{
-              background: i % 4 === 0 ? '#F59E0B' : i % 4 === 1 ? '#EF4444' : i % 4 === 2 ? '#8B5CF6' : '#10B981',
+              background:
+                i % 4 === 0
+                  ? '#F59E0B'
+                  : i % 4 === 1
+                  ? '#EF4444'
+                  : i % 4 === 2
+                  ? '#8B5CF6'
+                  : '#10B981',
               left: `${10 + i * 7}%`,
               top: `${20 + i * 5}%`,
             }}
@@ -324,7 +341,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
               y: [-20, -60, -20],
               x: [0, Math.sin(i) * 20, 0],
               rotate: [0, 360, 720],
-              scale: [0.5, 1.2, 0.5]
+              scale: [0.5, 1.2, 0.5],
             }}
             transition={{
               duration: 3 + i * 0.2,
@@ -338,7 +355,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 120, delay: 0.2 }}
+            transition={{ type: 'spring', stiffness: 120, delay: 0.2 }}
             className="text-8xl mb-6 relative"
           >
             🏆
@@ -346,14 +363,14 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
               className="absolute -top-4 -right-4 text-3xl"
               animate={{
                 rotate: [0, 15, -15, 0],
-                scale: [1, 1.3, 1]
+                scale: [1, 1.3, 1],
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               ✨
             </motion.div>
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -361,58 +378,67 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           >
             Permainan Selesai!
           </motion.h1>
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
+            transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
             className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl text-center mb-6 border border-white/20"
           >
-            <motion.div 
+            <motion.div
               className="text-6xl font-heading font-bold mb-2"
-              style={{ 
-                background: percentage >= 80 ? 'linear-gradient(45deg, #F59E0B, #EAB308)' : 
-                           percentage >= 60 ? 'linear-gradient(45deg, #3B82F6, #1D4ED8)' : 
-                           'linear-gradient(45deg, #10B981, #059669)',
+              style={{
+                background:
+                  percentage >= 80
+                    ? 'linear-gradient(45deg, #F59E0B, #EAB308)'
+                    : percentage >= 60
+                    ? 'linear-gradient(45deg, #3B82F6, #1D4ED8)'
+                    : 'linear-gradient(45deg, #10B981, #059669)',
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                WebkitTextFillColor: 'transparent',
               }}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.5, type: "spring", stiffness: 150 }}
+              transition={{ delay: 0.5, type: 'spring', stiffness: 150 }}
             >
               {score}/{motorQuestions.length}
             </motion.div>
             <div className="text-lg font-body text-gray-600 mb-4">
               Skor: {percentage.toFixed(0)}%
             </div>
-            <motion.div 
+            <motion.div
               className={`text-xl font-heading font-bold mb-4`}
-              style={{ color: percentage >= 80 ? '#F59E0B' : percentage >= 60 ? '#3B82F6' : '#10B981' }}
+              style={{
+                color: percentage >= 80 ? '#F59E0B' : percentage >= 60 ? '#3B82F6' : '#10B981',
+              }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
               {message}
             </motion.div>
-            
+
             {/* Animated Progress Bar */}
             <div className="w-full bg-gray-200 rounded-full h-6 mb-4 overflow-hidden shadow-inner">
               <motion.div
                 className="h-6 rounded-full relative"
                 style={{
-                  background: percentage >= 80 ? 'linear-gradient(90deg, #F59E0B, #EAB308)' : 
-                             percentage >= 60 ? 'linear-gradient(90deg, #3B82F6, #1D4ED8)' : 
-                             'linear-gradient(90deg, #10B981, #059669)'
+                  background:
+                    percentage >= 80
+                      ? 'linear-gradient(90deg, #F59E0B, #EAB308)'
+                      : percentage >= 60
+                      ? 'linear-gradient(90deg, #3B82F6, #1D4ED8)'
+                      : 'linear-gradient(90deg, #10B981, #059669)',
                 }}
                 initial={{ width: 0 }}
                 animate={{ width: `${percentage}%` }}
-                transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
+                transition={{ duration: 1.5, delay: 0.8, ease: 'easeOut' }}
               >
                 <motion.div
                   className="absolute inset-0 rounded-full"
                   style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)'
+                    background:
+                      'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
                   }}
                   animate={{ x: ['-100%', '100%'] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 2 }}
@@ -471,7 +497,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
         className="absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full"
         animate={{
           scale: [1, 1.2, 1],
-          rotate: [0, 180, 360]
+          rotate: [0, 180, 360],
         }}
         transition={{ duration: 10, repeat: Infinity }}
       />
@@ -479,7 +505,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
         className="absolute bottom-20 left-8 w-24 h-24 bg-yellow-300/20 rounded-full"
         animate={{
           y: [0, -20, 0],
-          x: [0, 15, 0]
+          x: [0, 15, 0],
         }}
         transition={{ duration: 8, repeat: Infinity }}
       />
@@ -495,8 +521,8 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           >
             <ArrowLeft className="w-6 h-6 text-white" />
           </motion.button>
-          
-          <motion.div 
+
+          <motion.div
             className="text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -508,7 +534,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
               Soal {currentQuestion + 1} dari {motorQuestions.length}
             </div>
           </motion.div>
-          
+
           <div className="flex items-center space-x-1 bg-white/10 rounded-2xl p-2 backdrop-blur-sm">
             {Array.from({ length: 3 }, (_, i) => (
               <motion.div
@@ -519,7 +545,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
                 animate={i < lives ? { scale: [1, 1.2, 1] } : {}}
                 transition={{ duration: 1, repeat: Infinity }}
               >
-                <Heart className="w-5 h-5" fill={i < lives ? "currentColor" : "none"} />
+                <Heart className="w-5 h-5" fill={i < lives ? 'currentColor' : 'none'} />
               </motion.div>
             ))}
           </div>
@@ -529,13 +555,13 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Timer className="w-4 h-4 text-white" />
-            <span className={`text-white font-heading font-bold ${timeLeft <= 5 ? 'text-red-300' : ''}`}>
+            <span
+              className={`text-white font-heading font-bold ${timeLeft <= 5 ? 'text-red-300' : ''}`}
+            >
               {timeLeft}s
             </span>
           </div>
-          <div className="text-white font-heading font-bold">
-            Skor: {score}
-          </div>
+          <div className="text-white font-heading font-bold">Skor: {score}</div>
         </div>
 
         {/* Progress Bar */}
@@ -568,8 +594,7 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
           <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
             <motion.div
               className={`h-2 rounded-full ${
-                timeLeft > 10 ? 'bg-green-500' : 
-                timeLeft > 5 ? 'bg-yellow-500' : 'bg-red-500'
+                timeLeft > 10 ? 'bg-green-500' : timeLeft > 5 ? 'bg-yellow-500' : 'bg-red-500'
               }`}
               initial={{ width: '100%' }}
               animate={{ width: `${(timeLeft / 15) * 100}%` }}
@@ -598,11 +623,13 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
                 disabled={showFeedback}
               >
                 <div className="flex items-center space-x-3">
-                  <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-bold ${
-                    showFeedback && index === currentQ.correct
-                      ? 'border-green-500 bg-green-500 text-white'
-                      : 'border-gray-400 text-gray-600'
-                  }`}>
+                  <div
+                    className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-bold ${
+                      showFeedback && index === currentQ.correct
+                        ? 'border-green-500 bg-green-500 text-white'
+                        : 'border-gray-400 text-gray-600'
+                    }`}
+                  >
                     {showFeedback && index === currentQ.correct ? (
                       <CheckCircle className="w-5 h-5" />
                     ) : (
@@ -622,20 +649,14 @@ export default function MotorTestGameScreen({ navigateTo, addSticker, childName,
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className={`rounded-2xl p-6 text-center ${
-              isCorrect
-                ? 'bg-green-100 text-green-800'
-                : 'bg-red-100 text-red-800'
+              isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
             }`}
           >
-            <div className="text-4xl mb-3">
-              {isCorrect ? '🎉' : '😅'}
-            </div>
+            <div className="text-4xl mb-3">{isCorrect ? '🎉' : '😅'}</div>
             <div className="font-heading font-bold text-lg mb-2">
               {isCorrect ? 'Benar!' : 'Kurang Tepat!'}
             </div>
-            <div className="font-body text-sm leading-relaxed">
-              {currentQ.explanation}
-            </div>
+            <div className="font-body text-sm leading-relaxed">{currentQ.explanation}</div>
           </motion.div>
         )}
       </div>

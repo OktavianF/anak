@@ -21,8 +21,8 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
         { id: 'art', label: 'Menggambar', emoji: '🎨', category: 'creative' },
         { id: 'sport', label: 'Olahraga', emoji: '⚽', category: 'physical' },
         { id: 'music', label: 'Musik', emoji: '🎵', category: 'creative' },
-        { id: 'reading', label: 'Membaca', emoji: '📚', category: 'academic' }
-      ]
+        { id: 'reading', label: 'Membaca', emoji: '📚', category: 'academic' },
+      ],
     },
     {
       id: 'color',
@@ -32,8 +32,8 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
         { id: 'red', label: 'Merah', emoji: '🔴', category: 'energetic' },
         { id: 'blue', label: 'Biru', emoji: '🔵', category: 'calm' },
         { id: 'yellow', label: 'Kuning', emoji: '🟡', category: 'cheerful' },
-        { id: 'green', label: 'Hijau', emoji: '🟢', category: 'nature' }
-      ]
+        { id: 'green', label: 'Hijau', emoji: '🟢', category: 'nature' },
+      ],
     },
     {
       id: 'hobby',
@@ -43,8 +43,8 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
         { id: 'dance', label: 'Menari', emoji: '💃', category: 'creative' },
         { id: 'science', label: 'Sains', emoji: '🔬', category: 'academic' },
         { id: 'cooking', label: 'Memasak', emoji: '👩‍🍳', category: 'practical' },
-        { id: 'games', label: 'Bermain', emoji: '🎮', category: 'entertainment' }
-      ]
+        { id: 'games', label: 'Bermain', emoji: '🎮', category: 'entertainment' },
+      ],
     },
     {
       id: 'future',
@@ -54,14 +54,14 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
         { id: 'artist', label: 'Seniman', emoji: '🎨', category: 'creative' },
         { id: 'doctor', label: 'Dokter', emoji: '👩‍⚕️', category: 'academic' },
         { id: 'athlete', label: 'Atlet', emoji: '🏃‍♀️', category: 'physical' },
-        { id: 'teacher', label: 'Guru', emoji: '👩‍🏫', category: 'social' }
-      ]
-    }
+        { id: 'teacher', label: 'Guru', emoji: '👩‍🏫', category: 'social' },
+      ],
+    },
   ];
 
   const handleAnswer = (questionId: string, answer: any) => {
     setAnswers({ ...answers, [questionId]: answer });
-    
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -76,7 +76,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
       physical: 0,
       social: 0,
       practical: 0,
-      entertainment: 0
+      entertainment: 0,
     };
 
     Object.values(answers).forEach((answer: any) => {
@@ -100,7 +100,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
       physical: 0,
       social: 0,
       practical: 0,
-      entertainment: 0
+      entertainment: 0,
     };
 
     Object.values(answers).forEach((answer: any) => {
@@ -115,7 +115,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
     });
 
     return Object.entries(categories)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 3)
       .map(([category, score]) => ({
         category,
@@ -126,7 +126,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
           physical: 'Fisik',
           social: 'Sosial',
           practical: 'Praktis',
-          entertainment: 'Hiburan'
+          entertainment: 'Hiburan',
         }[category],
         emoji: {
           creative: '🎨',
@@ -134,7 +134,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
           physical: '⚽',
           social: '👥',
           practical: '🔧',
-          entertainment: '🎮'
+          entertainment: '🎮',
         }[category],
         color: {
           creative: 'bg-pink-400',
@@ -142,8 +142,8 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
           physical: 'bg-green-400',
           social: 'bg-purple-400',
           practical: 'bg-orange-400',
-          entertainment: 'bg-yellow-400'
-        }[category]
+          entertainment: 'bg-yellow-400',
+        }[category],
       }));
   };
 
@@ -156,7 +156,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
 
     const currentOrder = answers['hobby'] || [...questions[2].options];
     const draggedIndex = currentOrder.findIndex((item: any) => item.id === draggedItem);
-    
+
     if (draggedIndex === -1) return;
 
     const newOrder = [...currentOrder];
@@ -169,7 +169,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
 
   if (showResults) {
     const topInterests = getTopInterests();
-    
+
     return (
       <div className="h-screen bg-gradient-to-br from-purple-200 to-pink-200 flex flex-col">
         <div className="flex items-center p-6 bg-white rounded-b-3xl shadow-lg">
@@ -222,14 +222,16 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
                       <motion.div
                         className={`${interest.color} h-4 rounded-full`}
                         initial={{ width: 0 }}
-                        animate={{ width: `${(interest.score / Math.max(...topInterests.map(i => i.score))) * 100}%` }}
+                        animate={{
+                          width: `${
+                            (interest.score / Math.max(...topInterests.map((i) => i.score))) * 100
+                          }%`,
+                        }}
                         transition={{ duration: 1, delay: index * 0.3 }}
                       />
                     </div>
                   </div>
-                  <div className="text-gray-600 font-heading font-bold text-xl">
-                    #{index + 1}
-                  </div>
+                  <div className="text-gray-600 font-heading font-bold text-xl">#{index + 1}</div>
                 </div>
               </motion.div>
             ))}
@@ -244,25 +246,17 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
           >
             <div className="flex items-center space-x-3 mb-4">
               <Star size={32} />
-              <h3 className="text-white font-heading font-bold text-lg">
-                Rekomendasi Aktivitas
-              </h3>
+              <h3 className="text-white font-heading font-bold text-lg">Rekomendasi Aktivitas</h3>
             </div>
             <div className="space-y-2">
               {topInterests[0]?.category === 'creative' && (
-                <p className="text-white font-body text-sm">
-                  • Ikut kelas seni atau musik
-                </p>
+                <p className="text-white font-body text-sm">• Ikut kelas seni atau musik</p>
               )}
               {topInterests[0]?.category === 'academic' && (
-                <p className="text-white font-body text-sm">
-                  • Bergabung dengan klub sains
-                </p>
+                <p className="text-white font-body text-sm">• Bergabung dengan klub sains</p>
               )}
               {topInterests[0]?.category === 'physical' && (
-                <p className="text-white font-body text-sm">
-                  • Coba berbagai jenis olahraga
-                </p>
+                <p className="text-white font-body text-sm">• Coba berbagai jenis olahraga</p>
               )}
               <p className="text-white font-body text-sm">
                 • Eksplorasi lebih banyak aktivitas sesuai minat
@@ -288,10 +282,10 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
           <ArrowLeft className="text-indigo-600" size={24} />
         </motion.button>
         <div className="flex-1 text-center">
-          <h1 className="text-gray-900 font-heading font-bold text-xl">
-            Tes Bakat & Minat
-          </h1>
-          <p className="text-indigo-600 font-body text-sm">Pertanyaan {currentQuestion + 1} dari {questions.length}</p>
+          <h1 className="text-gray-900 font-heading font-bold text-xl">Tes Bakat & Minat</h1>
+          <p className="text-indigo-600 font-body text-sm">
+            Pertanyaan {currentQuestion + 1} dari {questions.length}
+          </p>
         </div>
         <div className="flex space-x-1">
           {questions.map((_, i) => (
@@ -313,10 +307,8 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-3xl p-8 shadow-xl text-center mb-8"
         >
-          <h2 className="text-gray-900 font-heading font-bold text-xl mb-6">
-            {currentQ.question}
-          </h2>
-          
+          <h2 className="text-gray-900 font-heading font-bold text-xl mb-6">{currentQ.question}</h2>
+
           {currentQ.type === 'choice' && (
             <div className="grid grid-cols-2 gap-4">
               {currentQ.options.map((option, index) => (
@@ -328,9 +320,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
                   whileTap={{ scale: 0.95 }}
                 >
                   <div className="text-4xl mb-2">{option.emoji}</div>
-                  <p className="text-indigo-800 font-heading font-semibold">
-                    {option.label}
-                  </p>
+                  <p className="text-indigo-800 font-heading font-semibold">{option.label}</p>
                 </motion.button>
               ))}
             </div>
@@ -354,9 +344,7 @@ export default function InterestTalentTestScreen({ navigateTo }: InterestTalentT
                   <div className="text-indigo-800 font-heading font-bold text-lg">{index + 1}</div>
                   <div className="text-3xl">{item.emoji}</div>
                   <div className="flex-1 text-left">
-                    <p className="text-indigo-800 font-heading font-semibold">
-                      {item.label}
-                    </p>
+                    <p className="text-indigo-800 font-heading font-semibold">{item.label}</p>
                   </div>
                   <div className="text-indigo-400">≡</div>
                 </motion.div>

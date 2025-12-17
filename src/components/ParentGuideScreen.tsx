@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, BookOpen, Video, FileText, Download, Play, Clock, Star, Library, Brain, MessageCircle, GraduationCap, Heart, Sprout, Palette, ClipboardList, Timer } from 'lucide-react';
+import {
+  ArrowLeft,
+  BookOpen,
+  Video,
+  FileText,
+  Download,
+  Play,
+  Clock,
+  Star,
+  Library,
+  Brain,
+  MessageCircle,
+  GraduationCap,
+  Heart,
+  Sprout,
+  Palette,
+  ClipboardList,
+  Timer,
+} from 'lucide-react';
 
 interface ParentGuideScreenProps {
   navigateTo: (screen: string) => void;
@@ -14,38 +32,41 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
     {
       id: 1,
       title: 'Panduan Lengkap Tes Kognitif Anak',
-      description: 'Memahami cara menginterpretasi hasil tes kognitif dan langkah tindak lanjut yang tepat.',
+      description:
+        'Memahami cara menginterpretasi hasil tes kognitif dan langkah tindak lanjut yang tepat.',
       category: 'cognitive',
       type: 'pdf',
       duration: '15 menit',
       rating: 4.8,
       IconComponent: Brain,
       color: 'bg-blue-100',
-      textColor: 'text-blue-600'
+      textColor: 'text-blue-600',
     },
     {
       id: 2,
       title: 'Stimulasi Perkembangan Bahasa di Rumah',
-      description: 'Teknik-teknik sederhana untuk meningkatkan kemampuan berbahasa anak sehari-hari.',
+      description:
+        'Teknik-teknik sederhana untuk meningkatkan kemampuan berbahasa anak sehari-hari.',
       category: 'language',
       type: 'video',
       duration: '12 menit',
       rating: 4.9,
       IconComponent: BookOpen,
       color: 'bg-green-100',
-      textColor: 'text-green-600'
+      textColor: 'text-green-600',
     },
     {
       id: 3,
       title: 'Mengenali Gaya Belajar Anak Anda',
-      description: 'Identifikasi apakah anak Anda visual, auditori, atau kinestetik untuk pembelajaran optimal.',
+      description:
+        'Identifikasi apakah anak Anda visual, auditori, atau kinestetik untuk pembelajaran optimal.',
       category: 'learning',
       type: 'article',
       duration: '8 menit',
       rating: 4.7,
       IconComponent: Palette,
       color: 'bg-purple-100',
-      textColor: 'text-purple-600'
+      textColor: 'text-purple-600',
     },
     {
       id: 4,
@@ -57,7 +78,7 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
       rating: 4.6,
       IconComponent: Heart,
       color: 'bg-red-100',
-      textColor: 'text-red-600'
+      textColor: 'text-red-600',
     },
     {
       id: 5,
@@ -69,7 +90,7 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
       rating: 4.9,
       IconComponent: ClipboardList,
       color: 'bg-orange-100',
-      textColor: 'text-orange-600'
+      textColor: 'text-orange-600',
     },
     {
       id: 6,
@@ -81,8 +102,8 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
       rating: 4.8,
       IconComponent: Timer,
       color: 'bg-yellow-100',
-      textColor: 'text-yellow-600'
-    }
+      textColor: 'text-yellow-600',
+    },
   ];
 
   const categories = [
@@ -91,19 +112,22 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
     { id: 'language', label: 'Bahasa', IconComponent: MessageCircle },
     { id: 'learning', label: 'Belajar', IconComponent: GraduationCap },
     { id: 'emotion', label: 'Emosi', IconComponent: Heart },
-    { id: 'development', label: 'Perkembangan', IconComponent: Sprout }
+    { id: 'development', label: 'Perkembangan', IconComponent: Sprout },
   ];
 
-  const filteredGuides = activeCategory === 'all' 
-    ? guides 
-    : guides.filter(guide => guide.category === activeCategory);
+  const filteredGuides =
+    activeCategory === 'all' ? guides : guides.filter((guide) => guide.category === activeCategory);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'video': return Video;
-      case 'pdf': return FileText;
-      case 'article': return BookOpen;
-      default: return BookOpen;
+      case 'video':
+        return Video;
+      case 'pdf':
+        return FileText;
+      case 'article':
+        return BookOpen;
+      default:
+        return BookOpen;
     }
   };
 
@@ -157,7 +181,9 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
                 whileTap={{ scale: 0.95 }}
               >
                 <div className="flex items-center space-x-2">
-                  {category.IconComponent && <category.IconComponent className="w-4 h-4" strokeWidth={2} />}
+                  {category.IconComponent && (
+                    <category.IconComponent className="w-4 h-4" strokeWidth={2} />
+                  )}
                   <span>{category.label}</span>
                 </div>
               </motion.button>
@@ -169,7 +195,7 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
         <div className="space-y-4">
           {filteredGuides.map((guide, index) => {
             const TypeIcon = getTypeIcon(guide.type);
-            
+
             return (
               <motion.div
                 key={guide.id}
@@ -179,10 +205,12 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
                 className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100"
               >
                 <div className="flex space-x-4">
-                  <div className={`w-16 h-16 ${guide.color} rounded-2xl flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    className={`w-16 h-16 ${guide.color} rounded-2xl flex items-center justify-center flex-shrink-0`}
+                  >
                     <guide.IconComponent className={`w-8 h-8 ${guide.textColor}`} strokeWidth={2} />
                   </div>
-                  
+
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">
                       <h3 className="text-gray-900 font-heading font-bold text-base leading-tight">
@@ -195,11 +223,11 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
                         </span>
                       </div>
                     </div>
-                    
+
                     <p className="text-gray-600 font-body text-sm leading-relaxed mb-3">
                       {guide.description}
                     </p>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-1">
@@ -210,12 +238,10 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
                         </div>
                         <div className="flex items-center space-x-1">
                           <Clock className="w-4 h-4 text-gray-400" />
-                          <span className="text-xs font-body text-gray-500">
-                            {guide.duration}
-                          </span>
+                          <span className="text-xs font-body text-gray-500">{guide.duration}</span>
                         </div>
                       </div>
-                      
+
                       <motion.button
                         className={`px-4 py-2 rounded-xl text-sm font-body font-semibold ${guide.textColor} ${guide.color} hover:opacity-80`}
                         whileHover={{ scale: 1.05 }}
@@ -227,9 +253,7 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
                           ) : (
                             <Download className="w-4 h-4" />
                           )}
-                          <span>
-                            {guide.type === 'video' ? 'Tonton' : 'Baca'}
-                          </span>
+                          <span>{guide.type === 'video' ? 'Tonton' : 'Baca'}</span>
                         </div>
                       </motion.button>
                     </div>
@@ -249,8 +273,8 @@ export default function ParentGuideScreen({ navigateTo, childName }: ParentGuide
         >
           <h3 className="font-heading font-bold text-lg mb-3">💡 Tips Hari Ini</h3>
           <p className="font-body text-green-100 text-sm leading-relaxed">
-            "Berikan pujian spesifik saat anak berhasil menyelesaikan tugas. 
-            Alih-alih 'Bagus!', coba katakan 'Kamu berhasil menyelesaikan puzzle dengan sabar dan teliti!'"
+            "Berikan pujian spesifik saat anak berhasil menyelesaikan tugas. Alih-alih 'Bagus!',
+            coba katakan 'Kamu berhasil menyelesaikan puzzle dengan sabar dan teliti!'"
           </p>
         </motion.div>
       </div>

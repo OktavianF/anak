@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { Search, Home, MessageSquare, BarChart3, User, Users, Brain, MessageCircle, Theater, Target, Gamepad2, Calendar, Clock, AlertCircle, Award, Sparkles, Trophy, Play, Star, ChevronRight } from 'lucide-react';
+import {
+  Search,
+  Home,
+  MessageSquare,
+  BarChart3,
+  User,
+  Users,
+  Brain,
+  MessageCircle,
+  Theater,
+  Target,
+  Gamepad2,
+  Calendar,
+  Clock,
+  AlertCircle,
+  Award,
+  Sparkles,
+  Trophy,
+  Play,
+  Star,
+  ChevronRight,
+} from 'lucide-react';
 import { UserRound } from 'lucide-react';
+import type { ChcState } from '../hooks/useChc';
 
 interface HomeScreenProps {
   navigateTo: (screen: string) => void;
   childName: string;
-  isParentMode: boolean;
-  setIsParentMode: (mode: boolean) => void;
-  collectedStickers: string[];
-  profileData: any;
-  chcTestResults: any;
+  isParentMode?: boolean;
+  setIsParentMode?: (mode: boolean) => void;
+  collectedStickers?: string[];
+  profileData?: {
+    avatar?: string;
+    backgroundColor?: string;
+    favoriteColor?: string;
+    badges?: string[];
+  };
+  chcTestResults?: ChcState;
   switchToChildMode?: () => void;
 }
 
-export default function HomeScreen({ 
-  navigateTo, 
-  childName, 
-  isParentMode, 
-  setIsParentMode,
-  collectedStickers,
-  profileData,
-  chcTestResults,
-  switchToChildMode
-}: HomeScreenProps) {
-
-
-
+export default function HomeScreen(props: HomeScreenProps) {
+  const { navigateTo, childName, chcTestResults, switchToChildMode } = props;
   // Generate dynamic test data based on actual results
   const getTestDisplayData = () => {
     const tests = [
@@ -36,7 +52,7 @@ export default function HomeScreen({
         IconComponent: Brain,
         bgColor: 'bg-blue-50',
         progressColor: 'bg-blue-500',
-        testKey: 'cognitive'
+        testKey: 'cognitive',
       },
       {
         id: 'linguistic',
@@ -44,7 +60,7 @@ export default function HomeScreen({
         IconComponent: MessageSquare,
         bgColor: 'bg-orange-50',
         progressColor: 'bg-orange-500',
-        testKey: 'linguistic'
+        testKey: 'linguistic',
       },
       {
         id: 'personality',
@@ -52,7 +68,7 @@ export default function HomeScreen({
         IconComponent: Theater,
         bgColor: 'bg-purple-50',
         progressColor: 'bg-purple-500',
-        testKey: 'personality'
+        testKey: 'personality',
       },
       {
         id: 'motor',
@@ -60,51 +76,52 @@ export default function HomeScreen({
         IconComponent: Target,
         bgColor: 'bg-green-50',
         progressColor: 'bg-green-500',
-        testKey: 'motor'
-      }
+        testKey: 'motor',
+      },
     ];
 
-    return tests.map(test => {
-      const testResult = chcTestResults[test.testKey];
-      
-      if (test.testKey === 'personality') {
-        // Special handling for personality test
-        return {
-          ...test,
-          score: testResult && testResult.completed ? 'Selesai' : 'Belum',
-          total: testResult && testResult.completed ? testResult.animal || 'Selesai' : 'Mulai',
-          progress: testResult && testResult.completed ? 100 : 0
-        };
-      } else {
-        // Handle CHC tests - map old keys to new CHC structure
-        let chcTestResult = null;
-        if (test.testKey === 'cognitive') {
-          chcTestResult = chcTestResults.fluidReasoning;
-        } else if (test.testKey === 'linguistic') {
-          chcTestResult = chcTestResults.comprehensionKnowledge;
-        } else if (test.testKey === 'motor') {
-          chcTestResult = chcTestResults.workingMemory; // Map motor to working memory for now
+    return tests
+      .map((test) => {
+        if (test.testKey === 'personality') {
+          // Special handling for personality test
+          const p = chcTestResults?.personality as unknown as { completed?: boolean; animal?: string } | undefined;
+          return {
+            ...test,
+            score: p && p.completed ? 'Selesai' : 'Belum',
+            total: p && p.completed ? p.animal || 'Selesai' : 'Mulai',
+            progress: p && p.completed ? 100 : 0,
+          };
+        } else {
+          // Handle CHC tests - map old keys to new CHC structure
+          let chcTestResult = null;
+          if (test.testKey === 'cognitive') {
+            chcTestResult = chcTestResults?.fluidReasoning ?? null;
+          } else if (test.testKey === 'linguistic') {
+            chcTestResult = chcTestResults?.comprehensionKnowledge ?? null;
+          } else if (test.testKey === 'motor') {
+            chcTestResult = chcTestResults?.workingMemory ?? null; // Map motor to working memory for now
+          }
+
+          return {
+            ...test,
+            score: chcTestResult && chcTestResult.completed ? chcTestResult.score : 0,
+            total: chcTestResult ? chcTestResult.total : 10,
+            progress: chcTestResult && chcTestResult.completed ? chcTestResult.percentage : 0,
+          };
         }
-        
-        return {
-          ...test,
-          score: chcTestResult && chcTestResult.completed ? chcTestResult.score : 0,
-          total: chcTestResult ? chcTestResult.total : 10,
-          progress: chcTestResult && chcTestResult.completed ? chcTestResult.percentage : 0
-        };
-      }
-    }).filter(test => {
-      if (test.testKey === 'personality') {
-        return chcTestResults.personality && chcTestResults.personality.completed;
-      } else if (test.testKey === 'cognitive') {
-        return chcTestResults.fluidReasoning && chcTestResults.fluidReasoning.completed;
-      } else if (test.testKey === 'linguistic') {
-        return chcTestResults.comprehensionKnowledge && chcTestResults.comprehensionKnowledge.completed;
-      } else if (test.testKey === 'motor') {
-        return chcTestResults.workingMemory && chcTestResults.workingMemory.completed;
-      }
-      return false;
-    }); // Only show completed tests
+      })
+      .filter((test) => {
+        if (test.testKey === 'personality') {
+          return Boolean(chcTestResults?.personality?.completed);
+        } else if (test.testKey === 'cognitive') {
+          return Boolean(chcTestResults?.fluidReasoning?.completed);
+        } else if (test.testKey === 'linguistic') {
+          return Boolean(chcTestResults?.comprehensionKnowledge?.completed);
+        } else if (test.testKey === 'motor') {
+          return Boolean(chcTestResults?.workingMemory?.completed);
+        }
+        return false;
+      }); // Only show completed tests
   };
 
   const recentTests = getTestDisplayData();
@@ -142,7 +159,7 @@ export default function HomeScreen({
             <div className="absolute bottom-2 left-4 text-white text-xl">🌟</div>
             <div className="absolute top-1/2 left-8 text-white text-lg">🎯</div>
           </div>
-          
+
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -155,9 +172,11 @@ export default function HomeScreen({
                 <Gamepad2 className="w-8 h-8 text-white" />
               </div>
             </div>
-            
+
             <motion.button
-              onClick={() => switchToChildMode ? switchToChildMode() : navigateTo('child-assessment')}
+              onClick={() =>
+                switchToChildMode ? switchToChildMode() : navigateTo('child-assessment')
+              }
               className="w-full bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-bold py-4 px-6 rounded-2xl shadow-lg border border-white/30 flex items-center justify-center space-x-3 transition-all"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
@@ -180,7 +199,7 @@ export default function HomeScreen({
             <h3 className="text-slate-800 font-heading text-lg">Jadwal & Pengingat Penting</h3>
             <Calendar className="w-5 h-5 text-slate-500" />
           </div>
-          
+
           <div className="space-y-3">
             {/* Consultation Reminder */}
             <motion.div
@@ -214,7 +233,9 @@ export default function HomeScreen({
                 </div>
                 <div className="flex-1">
                   <h4 className="text-amber-800 font-medium text-sm">Pengingat Assessment</h4>
-                  <p className="text-amber-600 text-xs mt-1">{childName} belum melakukan tes hari ini</p>
+                  <p className="text-amber-600 text-xs mt-1">
+                    {childName} belum melakukan tes hari ini
+                  </p>
                 </div>
                 <ChevronRight className="w-4 h-4 text-amber-400" />
               </div>
@@ -234,13 +255,11 @@ export default function HomeScreen({
               <Award className="w-5 h-5 text-emerald-600" strokeWidth={2} />
             </div>
             <div>
-              <h3 className="text-slate-800 font-heading text-lg">
-                Rekomendasi Berbasis CHC
-              </h3>
+              <h3 className="text-slate-800 font-heading text-lg">Rekomendasi Berbasis CHC</h3>
               <p className="text-slate-500 text-sm">Berdasarkan teori Cattell-Horn-Carroll</p>
             </div>
           </div>
-          
+
           {/* Cognitive Profile Summary */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50">
@@ -249,7 +268,8 @@ export default function HomeScreen({
                 <span className="text-emerald-800 font-medium text-sm">Kekuatan Kognitif</span>
               </div>
               <p className="text-slate-700 text-xs">
-                Comprehension-Knowledge (Gc) dan Processing Speed (Gs) menunjukkan perkembangan yang baik
+                Comprehension-Knowledge (Gc) dan Processing Speed (Gs) menunjukkan perkembangan yang
+                baik
               </p>
             </div>
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50">
@@ -258,11 +278,12 @@ export default function HomeScreen({
                 <span className="text-amber-800 font-medium text-sm">Area Pengembangan</span>
               </div>
               <p className="text-slate-700 text-xs">
-                Visual Processing (Gv) dan Working Memory (Gsm) dapat ditingkatkan melalui latihan terfokus
+                Visual Processing (Gv) dan Working Memory (Gsm) dapat ditingkatkan melalui latihan
+                terfokus
               </p>
             </div>
           </div>
-          
+
           {/* Scientific Recommendation */}
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-white/50 mb-6">
             <div className="flex items-start space-x-3">
@@ -272,19 +293,21 @@ export default function HomeScreen({
               <div>
                 <h4 className="text-slate-800 font-medium text-sm mb-2">Rekomendasi Ilmiah CHC</h4>
                 <p className="text-slate-700 text-sm leading-relaxed mb-3">
-                  Berdasarkan analisis profil CHC, fokuskan pada strengthening Visual Processing (Gv) melalui aktivitas 
-                  manipulasi spasial dan puzzle 3D. Fluid Reasoning (Gf) dapat dikembangkan dengan problem-solving games yang progressif.
+                  Berdasarkan analisis profil CHC, fokuskan pada strengthening Visual Processing
+                  (Gv) melalui aktivitas manipulasi spasial dan puzzle 3D. Fluid Reasoning (Gf)
+                  dapat dikembangkan dengan problem-solving games yang progressif.
                 </p>
                 <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
                   <p className="text-blue-800 text-xs">
-                    <strong>Validitas Ilmiah:</strong> Rekomendasi ini didasarkan pada teori CHC yang telah divalidasi secara empiris 
-                    untuk asesmen kognitif komprehensif pada anak usia 5-12 tahun.
+                    <strong>Validitas Ilmiah:</strong> Rekomendasi ini didasarkan pada teori CHC
+                    yang telah divalidasi secara empiris untuk asesmen kognitif komprehensif pada
+                    anak usia 5-12 tahun.
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          
+
           {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-3">
             <motion.button
@@ -341,7 +364,9 @@ export default function HomeScreen({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                        {test.IconComponent && <test.IconComponent className="w-6 h-6 text-gray-700" strokeWidth={2} />}
+                        {test.IconComponent && (
+                          <test.IconComponent className="w-6 h-6 text-gray-700" strokeWidth={2} />
+                        )}
                       </div>
                       <div className="flex-1">
                         <h4 className="text-gray-900 font-heading font-semibold text-base">
@@ -349,7 +374,7 @@ export default function HomeScreen({
                         </h4>
                         <div className="flex items-center space-x-2 mt-1">
                           <div className="flex-1 h-2 bg-white rounded-full overflow-hidden">
-                            <div 
+                            <div
                               className={`h-2 ${test.progressColor} rounded-full transition-all duration-500`}
                               style={{ width: `${test.progress}%` }}
                             />
@@ -378,7 +403,7 @@ export default function HomeScreen({
             { icon: MessageSquare, label: 'Consultation', screen: 'consultation' },
             { icon: Users, label: 'Community', screen: 'community' },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
-            { icon: User, label: 'Profile', screen: 'profile' }
+            { icon: User, label: 'Profile', screen: 'profile' },
           ].map((item) => {
             // Determine active tab by comparing with current screen
             const isActive = item.screen === 'home';

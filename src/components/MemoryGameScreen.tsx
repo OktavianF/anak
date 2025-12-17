@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, RotateCcw, Trophy, Star, CheckCircle, Zap, Heart, Sparkles, Crown } from 'lucide-react';
+import {
+  ArrowLeft,
+  RotateCcw,
+  Trophy,
+  Star,
+  CheckCircle,
+  Zap,
+  Heart,
+  Sparkles,
+  Crown,
+} from 'lucide-react';
 
 interface MemoryGameScreenProps {
   navigateTo: (screen: string) => void;
@@ -15,7 +25,11 @@ interface Card {
   isMatched: boolean;
 }
 
-export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAssessment }: MemoryGameScreenProps) {
+export default function MemoryGameScreen({
+  navigateTo,
+  addSticker,
+  updateGameAssessment,
+}: MemoryGameScreenProps) {
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
@@ -67,111 +81,112 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
     }
   }, [gameStarted, difficulty]);
 
-  const handleCardClick = useCallback((cardId: number) => {
-    // Prevent clicking if already 2 cards flipped or card is already matched/flipped
-    if (flippedCards.length === 2) return;
-    if (flippedCards.includes(cardId)) return;
-    
-    const clickedCard = cards.find(card => card.id === cardId);
-    if (!clickedCard || clickedCard.isMatched) return;
+  const handleCardClick = useCallback(
+    (cardId: number) => {
+      // Prevent clicking if already 2 cards flipped or card is already matched/flipped
+      if (flippedCards.length === 2) return;
+      if (flippedCards.includes(cardId)) return;
 
-    const newFlippedCards = [...flippedCards, cardId];
-    setFlippedCards(newFlippedCards);
+      const clickedCard = cards.find((card) => card.id === cardId);
+      if (!clickedCard || clickedCard.isMatched) return;
 
-    // Flip the card
-    setCards(prev => 
-      prev.map(card => 
-        card.id === cardId ? { ...card, isFlipped: true } : card
-      )
-    );
+      const newFlippedCards = [...flippedCards, cardId];
+      setFlippedCards(newFlippedCards);
 
-    // Check for match when 2 cards are flipped
-    if (newFlippedCards.length === 2) {
-      setMoves(prev => prev + 1);
-      
-      const [firstCardId, secondCardId] = newFlippedCards;
-      const firstCard = cards.find(card => card.id === firstCardId);
-      const secondCard = cards.find(card => card.id === secondCardId);
+      // Flip the card
+      setCards((prev) =>
+        prev.map((card) => (card.id === cardId ? { ...card, isFlipped: true } : card))
+      );
 
-      if (firstCard && secondCard && firstCard.emoji === secondCard.emoji) {
-        // Match found! 🎉
-        const currentTime = Date.now();
-        const timeDiff = currentTime - lastMatchTime;
-        
-        // Increase combo if match within 3 seconds
-        if (timeDiff < 3000 && streak > 0) {
-          setComboMultiplier(prev => Math.min(prev + 0.5, 3));
-        } else {
-          setComboMultiplier(1);
-        }
-        setLastMatchTime(currentTime);
-        
-        setShowParticles(true);
-        setTimeout(() => setShowParticles(false), 1000);
-        
-        setStreak(prev => {
-          const newStreak = prev + 1;
-          if (newStreak > bestStreak) {
-            setBestStreak(newStreak);
+      // Check for match when 2 cards are flipped
+      if (newFlippedCards.length === 2) {
+        setMoves((prev) => prev + 1);
+
+        const [firstCardId, secondCardId] = newFlippedCards;
+        const firstCard = cards.find((card) => card.id === firstCardId);
+        const secondCard = cards.find((card) => card.id === secondCardId);
+
+        if (firstCard && secondCard && firstCard.emoji === secondCard.emoji) {
+          // Match found! 🎉
+          const currentTime = Date.now();
+          const timeDiff = currentTime - lastMatchTime;
+
+          // Increase combo if match within 3 seconds
+          if (timeDiff < 3000 && streak > 0) {
+            setComboMultiplier((prev) => Math.min(prev + 0.5, 3));
+          } else {
+            setComboMultiplier(1);
           }
-          return newStreak;
-        });
-        
-        setTimeout(() => {
-          setCards(prev => 
-            prev.map(card => 
-              card.id === firstCardId || card.id === secondCardId 
-                ? { ...card, isMatched: true, isFlipped: true }
-                : card
-            )
-          );
-          setMatchedPairs(prev => prev + 1);
-          setFlippedCards([]);
-        }, 800);
-      } else {
-        // No match - flip cards back with shake effect
-        setStreak(0); // Reset streak on miss
-        setComboMultiplier(1);
-        setErrors(prev => prev + 1); // Count errors for assessment
-        setWrongPair([firstCardId, secondCardId]);
-        
-        setTimeout(() => {
-          setWrongPair([]);
-          setCards(prev => 
-            prev.map(card => 
-              card.id === firstCardId || card.id === secondCardId 
-                ? { ...card, isFlipped: false }
-                : card
-            )
-          );
-          setFlippedCards([]);
-        }, 1200);
+          setLastMatchTime(currentTime);
+
+          setShowParticles(true);
+          setTimeout(() => setShowParticles(false), 1000);
+
+          setStreak((prev) => {
+            const newStreak = prev + 1;
+            if (newStreak > bestStreak) {
+              setBestStreak(newStreak);
+            }
+            return newStreak;
+          });
+
+          setTimeout(() => {
+            setCards((prev) =>
+              prev.map((card) =>
+                card.id === firstCardId || card.id === secondCardId
+                  ? { ...card, isMatched: true, isFlipped: true }
+                  : card
+              )
+            );
+            setMatchedPairs((prev) => prev + 1);
+            setFlippedCards([]);
+          }, 800);
+        } else {
+          // No match - flip cards back with shake effect
+          setStreak(0); // Reset streak on miss
+          setComboMultiplier(1);
+          setErrors((prev) => prev + 1); // Count errors for assessment
+          setWrongPair([firstCardId, secondCardId]);
+
+          setTimeout(() => {
+            setWrongPair([]);
+            setCards((prev) =>
+              prev.map((card) =>
+                card.id === firstCardId || card.id === secondCardId
+                  ? { ...card, isFlipped: false }
+                  : card
+              )
+            );
+            setFlippedCards([]);
+          }, 1200);
+        }
       }
-    }
-  }, [flippedCards, cards, streak, bestStreak, lastMatchTime]);
+    },
+    [flippedCards, cards, streak, bestStreak, lastMatchTime]
+  );
 
   // Timer effect
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isTimerRunning && !gameCompleted) {
       interval = setInterval(() => {
-        setGameTime(prev => prev + 1);
+        setGameTime((prev) => prev + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [isTimerRunning, gameCompleted]);
 
   useEffect(() => {
-  const cardCount = 3; // 3 pairs for easy mode
-  if (matchedPairs === cardCount && matchedPairs > 0 && !gameCompletionHandled) {
+    const cardCount = 3; // 3 pairs for easy mode
+    if (matchedPairs === cardCount && matchedPairs > 0 && !gameCompletionHandled) {
       setIsTimerRunning(false);
       setGameCompleted(true);
       setGameCompletionHandled(true);
-      
+
       // Calculate final score for assessment
       const stars = getStarRating(moves, gameTime);
       const score = calculateScore(stars, gameTime, errors, difficulty);
-      
+
       // Update assessment data
       const sessionData = {
         timeSpent: gameTime,
@@ -181,9 +196,9 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
         moves: moves,
         stars: stars,
         timestamp: new Date().toISOString(),
-        domains: ['Konsentrasi', 'Memori Jangka Pendek']
+        domains: ['Konsentrasi', 'Memori Jangka Pendek'],
       };
-      
+
       updateGameAssessment('memory', sessionData);
       addSticker('memory-master');
     }
@@ -209,7 +224,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
   const getStarRating = (moves: number, timeInSeconds: number) => {
     const timeScore = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 120 : 180;
     const moveScore = difficulty === 'easy' ? 10 : difficulty === 'medium' ? 15 : 20;
-    
+
     // Calculate score based on both time and moves
     if (moves <= moveScore && timeInSeconds <= timeScore) return 3;
     if (moves <= moveScore + 5 && timeInSeconds <= timeScore + 30) return 2;
@@ -222,19 +237,24 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const calculateScore = (stars: number, timeInSeconds: number, errors: number, difficulty: string) => {
+  const calculateScore = (
+    stars: number,
+    timeInSeconds: number,
+    errors: number,
+    difficulty: string
+  ) => {
     const baseScore = stars * 30; // 30, 60, or 90
-    
+
     // Time bonus (faster = better)
     const timeTarget = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 120 : 180;
     const timeBonus = Math.max(0, Math.floor((timeTarget - timeInSeconds) / 10)) * 2;
-    
+
     // Error penalty
     const errorPenalty = errors * 5;
-    
+
     // Difficulty multiplier
     const difficultyMultiplier = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 1.2 : 1.5;
-    
+
     return Math.round(Math.max(10, (baseScore + timeBonus - errorPenalty) * difficultyMultiplier));
   };
 
@@ -257,7 +277,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
     const stars = getStarRating(moves, gameTime);
     const score = calculateScore(stars, gameTime, errors, difficulty);
     const performance = getPerformanceLevel(score);
-    
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-orange-400 flex items-center justify-center overflow-hidden relative">
         {/* Floating celebration elements */}
@@ -266,18 +286,18 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             key={i}
             className="absolute text-2xl"
             initial={{ y: '100vh', x: Math.random() * window.innerWidth, opacity: 0 }}
-            animate={{ 
-              y: '-20vh', 
+            animate={{
+              y: '-20vh',
               x: Math.random() * window.innerWidth,
               opacity: [0, 1],
-              rotate: [0, 360]
+              rotate: [0, 360],
             }}
-            transition={{ 
+            transition={{
               duration: 3 + Math.random() * 2,
               delay: i * 0.2,
               repeat: Infinity,
               repeatType: 'reverse',
-              repeatDelay: 3
+              repeatDelay: 3,
             }}
           >
             {['🎉', '🎊', '⭐', '✨', '🌟', '💫', '🎈', '🏆'][i % 8]}
@@ -287,14 +307,14 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="bg-white rounded-3xl p-8 text-center max-w-sm mx-4 shadow-2xl relative z-10"
         >
           <motion.div
-            animate={{ 
-              scale: [1, 1.2], 
+            animate={{
+              scale: [1, 1.2],
               rotate: [0, 10],
-              y: [0, -10]
+              y: [0, -10],
             }}
             transition={{ duration: 0.8, repeat: 3, repeatType: 'reverse' }}
             className="text-8xl mb-4 relative"
@@ -306,7 +326,20 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                 key={i}
                 className="absolute w-3 h-3 rounded-full"
                 style={{
-                  backgroundColor: ['#FFD700', '#FF69B4', '#00CED1', '#32CD32', '#FF6347', '#9370DB', '#FFA500', '#DC143C', '#FF1493', '#00FF00', '#FF8C00', '#4169E1'][i],
+                  backgroundColor: [
+                    '#FFD700',
+                    '#FF69B4',
+                    '#00CED1',
+                    '#32CD32',
+                    '#FF6347',
+                    '#9370DB',
+                    '#FFA500',
+                    '#DC143C',
+                    '#FF1493',
+                    '#00FF00',
+                    '#FF8C00',
+                    '#4169E1',
+                  ][i],
                   left: `${10 + i * 8}%`,
                   top: `${20 + (i % 3) * 15}%`,
                 }}
@@ -315,19 +348,19 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   x: [0, (i - 6) * 25, 0],
                   rotate: [0, 720],
                   scale: [1, 2, 0],
-                  opacity: [1, 1, 0]
+                  opacity: [1, 1, 0],
                 }}
                 transition={{
                   duration: 2.5,
                   delay: i * 0.1,
                   repeat: Infinity,
-                  repeatDelay: 1
+                  repeatDelay: 1,
                 }}
               />
             ))}
           </motion.div>
 
-          <motion.h2 
+          <motion.h2
             className="text-gray-900 font-heading font-bold text-2xl mb-2"
             animate={{ scale: [1, 1.05] }}
             transition={{ duration: 1, repeat: Infinity, repeatType: 'reverse' }}
@@ -340,26 +373,28 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
 
           {/* Stars with animation */}
           <div className="flex justify-center space-x-2 mb-4">
-            {[1, 2, 3].map(star => (
+            {[1, 2, 3].map((star) => (
               <motion.div
                 key={star}
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{ 
-                  delay: 0.5 + star * 0.2, 
-                  type: "spring", 
-                  stiffness: 200 
+                transition={{
+                  delay: 0.5 + star * 0.2,
+                  type: 'spring',
+                  stiffness: 200,
                 }}
               >
-                <Star 
-                  className={`w-10 h-10 ${star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'}`}
+                <Star
+                  className={`w-10 h-10 ${
+                    star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'
+                  }`}
                 />
               </motion.div>
             ))}
           </div>
 
           {/* Assessment Results */}
-          <motion.div 
+          <motion.div
             className={`${performance.bg} rounded-2xl p-4 mb-4`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -367,7 +402,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           >
             <div className="flex items-center justify-between mb-3">
               <h3 className={`font-heading font-bold ${performance.color}`}>Assessment Result</h3>
-              <motion.span 
+              <motion.span
                 className={`font-heading font-bold text-lg ${performance.color}`}
                 animate={{ scale: [1, 1.2] }}
                 transition={{ duration: 0.5, repeat: 3, repeatType: 'reverse', delay: 1.2 }}
@@ -376,9 +411,18 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               </motion.span>
             </div>
             <div className={`${performance.color} font-body text-sm space-y-1`}>
-              <p>Performance: <span className="font-bold">{performance.level}</span></p>
-              <p>Domain: <span className="font-bold">Konsentrasi & Memori</span></p>
-              <p>Tingkat: <span className="font-bold">{difficulty === 'easy' ? 'Mudah' : difficulty === 'medium' ? 'Sedang' : 'Sulit'}</span></p>
+              <p>
+                Performance: <span className="font-bold">{performance.level}</span>
+              </p>
+              <p>
+                Domain: <span className="font-bold">Konsentrasi & Memori</span>
+              </p>
+              <p>
+                Tingkat:{' '}
+                <span className="font-bold">
+                  {difficulty === 'easy' ? 'Mudah' : difficulty === 'medium' ? 'Sedang' : 'Sulit'}
+                </span>
+              </p>
             </div>
           </motion.div>
 
@@ -410,16 +454,14 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             </div>
           </div>
 
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl p-4 mb-6"
             animate={{ scale: [1, 1.02, 1] }}
             transition={{ duration: 1, repeat: Infinity }}
           >
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Trophy className="w-6 h-6 text-yellow-600" />
-              <span className="text-yellow-700 font-body font-semibold">
-                Hadiah Diperoleh! 🎁
-              </span>
+              <span className="text-yellow-700 font-body font-semibold">Hadiah Diperoleh! 🎁</span>
             </div>
             <p className="text-yellow-600 font-body text-sm">
               Stiker "Memory Master" ditambahkan ke koleksimu!
@@ -430,7 +472,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             <motion.button
               onClick={resetGame}
               className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-2xl font-heading font-bold shadow-lg"
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)" }}
+              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(168, 85, 247, 0.4)' }}
               whileTap={{ scale: 0.95 }}
             >
               Main Lagi 🎮
@@ -457,20 +499,20 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           <motion.div
             key={i}
             className="absolute text-4xl opacity-20"
-            initial={{ 
-              x: Math.random() * window.innerWidth, 
-              y: Math.random() * window.innerHeight 
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
             }}
             animate={{
               x: Math.random() * window.innerWidth,
               y: Math.random() * window.innerHeight,
               rotate: 360,
-              scale: [1, 1.2, 1]
+              scale: [1, 1.2, 1],
             }}
             transition={{
               duration: 10 + Math.random() * 10,
               repeat: Infinity,
-              ease: "linear"
+              ease: 'linear',
             }}
           >
             {['🧠', '💡', '⭐', '🎯', '🌈', '✨', '🎨', '🦄'][i]}
@@ -500,7 +542,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             >
               <ArrowLeft className="w-6 h-6 text-white" />
             </motion.button>
-            <motion.h1 
+            <motion.h1
               className="text-white font-heading font-bold text-xl"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -515,7 +557,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/20 backdrop-blur-md rounded-2xl p-5 border-2 border-white/30 relative z-10"
           >
-            <motion.h2 
+            <motion.h2
               className="text-white font-heading font-semibold text-lg mb-2 flex items-center gap-2"
               animate={{ y: [0, -3, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -542,16 +584,16 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               {[
                 { num: 1, text: 'Klik kartu untuk membaliknya', emoji: '👆' },
                 { num: 2, text: 'Cocokkan 2 kartu dengan gambar yang sama', emoji: '🎯' },
-                { num: 3, text: 'Selesaikan dengan gerakan sesedikit mungkin', emoji: '⚡' }
+                { num: 3, text: 'Selesaikan dengan gerakan sesedikit mungkin', emoji: '⚡' },
               ].map((item, index) => (
-                <motion.div 
+                <motion.div
                   key={item.num}
                   className="flex items-center space-x-3"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 + index * 0.1 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-md"
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.3 }}
@@ -566,7 +608,6 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             </div>
           </motion.div>
 
-
           {/* Target Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -579,11 +620,27 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             </h3>
             <div className="space-y-2">
               {[
-                { stars: '⭐⭐⭐', req: difficulty === 'easy' ? '≤ 10 gerakan & 1 menit' : difficulty === 'medium' ? '≤ 15 gerakan & 2 menit' : '≤ 20 gerakan & 3 menit' },
-                { stars: '⭐⭐', req: difficulty === 'easy' ? '≤ 15 gerakan & 1.5 menit' : difficulty === 'medium' ? '≤ 20 gerakan & 2.5 menit' : '≤ 25 gerakan & 3.5 menit' },
-                { stars: '⭐', req: 'Selesaikan game' }
+                {
+                  stars: '⭐⭐⭐',
+                  req:
+                    difficulty === 'easy'
+                      ? '≤ 10 gerakan & 1 menit'
+                      : difficulty === 'medium'
+                      ? '≤ 15 gerakan & 2 menit'
+                      : '≤ 20 gerakan & 3 menit',
+                },
+                {
+                  stars: '⭐⭐',
+                  req:
+                    difficulty === 'easy'
+                      ? '≤ 15 gerakan & 1.5 menit'
+                      : difficulty === 'medium'
+                      ? '≤ 20 gerakan & 2.5 menit'
+                      : '≤ 25 gerakan & 3.5 menit',
+                },
+                { stars: '⭐', req: 'Selesaikan game' },
               ].map((target, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="flex items-center justify-between bg-white/50 rounded-xl p-2"
                   initial={{ opacity: 0, x: -20 }}
@@ -591,9 +648,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   transition={{ delay: 0.3 + index * 0.1 }}
                 >
                   <span className="text-orange-600 font-body text-sm">{target.stars}</span>
-                  <span className="text-orange-600 font-body text-sm font-bold">
-                    {target.req}
-                  </span>
+                  <span className="text-orange-600 font-body text-sm font-bold">{target.req}</span>
                 </motion.div>
               ))}
             </div>
@@ -602,7 +657,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           <motion.button
             onClick={startGame}
             className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 text-white py-4 px-6 rounded-2xl font-heading font-bold text-lg shadow-2xl relative overflow-hidden"
-            whileHover={{ scale: 1.02, boxShadow: "0 25px 50px rgba(168, 85, 247, 0.5)" }}
+            whileHover={{ scale: 1.02, boxShadow: '0 25px 50px rgba(168, 85, 247, 0.5)' }}
             whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -611,7 +666,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0"
               animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
             />
             <span className="relative z-10">Mulai Permainan! 🎮✨</span>
           </motion.button>
@@ -637,12 +692,12 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             y: [0, -30, 0],
             x: [0, Math.random() * 20 - 10, 0],
             opacity: [0.3, 0.8, 0.3],
-            scale: [1, 1.5, 1]
+            scale: [1, 1.5, 1],
           }}
           transition={{
             duration: 3 + Math.random() * 2,
             repeat: Infinity,
-            delay: Math.random() * 2
+            delay: Math.random() * 2,
           }}
         />
       ))}
@@ -665,10 +720,10 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   x: (Math.random() - 0.5) * 400,
                   y: (Math.random() - 0.5) * 400,
                   rotate: Math.random() * 720,
-                  opacity: [1, 1, 0]
+                  opacity: [1, 1, 0],
                 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
+                transition={{ duration: 1.2, ease: 'easeOut' }}
               >
                 {['✨', '⭐', '💫', '🌟', '💥', '🎉'][i % 6]}
               </motion.div>
@@ -685,10 +740,10 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           animate={{
             backgroundPosition: ['0% 0%', '100% 100%'],
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
           style={{
             backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '30px 30px'
+            backgroundSize: '30px 30px',
           }}
         />
 
@@ -701,7 +756,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           >
             <ArrowLeft className="w-6 h-6 text-white" />
           </motion.button>
-          <motion.h1 
+          <motion.h1
             className="text-white font-heading font-bold text-lg"
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -722,15 +777,18 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
         {/* Game Stats */}
         <motion.div
           className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border-2 border-white/30 shadow-2xl relative z-10"
-          animate={{ boxShadow: ['0 10px 30px rgba(0,0,0,0.1)', '0 15px 40px rgba(0,0,0,0.2)', '0 10px 30px rgba(0,0,0,0.1)'] }}
+          animate={{
+            boxShadow: [
+              '0 10px 30px rgba(0,0,0,0.1)',
+              '0 15px 40px rgba(0,0,0,0.2)',
+              '0 10px 30px rgba(0,0,0,0.1)',
+            ],
+          }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           <div className="flex items-center justify-between">
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-            >
-              <motion.span 
+            <motion.div className="text-center" whileHover={{ scale: 1.1 }}>
+              <motion.span
                 className="text-white font-heading font-bold text-lg block"
                 key={moves}
                 initial={{ scale: 1.5, color: '#FFD700' }}
@@ -740,18 +798,14 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               </motion.span>
               <p className="text-purple-100 font-body text-xs">🎯 Gerakan</p>
             </motion.div>
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-            >
-              <span className="text-white font-heading font-bold text-lg block">{formatTime(gameTime)}</span>
+            <motion.div className="text-center" whileHover={{ scale: 1.1 }}>
+              <span className="text-white font-heading font-bold text-lg block">
+                {formatTime(gameTime)}
+              </span>
               <p className="text-purple-100 font-body text-xs">⏱️ Waktu</p>
             </motion.div>
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-            >
-              <motion.span 
+            <motion.div className="text-center" whileHover={{ scale: 1.1 }}>
+              <motion.span
                 className="text-white font-heading font-bold text-lg block"
                 key={matchedPairs}
                 initial={{ scale: 1.3, color: '#FFD700' }}
@@ -761,19 +815,20 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
               </motion.span>
               <p className="text-purple-100 font-body text-xs">💝 Pasangan</p>
             </motion.div>
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-            >
+            <motion.div className="text-center" whileHover={{ scale: 1.1 }}>
               <div className="flex space-x-1 justify-center">
-                {[1, 2, 3].map(star => (
+                {[1, 2, 3].map((star) => (
                   <motion.div
                     key={star}
                     animate={star <= getStarRating(moves, gameTime) ? { rotate: [0, 360] } : {}}
                     transition={{ duration: 0.5 }}
                   >
-                    <Star 
-                      className={`w-4 h-4 ${star <= getStarRating(moves, gameTime) ? 'text-yellow-300 fill-current' : 'text-white/30'}`}
+                    <Star
+                      className={`w-4 h-4 ${
+                        star <= getStarRating(moves, gameTime)
+                          ? 'text-yellow-300 fill-current'
+                          : 'text-white/30'
+                      }`}
                     />
                   </motion.div>
                 ))}
@@ -792,11 +847,17 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             initial={{ scale: 0, y: -50, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0, y: -50, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
-            <div className={`bg-white rounded-full px-6 py-3 shadow-2xl flex items-center gap-2 border-3 ${
-              streak >= 5 ? 'border-red-400' : streak >= 3 ? 'border-yellow-400' : 'border-blue-400'
-            }`}>
+            <div
+              className={`bg-white rounded-full px-6 py-3 shadow-2xl flex items-center gap-2 border-3 ${
+                streak >= 5
+                  ? 'border-red-400'
+                  : streak >= 3
+                  ? 'border-yellow-400'
+                  : 'border-blue-400'
+              }`}
+            >
               <motion.span
                 className="text-2xl"
                 animate={{ rotate: [0, 15], scale: [1, 1.2] }}
@@ -823,40 +884,46 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
 
       {/* Game Board */}
       <div className="px-4 py-6 relative z-10">
-        <div className={`grid gap-3 max-w-md mx-auto ${
-          difficulty === 'easy' ? 'grid-cols-3' : 
-          difficulty === 'medium' ? 'grid-cols-4' : 
-          'grid-cols-5'
-        }`}>
+        <div
+          className={`grid gap-3 max-w-md mx-auto ${
+            difficulty === 'easy'
+              ? 'grid-cols-3'
+              : difficulty === 'medium'
+              ? 'grid-cols-4'
+              : 'grid-cols-5'
+          }`}
+        >
           {cards.map((card) => (
             <motion.div
               key={card.id}
               className="aspect-square relative"
               style={{ perspective: '1000px' }}
-              whileHover={{ 
+              whileHover={{
                 scale: card.isMatched ? 1.02 : 1.08,
-                zIndex: 10
+                zIndex: 10,
               }}
               initial={{ opacity: 0, scale: 0.3 }}
-              animate={{ 
-                opacity: 1, 
+              animate={{
+                opacity: 1,
                 scale: wrongPair.includes(card.id) ? [1, 0.9] : 1,
-                x: wrongPair.includes(card.id) ? [-5, 5] : 0
+                x: wrongPair.includes(card.id) ? [-5, 5] : 0,
               }}
-              transition={{ 
+              transition={{
                 delay: card.id * 0.05,
-                type: "spring",
+                type: 'spring',
                 stiffness: 260,
                 damping: 20,
-                x: { duration: 0.3 }
+                x: { duration: 0.3 },
               }}
             >
               <motion.button
                 onClick={() => handleCardClick(card.id)}
                 className="w-full h-full"
-                disabled={card.isMatched || flippedCards.includes(card.id) || flippedCards.length === 2}
-                whileTap={{ 
-                  scale: card.isMatched ? 1 : 0.95
+                disabled={
+                  card.isMatched || flippedCards.includes(card.id) || flippedCards.length === 2
+                }
+                whileTap={{
+                  scale: card.isMatched ? 1 : 0.95,
                 }}
               >
                 <motion.div
@@ -864,8 +931,8 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                     card.isMatched
                       ? 'bg-gradient-to-br from-emerald-300 via-green-300 to-teal-300 border-emerald-500'
                       : card.isFlipped
-                        ? 'bg-gradient-to-br from-white to-gray-50 border-purple-400 shadow-2xl'
-                        : 'bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 border-purple-500'
+                      ? 'bg-gradient-to-br from-white to-gray-50 border-purple-400 shadow-2xl'
+                      : 'bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 border-purple-500'
                   }`}
                   style={{
                     transformStyle: 'preserve-3d',
@@ -873,21 +940,21 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   animate={{
                     rotateY: card.isFlipped || card.isMatched ? 180 : 0,
                   }}
-                  transition={{ 
-                    duration: 0.5, 
-                    ease: [0.4, 0.0, 0.2, 1]
+                  transition={{
+                    duration: 0.5,
+                    ease: [0.4, 0.0, 0.2, 1],
                   }}
                 >
                   {/* Front (emoji side) */}
-                  <div 
+                  <div
                     className="absolute inset-0 flex items-center justify-center rounded-2xl"
                     style={{
                       backfaceVisibility: 'hidden',
                       transform: 'rotateY(180deg)',
-                      WebkitBackfaceVisibility: 'hidden'
+                      WebkitBackfaceVisibility: 'hidden',
                     }}
                   >
-                    <motion.span 
+                    <motion.span
                       className={`text-6xl ${card.isMatched ? 'drop-shadow-lg' : ''}`}
                       animate={card.isMatched ? { scale: [1, 1.2], rotate: [0, 360] } : {}}
                       transition={{ duration: 0.5, repeat: 1, repeatType: 'reverse' }}
@@ -897,32 +964,31 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   </div>
 
                   {/* Back (question mark side) */}
-                  <div 
+                  <div
                     className="absolute inset-0 flex items-center justify-center rounded-2xl"
-                    style={{ 
+                    style={{
                       backfaceVisibility: 'hidden',
-                      WebkitBackfaceVisibility: 'hidden'
+                      WebkitBackfaceVisibility: 'hidden',
                     }}
                   >
                     <motion.div
                       className="text-white text-4xl relative"
-                      animate={{ 
+                      animate={{
                         scale: [1, 1.1],
-                        rotate: [0, 5]
+                        rotate: [0, 5],
                       }}
                       transition={{
                         duration: 2,
                         repeat: Infinity,
-                        ease: "easeInOut"
+                        ease: 'easeInOut',
                       }}
                     >
-                      ❓
-                      {/* Sparkle decoration on card back */}
+                      ❓{/* Sparkle decoration on card back */}
                       <motion.div
                         className="absolute -top-1 -right-1 text-yellow-300 text-sm"
-                        animate={{ 
+                        animate={{
                           scale: [0, 1],
-                          rotate: [0, 180]
+                          rotate: [0, 180],
                         }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
@@ -932,7 +998,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                   </div>
                 </motion.div>
               </motion.button>
-                
+
               {/* Matched card effects */}
               {card.isMatched && (
                 <>
@@ -940,19 +1006,19 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                     className="absolute top-2 right-2 z-20"
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                    transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
                   >
                     <CheckCircle className="w-5 h-5 text-emerald-700 drop-shadow-md" />
                   </motion.div>
-                  
+
                   {/* Sparkles around matched card */}
                   {[...Array(6)].map((_, i) => (
                     <motion.div
                       key={i}
                       className="absolute w-2 h-2 bg-yellow-400 rounded-full"
                       style={{
-                        left: `${20 + Math.cos(i * 60 * Math.PI / 180) * 40}%`,
-                        top: `${50 + Math.sin(i * 60 * Math.PI / 180) * 40}%`,
+                        left: `${20 + Math.cos((i * 60 * Math.PI) / 180) * 40}%`,
+                        top: `${50 + Math.sin((i * 60 * Math.PI) / 180) * 40}%`,
                       }}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{
@@ -962,7 +1028,7 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
                       transition={{
                         duration: 1,
                         delay: 0.4 + i * 0.1,
-                        repeat: 2
+                        repeat: 2,
                       }}
                     />
                   ))}
@@ -971,9 +1037,9 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             </motion.div>
           ))}
         </div>
-        
+
         {/* Progress indicator with fun design */}
-        <motion.div 
+        <motion.div
           className="mt-6 max-w-md mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -996,23 +1062,23 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
             <motion.div
               className="h-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-full relative overflow-hidden"
               initial={{ width: 0 }}
-              animate={{ 
+              animate={{
                 width: `${(matchedPairs / 3) * 100}%`,
-                backgroundPosition: ['0% 50%', '100% 50%']
+                backgroundPosition: ['0% 50%', '100% 50%'],
               }}
-              transition={{ 
-                width: { duration: 0.5, ease: "easeOut" },
-                backgroundPosition: { duration: 2, repeat: Infinity, ease: "linear" }
+              transition={{
+                width: { duration: 0.5, ease: 'easeOut' },
+                backgroundPosition: { duration: 2, repeat: Infinity, ease: 'linear' },
               }}
               style={{
-                backgroundSize: '200% 100%'
+                backgroundSize: '200% 100%',
               }}
             >
               {/* Shimmer effect */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
                 animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
               />
             </motion.div>
             {/* Progress stars */}
@@ -1037,10 +1103,13 @@ export default function MemoryGameScreen({ navigateTo, addSticker, updateGameAss
           transition={{ duration: 2, repeat: Infinity }}
         >
           <p className="text-purple-700 font-heading font-bold">
-            {matchedPairs === 0 ? '🎮 Ayo mulai!' :
-             matchedPairs < 2 ? '💪 Kamu bisa!' :
-             matchedPairs < 3 ? '🔥 Hampir selesai!' :
-             '🏆 Tinggal sedikit lagi!'}
+            {matchedPairs === 0
+              ? '🎮 Ayo mulai!'
+              : matchedPairs < 2
+              ? '💪 Kamu bisa!'
+              : matchedPairs < 3
+              ? '🔥 Hampir selesai!'
+              : '🏆 Tinggal sedikit lagi!'}
           </p>
         </motion.div>
       </div>

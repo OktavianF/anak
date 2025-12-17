@@ -14,23 +14,23 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
       text: 'Halo! Selamat datang di konsultasi online. Saya Dr. Zaky, siap membantu Anda hari ini.',
       sender: 'doctor',
       timestamp: '10:15',
-      type: 'text'
+      type: 'text',
     },
     {
       id: 2,
       text: 'Silakan ceritakan keluhan atau pertanyaan yang ingin Anda sampaikan.',
       sender: 'doctor',
       timestamp: '10:15',
-      type: 'text'
-    }
+      type: 'text',
+    },
   ]);
-  
+
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -43,30 +43,30 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
         id: messages.length + 1,
         text: newMessage,
         sender: 'user',
-        timestamp: new Date().toLocaleTimeString('id-ID', { 
-          hour: '2-digit', 
-          minute: '2-digit' 
+        timestamp: new Date().toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
         }),
-        type: 'text'
+        type: 'text',
       };
-      
+
       setMessages([...messages, userMessage]);
       setNewMessage('');
       setIsTyping(true);
-      
+
       // Simulate doctor response
       setTimeout(() => {
         const doctorResponse = {
           id: messages.length + 2,
           text: 'Terima kasih sudah menceritakan keluhannya. Berdasarkan yang Anda sampaikan, saya akan memberikan beberapa saran...',
           sender: 'doctor',
-          timestamp: new Date().toLocaleTimeString('id-ID', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+          timestamp: new Date().toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit',
           }),
-          type: 'text'
+          type: 'text',
         };
-        setMessages(prev => [...prev, doctorResponse]);
+        setMessages((prev) => [...prev, doctorResponse]);
         setIsTyping(false);
       }, 2000);
     }
@@ -89,27 +89,19 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </motion.button>
-          
+
           <div className="w-10 h-10 bg-blue-100 rounded-full overflow-hidden">
-            <img 
-              src={doctor.image} 
-              alt={doctor.name}
-              className="w-full h-full object-cover"
-            />
+            <img src={doctor.image} alt={doctor.name} className="w-full h-full object-cover" />
           </div>
-          
+
           <div className="flex-1">
-            <h2 className="text-gray-900 font-heading font-bold text-lg">
-              {doctor.name}
-            </h2>
+            <h2 className="text-gray-900 font-heading font-bold text-lg">{doctor.name}</h2>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-500 rounded-full" />
-              <span className="text-green-600 font-body text-sm font-medium">
-                Online
-              </span>
+              <span className="text-green-600 font-body text-sm font-medium">Online</span>
             </div>
           </div>
-          
+
           <button className="p-2 rounded-xl bg-gray-100">
             <MoreVertical className="w-5 h-5 text-gray-600" />
           </button>
@@ -125,23 +117,25 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
             animate={{ opacity: 1, y: 0 }}
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
-              message.sender === 'user'
-                ? 'bg-blue-500 text-white rounded-br-lg'
-                : 'bg-white text-gray-900 rounded-bl-lg shadow-sm'
-            }`}>
-              <p className="font-body text-sm leading-relaxed">
-                {message.text}
-              </p>
-              <p className={`text-xs mt-1 ${
-                message.sender === 'user' ? 'text-blue-100' : 'text-gray-500'
-              }`}>
+            <div
+              className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
+                message.sender === 'user'
+                  ? 'bg-blue-500 text-white rounded-br-lg'
+                  : 'bg-white text-gray-900 rounded-bl-lg shadow-sm'
+              }`}
+            >
+              <p className="font-body text-sm leading-relaxed">{message.text}</p>
+              <p
+                className={`text-xs mt-1 ${
+                  message.sender === 'user' ? 'text-blue-100' : 'text-gray-500'
+                }`}
+              >
                 {message.timestamp}
               </p>
             </div>
           </motion.div>
         ))}
-        
+
         {/* Typing indicator */}
         {isTyping && (
           <motion.div
@@ -180,7 +174,7 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
             'Terima kasih dokter',
             'Saya mengerti',
             'Apakah ada efek samping?',
-            'Berapa lama pengobatan?'
+            'Berapa lama pengobatan?',
           ].map((response, index) => (
             <motion.button
               key={index}
@@ -200,7 +194,7 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
           <button className="p-2 text-gray-500 hover:text-gray-700">
             <Paperclip size={20} />
           </button>
-          
+
           <div className="flex-1 relative">
             <input
               type="text"
@@ -211,15 +205,15 @@ export default function ChatScreen({ navigateTo, doctor }: ChatScreenProps) {
               className="w-full bg-gray-100 rounded-full px-4 py-3 font-body text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
             />
           </div>
-          
+
           <button className="p-2 text-gray-500 hover:text-gray-700">
             <Camera size={20} />
           </button>
-          
+
           <button className="p-2 text-gray-500 hover:text-gray-700">
             <Mic size={20} />
           </button>
-          
+
           <motion.button
             onClick={sendMessage}
             className={`p-3 rounded-full transition-all ${

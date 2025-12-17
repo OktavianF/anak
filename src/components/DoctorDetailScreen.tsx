@@ -16,7 +16,7 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
   const doctorDetails = {
     education: 'Universitas Veteran Jawa Timur',
     practice: 'RS Muhammadiyah Surabaya',
-    license: 'NIP-DR-2025-06-00123'
+    license: 'NIP-DR-2025-06-00123',
   };
 
   return (
@@ -45,21 +45,13 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
         >
           {/* Doctor Avatar */}
           <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 overflow-hidden">
-            <img 
-              src={doctor.image} 
-              alt={doctor.name}
-              className="w-full h-full object-cover"
-            />
+            <img src={doctor.image} alt={doctor.name} className="w-full h-full object-cover" />
           </div>
-          
+
           {/* Doctor Info */}
-          <h2 className="text-gray-900 font-heading font-bold text-2xl mb-2">
-            {doctor.name}
-          </h2>
-          <p className="text-blue-600 font-body text-base mb-4">
-            {doctor.specialty}
-          </p>
-          
+          <h2 className="text-gray-900 font-heading font-bold text-2xl mb-2">{doctor.name}</h2>
+          <p className="text-blue-600 font-body text-base mb-4">{doctor.specialty}</p>
+
           {/* Stats */}
           <div className="flex items-center justify-center space-x-6 mb-6">
             <div className="text-center">
@@ -71,7 +63,7 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
               </div>
               <p className="text-gray-500 text-xs font-body">Pengalaman</p>
             </div>
-            
+
             <div className="text-center">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <Star className="w-4 h-4 text-yellow-500 fill-current" />
@@ -114,12 +106,8 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
               <GraduationCap className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h4 className="text-gray-900 font-heading font-semibold text-base">
-                Lulusan Dari
-              </h4>
-              <p className="text-gray-600 font-body text-sm">
-                {doctorDetails.education}
-              </p>
+              <h4 className="text-gray-900 font-heading font-semibold text-base">Lulusan Dari</h4>
+              <p className="text-gray-600 font-body text-sm">{doctorDetails.education}</p>
             </div>
           </div>
         </motion.div>
@@ -135,12 +123,8 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
               <MapPin className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <h4 className="text-gray-900 font-heading font-semibold text-base">
-                Tempat Praktik
-              </h4>
-              <p className="text-gray-600 font-body text-sm">
-                {doctorDetails.practice}
-              </p>
+              <h4 className="text-gray-900 font-heading font-semibold text-base">Tempat Praktik</h4>
+              <p className="text-gray-600 font-body text-sm">{doctorDetails.practice}</p>
             </div>
           </div>
         </motion.div>
@@ -159,9 +143,7 @@ export default function DoctorDetailScreen({ navigateTo, doctor }: DoctorDetailS
               <h4 className="text-gray-900 font-heading font-semibold text-base">
                 Nomor Izin Praktik
               </h4>
-              <p className="text-gray-600 font-body text-sm">
-                {doctorDetails.license}
-              </p>
+              <p className="text-gray-600 font-body text-sm">{doctorDetails.license}</p>
             </div>
           </div>
         </motion.div>

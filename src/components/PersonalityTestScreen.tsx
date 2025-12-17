@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, CheckCircle, Clock, Star, Home, MessageSquare, BarChart3, User } from 'lucide-react';
+import {
+  ArrowLeft,
+  CheckCircle,
+  Clock,
+  Star,
+  Home,
+  MessageSquare,
+  BarChart3,
+  User,
+} from 'lucide-react';
 
 interface PersonalityTestScreenProps {
   navigateTo: (screen: string) => void;
@@ -11,7 +20,14 @@ interface PersonalityTestScreenProps {
   updateTestResults: (testType: string, results: any) => void;
 }
 
-export default function PersonalityTestScreen({ navigateTo, addSticker, childName, isParentMode, setMbtiResult, updateTestResults }: PersonalityTestScreenProps) {
+export default function PersonalityTestScreen({
+  navigateTo,
+  addSticker,
+  childName,
+  isParentMode,
+  setMbtiResult,
+  updateTestResults,
+}: PersonalityTestScreenProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -25,8 +41,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '👥',
       options: [
         { text: 'Bermain ramai-ramai dengan banyak teman', trait: 'E' },
-        { text: 'Bermain dengan 1-2 teman dekat saja', trait: 'I' }
-      ]
+        { text: 'Bermain dengan 1-2 teman dekat saja', trait: 'I' },
+      ],
     },
     {
       id: 2,
@@ -34,8 +50,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '📚',
       options: [
         { text: 'Langsung praktek dan coba-coba sendiri', trait: 'S' },
-        { text: 'Bertanya "kenapa" dan "bagaimana" dulu', trait: 'N' }
-      ]
+        { text: 'Bertanya "kenapa" dan "bagaimana" dulu', trait: 'N' },
+      ],
     },
     {
       id: 3,
@@ -43,8 +59,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '🤔',
       options: [
         { text: 'Ikuti kata hati dan perasaan', trait: 'F' },
-        { text: 'Pikirkan mana yang paling masuk akal', trait: 'T' }
-      ]
+        { text: 'Pikirkan mana yang paling masuk akal', trait: 'T' },
+      ],
     },
     {
       id: 4,
@@ -52,8 +68,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '📝',
       options: [
         { text: 'Selesaikan pelan-pelan sesuai jadwal', trait: 'J' },
-        { text: 'Kerjakan sekaligus saat mood bagus', trait: 'P' }
-      ]
+        { text: 'Kerjakan sekaligus saat mood bagus', trait: 'P' },
+      ],
     },
     {
       id: 5,
@@ -61,8 +77,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '💬',
       options: [
         { text: 'Cerita detail dari awal sampai akhir', trait: 'S' },
-        { text: 'Langsung ke poin penting yang menarik', trait: 'N' }
-      ]
+        { text: 'Langsung ke poin penting yang menarik', trait: 'N' },
+      ],
     },
     {
       id: 6,
@@ -70,8 +86,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '😢',
       options: [
         { text: 'Langsung peluk dan hibur temannya', trait: 'F' },
-        { text: 'Tanya kenapa dan cari solusinya', trait: 'T' }
-      ]
+        { text: 'Tanya kenapa dan cari solusinya', trait: 'T' },
+      ],
     },
     {
       id: 7,
@@ -79,8 +95,8 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '🎯',
       options: [
         { text: 'Ada rencana yang jelas dari pagi', trait: 'J' },
-        { text: 'Lihat nanti mau ngapain aja', trait: 'P' }
-      ]
+        { text: 'Lihat nanti mau ngapain aja', trait: 'P' },
+      ],
     },
     {
       id: 8,
@@ -88,167 +104,167 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       image: '🌟',
       options: [
         { text: 'Langsung eksplorasi dan kenalan', trait: 'E' },
-        { text: 'Observasi dulu dari jauh', trait: 'I' }
-      ]
-    }
+        { text: 'Observasi dulu dari jauh', trait: 'I' },
+      ],
+    },
   ];
 
   // Animal MBTI Results
   const animalTypes = {
-    'ENFJ': {
+    ENFJ: {
       animal: '🦁',
       name: 'Singa',
       personality: 'Pemimpin Peduli',
       traits: 'Karismatik dan Inspiratif',
       description: 'Anak yang natural jadi pemimpin dan selalu peduli sama teman-temannya!',
       strengths: ['Mudah bergaul', 'Suka membantu', 'Pemimpin natural', 'Empati tinggi'],
-      tips: 'Dukung jiwa kepemimpinannya dengan memberikan tanggung jawab kecil dan ajari untuk mendengarkan pendapat orang lain.'
+      tips: 'Dukung jiwa kepemimpinannya dengan memberikan tanggung jawab kecil dan ajari untuk mendengarkan pendapat orang lain.',
     },
-    'ENFP': {
+    ENFP: {
       animal: '🐰',
       name: 'Kelinci',
       personality: 'Petualang Ceria',
       traits: 'Kreatif dan Antusias',
       description: 'Anak yang penuh energi, suka hal baru, dan selalu optimis!',
       strengths: ['Kreatif', 'Mudah beradaptasi', 'Komunikatif', 'Imajinatif'],
-      tips: 'Berikan banyak aktivitas kreatif dan hindari rutinitas yang terlalu kaku.'
+      tips: 'Berikan banyak aktivitas kreatif dan hindari rutinitas yang terlalu kaku.',
     },
-    'ENTJ': {
+    ENTJ: {
       animal: '🦅',
       name: 'Elang',
       personality: 'Komandan Cilik',
       traits: 'Tegas dan Ambisius',
       description: 'Anak yang punya visi besar dan determinasi kuat untuk mencapai tujuan!',
       strengths: ['Organised', 'Berani', 'Strategis', 'Goal-oriented'],
-      tips: 'Tantang dengan target-target yang achievable dan ajarkan fleksibilitas.'
+      tips: 'Tantang dengan target-target yang achievable dan ajarkan fleksibilitas.',
     },
-    'ENTP': {
+    ENTP: {
       animal: '🦊',
       name: 'Rubah',
       personality: 'Innovator Pintar',
       traits: 'Cerdik dan Adaptif',
       description: 'Anak yang pintar, suka debat, dan selalu punya ide-ide fresh!',
       strengths: ['Problem solver', 'Quick learner', 'Inovatif', 'Curious'],
-      tips: 'Stimulasi rasa ingin tahunya dengan eksperimen dan diskusi yang menantang.'
+      tips: 'Stimulasi rasa ingin tahunya dengan eksperimen dan diskusi yang menantang.',
     },
-    'ESFJ': {
+    ESFJ: {
       animal: '🐨',
       name: 'Koala',
       personality: 'Penolong Setia',
       traits: 'Peduli dan Harmonis',
       description: 'Anak yang hangat, suka membantu, dan jaga perasaan orang lain!',
       strengths: ['Supportive', 'Reliable', 'Team player', 'Caring'],
-      tips: 'Apresiasi kebaikannya dan ajarkan untuk kadang-kadang prioritaskan diri sendiri.'
+      tips: 'Apresiasi kebaikannya dan ajarkan untuk kadang-kadang prioritaskan diri sendiri.',
     },
-    'ESFP': {
+    ESFP: {
       animal: '🐹',
       name: 'Hamster',
       personality: 'Entertainer Lucu',
       traits: 'Fun dan Spontan',
       description: 'Anak yang jadi mood booster di mana-mana dan suka bikin orang senang!',
       strengths: ['Cheerful', 'Spontan', 'People person', 'Praktis'],
-      tips: 'Dukung ekspresi dirinya dan ajarkan perencanaan sederhana.'
+      tips: 'Dukung ekspresi dirinya dan ajarkan perencanaan sederhana.',
     },
-    'ESTJ': {
+    ESTJ: {
       animal: '🐝',
       name: 'Lebah',
       personality: 'Organizer Teliti',
       traits: 'Disiplin dan Sistematis',
       description: 'Anak yang suka kerapihan, punya jadwal jelas, dan reliable banget!',
       strengths: ['Organized', 'Responsible', 'Hardworking', 'Loyal'],
-      tips: 'Hargai kedisiplinannya tapi sesekali ajak untuk lebih fleksibel dan spontan.'
+      tips: 'Hargai kedisiplinannya tapi sesekali ajak untuk lebih fleksibel dan spontan.',
     },
-    'ESTP': {
+    ESTP: {
       animal: '🐯',
       name: 'Harimau',
       personality: 'Athlete Berani',
       traits: 'Sporty dan Aktif',
       description: 'Anak yang energik, suka tantangan fisik, dan berani coba hal baru!',
       strengths: ['Energetic', 'Adaptable', 'Hands-on', 'Courageous'],
-      tips: 'Sediakan banyak aktivitas fisik dan olahraga untuk menyalurkan energinya.'
+      tips: 'Sediakan banyak aktivitas fisik dan olahraga untuk menyalurkan energinya.',
     },
-    'INFJ': {
+    INFJ: {
       animal: '🦉',
       name: 'Burung Hantu',
       personality: 'Visioner Lembut',
       traits: 'Bijaksana dan Intuitif',
       description: 'Anak yang dalam, punya insight bagus, dan peduli banget sama orang lain!',
       strengths: ['Insightful', 'Empathetic', 'Creative', 'Idealistic'],
-      tips: 'Berikan waktu sendiri untuk recharge dan dukung kreativitasnya.'
+      tips: 'Berikan waktu sendiri untuk recharge dan dukung kreativitasnya.',
     },
-    'INFP': {
+    INFP: {
       animal: '🐼',
       name: 'Panda',
       personality: 'Dreamer Baik',
       traits: 'Sensitif dan Imajinatif',
       description: 'Anak yang punya dunia dalam yang kaya dan selalu peduli keadilan!',
       strengths: ['Creative', 'Authentic', 'Compassionate', 'Open-minded'],
-      tips: 'Dukung ekspresi kreatifnya dan hargai sensitivitasnya.'
+      tips: 'Dukung ekspresi kreatifnya dan hargai sensitivitasnya.',
     },
-    'INTJ': {
+    INTJ: {
       animal: '🐺',
       name: 'Serigala',
       personality: 'Mastermind Muda',
       traits: 'Strategis dan Independent',
       description: 'Anak yang suka mikir deep, punya rencana jangka panjang, dan mandiri!',
       strengths: ['Strategic', 'Independent', 'Analytical', 'Determined'],
-      tips: 'Respect kebutuhan waktu sendiri dan tantang dengan puzzle atau strategi games.'
+      tips: 'Respect kebutuhan waktu sendiri dan tantang dengan puzzle atau strategi games.',
     },
-    'INTP': {
+    INTP: {
       animal: '🐧',
       name: 'Penguin',
       personality: 'Scientist Kecil',
       traits: 'Logis dan Eksploratif',
       description: 'Anak yang curious banget, suka experiment, dan selalu tanya "kenapa"!',
       strengths: ['Logical', 'Curious', 'Objective', 'Innovative'],
-      tips: 'Fasilitasi rasa ingin tahunya dengan buku, eksperimen, dan diskusi sains.'
+      tips: 'Fasilitasi rasa ingin tahunya dengan buku, eksperimen, dan diskusi sains.',
     },
-    'ISFJ': {
+    ISFJ: {
       animal: '🐑',
       name: 'Domba',
       personality: 'Protector Gentle',
       traits: 'Nurturing dan Supportive',
       description: 'Anak yang lembut, selalu siap bantu, dan jaga harmoni di group!',
       strengths: ['Caring', 'Detail-oriented', 'Loyal', 'Patient'],
-      tips: 'Apresiasi kebaikannya dan ajarkan untuk assertive saat dibutuhkan.'
+      tips: 'Apresiasi kebaikannya dan ajarkan untuk assertive saat dibutuhkan.',
     },
-    'ISFP': {
+    ISFP: {
       animal: '🐻',
       name: 'Beruang',
       personality: 'Artist Lembut',
       traits: 'Kreatif dan Peace-loving',
       description: 'Anak yang artistik, kalem, tapi passionate sama hal yang dia suka!',
       strengths: ['Artistic', 'Gentle', 'Flexible', 'Observant'],
-      tips: 'Sediakan banyak medium artistik dan berikan ruang untuk eksplorasi kreatif.'
+      tips: 'Sediakan banyak medium artistik dan berikan ruang untuk eksplorasi kreatif.',
     },
-    'ISTJ': {
+    ISTJ: {
       animal: '🐘',
       name: 'Gajah',
       personality: 'Guardian Setia',
       traits: 'Reliable dan Traditional',
       description: 'Anak yang bisa diandalkan, detail-oriented, dan selalu keep promises!',
       strengths: ['Reliable', 'Methodical', 'Loyal', 'Responsible'],
-      tips: 'Hargai konsistensinya dan sesekali ajak untuk coba pendekatan baru.'
+      tips: 'Hargai konsistensinya dan sesekali ajak untuk coba pendekatan baru.',
     },
-    'ISTP': {
+    ISTP: {
       animal: '🐱',
       name: 'Kucing',
       personality: 'Mechanic Cool',
       traits: 'Praktis dan Independent',
       description: 'Anak yang hands-on, suka oprek-oprek, dan solve masalah dengan praktek!',
       strengths: ['Practical', 'Adaptable', 'Calm', 'Problem-solver'],
-      tips: 'Berikan banyak aktivitas hands-on dan respect kebutuhan space-nya.'
-    }
+      tips: 'Berikan banyak aktivitas hands-on dan respect kebutuhan space-nya.',
+    },
   };
 
   const calculateMBTI = (answers: string[]) => {
     const traits = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-    
-    answers.forEach(answer => {
+
+    answers.forEach((answer) => {
       traits[answer as keyof typeof traits]++;
     });
 
-    const result = 
+    const result =
       (traits.E > traits.I ? 'E' : 'I') +
       (traits.S > traits.N ? 'S' : 'N') +
       (traits.T > traits.F ? 'T' : 'F') +
@@ -270,7 +286,7 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       setAnimalResult(result);
       setIsCompleted(true);
       addSticker('animal-mbti-complete');
-      
+
       // Save MBTI result to app state
       if (setMbtiResult) {
         setMbtiResult(result);
@@ -282,7 +298,7 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
         animal: result.name,
         personality: result.personality,
         traits: result.strengths,
-        description: result.description
+        description: result.description,
       });
     }
   };
@@ -295,22 +311,14 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
       <div className="min-h-screen bg-gray-50">
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 px-6 pt-14 pb-8 text-white">
           <div className="text-center">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="text-8xl mb-4"
-            >
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-8xl mb-4">
               {animalResult.animal}
             </motion.div>
             <h1 className="font-heading font-bold text-2xl mb-2">
               Kamu adalah {animalResult.name}!
             </h1>
-            <p className="text-purple-100 text-lg font-body">
-              {animalResult.personality}
-            </p>
-            <p className="text-purple-100 text-sm font-body mt-2">
-              {animalResult.traits}
-            </p>
+            <p className="text-purple-100 text-lg font-body">{animalResult.personality}</p>
+            <p className="text-purple-100 text-sm font-body mt-2">{animalResult.traits}</p>
           </div>
         </div>
 
@@ -349,9 +357,7 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
                   transition={{ delay: 0.3 + index * 0.1 }}
                   className="bg-purple-50 border border-purple-200 rounded-xl p-3 text-center"
                 >
-                  <span className="text-purple-700 font-body font-medium text-sm">
-                    {strength}
-                  </span>
+                  <span className="text-purple-700 font-body font-medium text-sm">{strength}</span>
                 </motion.div>
               ))}
             </div>
@@ -367,9 +373,7 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
             <h3 className="font-heading font-bold text-lg mb-3 text-orange-700">
               💡 Tips untuk Orang Tua
             </h3>
-            <p className="text-orange-600 font-body leading-relaxed">
-              {animalResult.tips}
-            </p>
+            <p className="text-orange-600 font-body leading-relaxed">{animalResult.tips}</p>
           </motion.div>
 
           {/* Action Button */}
@@ -391,9 +395,13 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
           <div className="flex justify-around py-3">
             {[
               { icon: Home, label: 'Home', screen: 'home' },
-              { icon: MessageSquare, label: 'Consultation', screen: isParentMode ? 'consultation' : 'tips' },
+              {
+                icon: MessageSquare,
+                label: 'Consultation',
+                screen: isParentMode ? 'consultation' : 'tips',
+              },
               { icon: BarChart3, label: 'Progress', screen: 'progress' },
-              { icon: User, label: 'Profile', screen: 'profile' }
+              { icon: User, label: 'Profile', screen: 'profile' },
             ].map((item) => (
               <motion.button
                 key={item.screen}
@@ -433,7 +441,9 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
           </p>
           <div className="flex items-center justify-center space-x-2 text-sm">
             <Clock className="w-4 h-4" />
-            <span>Pertanyaan {currentQuestion + 1} dari {mbtiQuestions.length}</span>
+            <span>
+              Pertanyaan {currentQuestion + 1} dari {mbtiQuestions.length}
+            </span>
           </div>
         </div>
 
@@ -481,9 +491,7 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
                   <div className="w-8 h-8 rounded-full border-2 border-purple-300 flex items-center justify-center text-lg font-bold text-purple-600">
                     {String.fromCharCode(65 + index)}
                   </div>
-                  <span className="font-body text-gray-900 leading-relaxed">
-                    {option.text}
-                  </span>
+                  <span className="font-body text-gray-900 leading-relaxed">{option.text}</span>
                 </div>
               </motion.button>
             ))}
@@ -496,9 +504,13 @@ export default function PersonalityTestScreen({ navigateTo, addSticker, childNam
         <div className="flex justify-around py-3">
           {[
             { icon: Home, label: 'Home', screen: 'home' },
-            { icon: MessageSquare, label: 'Consultation', screen: isParentMode ? 'consultation' : 'tips' },
+            {
+              icon: MessageSquare,
+              label: 'Consultation',
+              screen: isParentMode ? 'consultation' : 'tips',
+            },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
-            { icon: User, label: 'Profile', screen: 'profile' }
+            { icon: User, label: 'Profile', screen: 'profile' },
           ].map((item) => (
             <motion.button
               key={item.screen}

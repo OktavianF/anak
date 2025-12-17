@@ -24,7 +24,7 @@ export default function ColoringGameScreen({ navigateTo, addSticker }: ColoringG
     if (Object.keys(newColoredAreas).length === selectedImage.areas) {
       setIsCompleted(true);
       addSticker('artist-star');
-      
+
       setTimeout(() => {
         setSelectedImage(null);
         setIsCompleted(false);
@@ -75,7 +75,7 @@ export default function ColoringGameScreen({ navigateTo, addSticker }: ColoringG
         {/* Game Content */}
         <div className="px-6 py-6">
           <ColorPalette selectedColor={selectedColor} onColorSelect={setSelectedColor} />
-          <ColoringCanvas 
+          <ColoringCanvas
             selectedImage={selectedImage}
             coloredAreas={coloredAreas}
             onAreaColor={handleAreaColor}
@@ -131,19 +131,19 @@ export default function ColoringGameScreen({ navigateTo, addSticker }: ColoringG
             >
               <div className="text-center">
                 <div className="text-4xl mb-3">{image.preview}</div>
-                <h3 className="text-gray-900 font-heading font-bold text-sm mb-1">
-                  {image.title}
-                </h3>
+                <h3 className="text-gray-900 font-heading font-bold text-sm mb-1">{image.title}</h3>
                 <p className="text-gray-600 font-body text-xs mb-3 leading-tight">
                   {image.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className={`px-2 py-1 rounded-lg text-xs font-body font-medium ${getDifficultyColor(image.difficulty)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-lg text-xs font-body font-medium ${getDifficultyColor(
+                      image.difficulty
+                    )}`}
+                  >
                     {image.difficulty}
                   </span>
-                  <span className="text-gray-500 text-xs font-body">
-                    {image.areas} area
-                  </span>
+                  <span className="text-gray-500 text-xs font-body">{image.areas} area</span>
                 </div>
               </div>
             </motion.button>

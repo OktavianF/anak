@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Home, MessageSquare, BarChart3, User, Star, MessageCircle, Shield, CheckCircle, Users } from 'lucide-react';
+import {
+  ArrowLeft,
+  Home,
+  MessageSquare,
+  BarChart3,
+  User,
+  Star,
+  MessageCircle,
+  Shield,
+  CheckCircle,
+  Users,
+} from 'lucide-react';
 
 interface DoctorListScreenProps {
   navigateTo: (screen: string, data?: any) => void;
@@ -8,7 +19,11 @@ interface DoctorListScreenProps {
   setIsParentMode?: (mode: boolean) => void;
 }
 
-export default function DoctorListScreen({ navigateTo, isParentMode, setIsParentMode }: DoctorListScreenProps) {
+export default function DoctorListScreen({
+  navigateTo,
+  isParentMode,
+  setIsParentMode,
+}: DoctorListScreenProps) {
   const doctors = [
     {
       id: 1,
@@ -21,7 +36,7 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
       availability: 'Online',
       ratingCount: 150,
       education: 'Universitas Veteran Jawa Timur',
-      verified: true
+      verified: true,
     },
     {
       id: 2,
@@ -34,7 +49,7 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
       availability: 'Online',
       ratingCount: 230,
       education: 'Universitas Airlangga',
-      verified: true
+      verified: true,
     },
     {
       id: 3,
@@ -47,15 +62,15 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
       availability: 'Busy',
       ratingCount: 180,
       education: 'Universitas Indonesia',
-      verified: true
-    }
+      verified: true,
+    },
   ];
 
   const handleDoctorSelect = (doctor: any) => {
     if (doctor.availability !== 'Online') {
       return; // Prevent navigation if doctor is not available
     }
-    
+
     navigateTo('doctor-detail', doctor);
   };
 
@@ -107,7 +122,7 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
           <h3 className="text-gray-900 font-heading font-bold text-lg mb-4">
             Pilih Dokter yang Tepat
           </h3>
-          
+
           {/* Filter Buttons */}
           <div className="flex space-x-2 mb-4">
             <button className="bg-blue-100 text-blue-600 px-4 py-2 rounded-xl text-sm font-body font-medium">
@@ -144,12 +159,14 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
               {/* Doctor Avatar */}
               <div className="relative">
                 <div className="w-16 h-16 rounded-2xl overflow-hidden bg-blue-100">
-                  <img 
-                    src={doctor.image} 
+                  <img
+                    src={doctor.image}
                     alt={doctor.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
                   />
                 </div>
                 {doctor.verified && (
@@ -157,11 +174,13 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
                     <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                 )}
-                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${
-                  doctor.availability === 'Online' ? 'bg-green-500' : 'bg-yellow-500'
-                }`} />
+                <div
+                  className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${
+                    doctor.availability === 'Online' ? 'bg-green-500' : 'bg-yellow-500'
+                  }`}
+                />
               </div>
-              
+
               {/* Doctor Info */}
               <div className="flex-1">
                 <div className="flex items-start justify-between mb-2">
@@ -180,29 +199,27 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
                     </span>
                   </div>
                 </div>
-                
-                <p className="text-gray-500 font-body text-xs mb-2">
-                  {doctor.education}
-                </p>
-                
+
+                <p className="text-gray-500 font-body text-xs mb-2">{doctor.education}</p>
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 bg-orange-500 rounded-full" />
-                      <span className="text-xs font-body text-gray-500">
-                        {doctor.experience}
-                      </span>
+                      <span className="text-xs font-body text-gray-500">{doctor.experience}</span>
                     </div>
                     <div className="flex items-center space-x-1">
-                      <div className={`w-2 h-2 rounded-full ${
-                        doctor.availability === 'Online' ? 'bg-green-500' : 'bg-yellow-500'
-                      }`} />
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          doctor.availability === 'Online' ? 'bg-green-500' : 'bg-yellow-500'
+                        }`}
+                      />
                       <span className="text-xs font-body text-gray-500">
                         {doctor.availability === 'Online' ? 'Tersedia' : 'Sibuk'}
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="text-right">
                     <div className="text-orange-500 font-heading font-bold text-sm">
                       Rp {doctor.price.toLocaleString()}
@@ -212,7 +229,7 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
                 </div>
               </div>
             </div>
-            
+
             {/* Chat Button */}
             <div className="mt-4 flex justify-end">
               <motion.button
@@ -227,9 +244,7 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
                 whileTap={doctor.availability === 'Online' ? { scale: 0.98 } : {}}
               >
                 <MessageCircle size={14} />
-                <span>
-                  {doctor.availability === 'Online' ? 'Mulai Chat' : 'Sedang Sibuk'}
-                </span>
+                <span>{doctor.availability === 'Online' ? 'Mulai Chat' : 'Sedang Sibuk'}</span>
               </motion.button>
             </div>
           </motion.div>
@@ -244,15 +259,13 @@ export default function DoctorListScreen({ navigateTo, isParentMode, setIsParent
             { icon: MessageSquare, label: 'Consultation', screen: 'consultation', active: true },
             { icon: Users, label: 'Community', screen: 'community' },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
-            { icon: User, label: 'Profile', screen: 'profile' }
+            { icon: User, label: 'Profile', screen: 'profile' },
           ].map((item) => (
             <motion.button
               key={item.screen}
               onClick={() => navigateTo(item.screen)}
               className={`flex flex-col items-center space-y-1 py-2 px-2 ${
-                item.active && isParentMode
-                  ? 'text-orange-500' 
-                  : 'text-gray-400'
+                item.active && isParentMode ? 'text-orange-500' : 'text-gray-400'
               }`}
               whileTap={{ scale: 0.95 }}
             >

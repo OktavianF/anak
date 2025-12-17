@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Home, MessageSquare, BarChart3, User, BookOpen, Stethoscope, Users, Heart, Clock, Award } from 'lucide-react';
+import {
+  ArrowLeft,
+  Home,
+  MessageSquare,
+  BarChart3,
+  User,
+  BookOpen,
+  Stethoscope,
+  Users,
+  Heart,
+  Clock,
+  Award,
+} from 'lucide-react';
 
 interface ConsultationScreenProps {
   navigateTo: (screen: string, data?: any) => void;
@@ -8,7 +20,11 @@ interface ConsultationScreenProps {
   setIsParentMode?: (mode: boolean) => void;
 }
 
-export default function ConsultationScreen({ navigateTo, isParentMode, setIsParentMode }: ConsultationScreenProps) {
+export default function ConsultationScreen({
+  navigateTo,
+  isParentMode,
+  setIsParentMode,
+}: ConsultationScreenProps) {
   const consultationOptions = [
     {
       id: 'parent-guide',
@@ -22,9 +38,9 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
         'Panduan perkembangan anak',
         'Tips parenting',
         'Aktivitas edukatif',
-        'Milestone tracking'
+        'Milestone tracking',
       ],
-      action: () => navigateTo('parent-guide')
+      action: () => navigateTo('parent-guide'),
     },
     {
       id: 'doctor-consultation',
@@ -38,15 +54,15 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
         'Konsultasi real-time',
         'Dokter bersertifikat',
         'Sesi privat & aman',
-        'Rekam medis digital'
+        'Rekam medis digital',
       ],
       action: () => {
         if (!isParentMode && setIsParentMode) {
           setIsParentMode(true);
         }
         navigateTo('doctor-list');
-      }
-    }
+      },
+    },
   ];
 
   return (
@@ -100,7 +116,9 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
             >
               {/* Header */}
               <div className="flex items-start space-x-4 mb-4">
-                <div className={`w-16 h-16 bg-gradient-to-r ${option.color} rounded-2xl flex items-center justify-center shadow-lg`}>
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${option.color} rounded-2xl flex items-center justify-center shadow-lg`}
+                >
                   <option.icon className="w-8 h-8 text-white" />
                 </div>
                 <div className="flex-1">
@@ -140,7 +158,6 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
             </motion.div>
           ))}
         </div>
-
       </div>
 
       {/* Bottom Navigation */}
@@ -151,7 +168,7 @@ export default function ConsultationScreen({ navigateTo, isParentMode, setIsPare
             { icon: MessageSquare, label: 'Consultation', screen: 'consultation' },
             { icon: Users, label: 'Community', screen: 'community' },
             { icon: BarChart3, label: 'Progress', screen: 'progress' },
-            { icon: User, label: 'Profile', screen: 'profile' }
+            { icon: User, label: 'Profile', screen: 'profile' },
           ].map((item) => {
             // Determine active tab by comparing with current screen
             const isActive = item.screen === 'consultation';

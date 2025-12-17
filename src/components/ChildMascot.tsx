@@ -11,14 +11,14 @@ interface ChildMascotProps {
   animate?: boolean;
 }
 
-export default function ChildMascot({ 
-  mood = 'happy', 
+export default function ChildMascot({
+  mood = 'happy',
   size = 'medium',
   message,
   showMessage = false,
   className = '',
   onClick,
-  animate = true
+  animate = true,
 }: ChildMascotProps) {
   const [currentMood, setCurrentMood] = useState(mood);
   const [isBlinking, setIsBlinking] = useState(false);
@@ -36,60 +36,60 @@ export default function ChildMascot({
   const sizeClasses = {
     small: 'w-16 h-16',
     medium: 'w-24 h-24',
-    large: 'w-32 h-32'
+    large: 'w-32 h-32',
   };
 
   const getMascotFace = () => {
     const baseStyle = `${sizeClasses[size]} relative`;
-    
+
     switch (currentMood) {
       case 'happy':
         return {
           face: '😊',
           color: 'from-yellow-300 to-orange-300',
-          bounce: true
+          bounce: true,
         };
       case 'excited':
         return {
           face: '🤩',
           color: 'from-pink-300 to-purple-300',
-          bounce: true
+          bounce: true,
         };
       case 'thinking':
         return {
           face: '🤔',
           color: 'from-blue-300 to-indigo-300',
-          bounce: false
+          bounce: false,
         };
       case 'celebrating':
         return {
           face: '🎉',
           color: 'from-green-300 to-emerald-300',
-          bounce: true
+          bounce: true,
         };
       case 'encouraging':
         return {
           face: '💪',
           color: 'from-orange-300 to-red-300',
-          bounce: true
+          bounce: true,
         };
       case 'sleepy':
         return {
           face: '😴',
           color: 'from-indigo-300 to-purple-300',
-          bounce: false
+          bounce: false,
         };
       case 'curious':
         return {
           face: '🧐',
           color: 'from-teal-300 to-cyan-300',
-          bounce: false
+          bounce: false,
         };
       default:
         return {
           face: '😊',
           color: 'from-yellow-300 to-orange-300',
-          bounce: true
+          bounce: true,
         };
     }
   };
@@ -97,13 +97,17 @@ export default function ChildMascot({
   const mascotData = getMascotFace();
 
   const encouragingMessages = {
-    happy: ["Hai! Aku Ana, teman belajarmu!", "Semangat belajar hari ini!", "Kamu hebat!"],
-    excited: ["Wah, keren sekali!", "Ayo kita belajar!", "Ini pasti seru!"],
-    thinking: ["Hmm, ayo kita pikirkan...", "Tidak apa-apa, pelan-pelan saja", "Kamu bisa!"],
-    celebrating: ["Selamat! Kamu berhasil!", "Hebat sekali!", "Kamu juara!"],
-    encouraging: ["Semangat! Jangan menyerah!", "Kamu kuat!", "Ayo coba lagi!"],
-    sleepy: ["Sudah waktunya istirahat?", "Jangan lupa tidur yang cukup ya", "Besok kita lanjut lagi"],
-    curious: ["Penasaran? Ayo kita cari tahu!", "Ada yang menarik nih!", "Wah, apa ya ini?"]
+    happy: ['Hai! Aku Ana, teman belajarmu!', 'Semangat belajar hari ini!', 'Kamu hebat!'],
+    excited: ['Wah, keren sekali!', 'Ayo kita belajar!', 'Ini pasti seru!'],
+    thinking: ['Hmm, ayo kita pikirkan...', 'Tidak apa-apa, pelan-pelan saja', 'Kamu bisa!'],
+    celebrating: ['Selamat! Kamu berhasil!', 'Hebat sekali!', 'Kamu juara!'],
+    encouraging: ['Semangat! Jangan menyerah!', 'Kamu kuat!', 'Ayo coba lagi!'],
+    sleepy: [
+      'Sudah waktunya istirahat?',
+      'Jangan lupa tidur yang cukup ya',
+      'Besok kita lanjut lagi',
+    ],
+    curious: ['Penasaran? Ayo kita cari tahu!', 'Ada yang menarik nih!', 'Wah, apa ya ini?'],
   };
 
   const getRandomMessage = () => {
@@ -146,21 +150,39 @@ export default function ChildMascot({
         onClick={handleClick}
         whileHover={{ scale: animate ? 1.1 : 1 }}
         whileTap={{ scale: animate ? 0.95 : 1 }}
-        animate={animate ? {
-          y: mascotData.bounce ? [0, -4, 0] : 0,
-        } : {}}
-        transition={animate ? {
-          duration: mascotData.bounce ? 2 : 0,
-          repeat: mascotData.bounce ? Infinity : 0,
-          ease: "easeInOut"
-        } : {}}
+        animate={
+          animate
+            ? {
+                y: mascotData.bounce ? [0, -4, 0] : 0,
+              }
+            : {}
+        }
+        transition={
+          animate
+            ? {
+                duration: mascotData.bounce ? 2 : 0,
+                repeat: mascotData.bounce ? Infinity : 0,
+                ease: 'easeInOut',
+              }
+            : {}
+        }
       >
         {/* Glow effect */}
-        <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${mascotData.color} blur-lg opacity-30 ${animate ? 'animate-pulse-soft' : ''}`} />
-        
+        <div
+          className={`absolute inset-0 rounded-full bg-gradient-to-r ${
+            mascotData.color
+          } blur-lg opacity-30 ${animate ? 'animate-pulse-soft' : ''}`}
+        />
+
         {/* Main mascot body */}
-        <div className={`relative ${sizeClasses[size]} rounded-full bg-gradient-to-br ${mascotData.color} shadow-lg flex items-center justify-center border-4 border-white`}>
-          <div className={`text-4xl ${size === 'small' ? 'text-2xl' : size === 'large' ? 'text-5xl' : 'text-4xl'} ${isBlinking ? 'animate-pulse' : ''}`}>
+        <div
+          className={`relative ${sizeClasses[size]} rounded-full bg-gradient-to-br ${mascotData.color} shadow-lg flex items-center justify-center border-4 border-white`}
+        >
+          <div
+            className={`text-4xl ${
+              size === 'small' ? 'text-2xl' : size === 'large' ? 'text-5xl' : 'text-4xl'
+            } ${isBlinking ? 'animate-pulse' : ''}`}
+          >
             {isBlinking && currentMood === 'happy' ? '😌' : mascotData.face}
           </div>
         </div>

@@ -26,7 +26,9 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
 
     // Auto-focus next input
     if (value && index < 3) {
-      const nextInput = document.querySelector(`input[data-pin-index="${index + 1}"]`) as HTMLInputElement;
+      const nextInput = document.querySelector(
+        `input[data-pin-index="${index + 1}"]`
+      ) as HTMLInputElement;
       if (nextInput) nextInput.focus();
     }
   };
@@ -34,24 +36,26 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === 'Backspace' && !pin[index] && index > 0) {
       // Focus previous input on backspace
-      const prevInput = document.querySelector(`input[data-pin-index="${index - 1}"]`) as HTMLInputElement;
+      const prevInput = document.querySelector(
+        `input[data-pin-index="${index - 1}"]`
+      ) as HTMLInputElement;
       if (prevInput) prevInput.focus();
     }
   };
 
   const handleSubmit = async () => {
     const enteredPIN = pin.join('');
-    
+
     if (enteredPIN.length !== 4) {
       setError('PIN harus terdiri dari 4 digit');
       return;
     }
 
     setIsLoading(true);
-    
+
     // Simulate loading for better UX
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     if (enteredPIN === correctPIN) {
       onSuccess();
       onClose();
@@ -63,7 +67,7 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
       const firstInput = document.querySelector(`input[data-pin-index="0"]`) as HTMLInputElement;
       if (firstInput) firstInput.focus();
     }
-    
+
     setIsLoading(false);
   };
 
@@ -90,7 +94,7 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={handleClose}
       />
-      
+
       {/* Modal */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -111,12 +115,8 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
           <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-indigo-600" />
           </div>
-          <h2 className="text-gray-900 font-heading text-xl mb-2">
-            Masukkan PIN Orang Tua
-          </h2>
-          <p className="text-gray-500 text-sm">
-            Untuk mengakses dashboard orang tua
-          </p>
+          <h2 className="text-gray-900 font-heading text-xl mb-2">Masukkan PIN Orang Tua</h2>
+          <p className="text-gray-500 text-sm">Untuk mengakses dashboard orang tua</p>
         </div>
 
         {/* PIN Input */}
@@ -130,8 +130,8 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
               onKeyDown={(e) => handleKeyDown(index, e)}
               data-pin-index={index}
               className={`w-12 h-12 text-center text-xl font-bold border-2 rounded-xl focus:outline-none transition-colors ${
-                error 
-                  ? 'border-red-300 bg-red-50 focus:border-red-500' 
+                error
+                  ? 'border-red-300 bg-red-50 focus:border-red-500'
                   : 'border-gray-200 focus:border-indigo-500 focus:bg-indigo-50'
               }`}
               maxLength={1}
@@ -173,9 +173,7 @@ export default function PINInputModal({ isOpen, onClose, onSuccess }: PINInputMo
         </button>
 
         {/* Hint */}
-        <p className="text-center text-xs text-gray-400 mt-4">
-          Hint untuk demo: 1234
-        </p>
+        <p className="text-center text-xs text-gray-400 mt-4">Hint untuk demo: 1234</p>
       </motion.div>
     </div>
   );

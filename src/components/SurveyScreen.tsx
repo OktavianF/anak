@@ -14,16 +14,16 @@ interface SurveyScreenProps {
   updateSurveyData: (data: any) => void;
 }
 
-export default function SurveyScreen({ 
-  navigateTo, 
-  childName, 
-  setChildName, 
-  childGender, 
-  setChildGender, 
-  childAge, 
+export default function SurveyScreen({
+  navigateTo,
+  childName,
+  setChildName,
+  childGender,
+  setChildGender,
+  childAge,
   setChildAge,
   surveyData,
-  updateSurveyData 
+  updateSurveyData,
 }: SurveyScreenProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [tempAnswers, setTempAnswers] = useState<{ [key: string]: any }>({});
@@ -32,12 +32,12 @@ export default function SurveyScreen({
     {
       id: 'gender-name',
       title: 'Apa gender dan siapa nama anak anda?',
-      type: 'gender-name'
+      type: 'gender-name',
     },
     {
       id: 'age',
       title: 'Berapa umur anak Anda?',
-      type: 'age-selection'
+      type: 'age-selection',
     },
     {
       id: 'personality',
@@ -51,8 +51,8 @@ export default function SurveyScreen({
         'Kemampuan problem solving',
         'Komunikasi yang efektif',
         'Kemandirian dalam belajar',
-        'Lainnya'
-      ]
+        'Lainnya',
+      ],
     },
     {
       id: 'activities',
@@ -64,8 +64,8 @@ export default function SurveyScreen({
         'Menggunakan bersama',
         'Pengasuh',
         'Saudara',
-        'Lainnya'
-      ]
+        'Lainnya',
+      ],
     },
     {
       id: 'interests1',
@@ -79,8 +79,8 @@ export default function SurveyScreen({
         'Kreatif dan inovatif dalam berpikir',
         'Mandiri dan bertanggung jawab',
         'Sehat fisik dan mental',
-        'Memiliki karakter yang baik'
-      ]
+        'Memiliki karakter yang baik',
+      ],
     },
     {
       id: 'interests2',
@@ -94,8 +94,8 @@ export default function SurveyScreen({
         'Menggambar dan mewarnai',
         'Bermain dengan mainan',
         'Belajar hal baru',
-        'Lainnya'
-      ]
+        'Lainnya',
+      ],
     },
     {
       id: 'learning-difficulty',
@@ -109,8 +109,8 @@ export default function SurveyScreen({
         'Kesulitan dengan angka/matematika',
         'Kesulitan dengan huruf/membaca',
         'Kesulitan dengan motorik halus',
-        'Lainnya'
-      ]
+        'Lainnya',
+      ],
     },
     {
       id: 'learning-method',
@@ -123,9 +123,9 @@ export default function SurveyScreen({
         'Praktek langsung dengan tangan',
         'Bercerita dan diskusi',
         'Menggunakan teknologi digital',
-        'Lainnya'
-      ]
-    }
+        'Lainnya',
+      ],
+    },
   ];
 
   const handleNext = () => {
@@ -155,16 +155,16 @@ export default function SurveyScreen({
     if (childAge < 3) {
       setChildAge(6);
     }
-    
+
     // Set default survey data
     const defaultSurveyData = {
       personality: ['Kemampuan akademik yang baik'],
       activities: ['Anak sendiri'],
       learningStyle: ['Bermain sambil belajar'],
       interests: ['Tumbuh menjadi anak yang bahagia'],
-      hobbies: ['Belajar hal baru']
+      hobbies: ['Belajar hal baru'],
     };
-    
+
     updateSurveyData(defaultSurveyData);
     navigateTo();
   };
@@ -178,7 +178,7 @@ export default function SurveyScreen({
     const newAnswers = currentAnswers.includes(option)
       ? currentAnswers.filter((a: string) => a !== option)
       : [...currentAnswers, option];
-    
+
     setTempAnswers({ ...tempAnswers, [questionId]: newAnswers });
   };
 
@@ -212,13 +212,13 @@ export default function SurveyScreen({
           ) : (
             <div className="w-10" />
           )}
-          
+
           <div className="text-center">
             <span className="text-sm font-body text-gray-500">
               {currentStep + 1} dari {surveySteps.length}
             </span>
           </div>
-          
+
           {/* Skip Button - Only on first page */}
           {currentStep === 0 ? (
             <motion.button
@@ -276,9 +276,7 @@ export default function SurveyScreen({
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="text-center">
-                      <div className="text-6xl mb-4">
-                        {gender === 'male' ? '👦' : '👧'}
-                      </div>
+                      <div className="text-6xl mb-4">{gender === 'male' ? '👦' : '👧'}</div>
                       <div className="text-gray-900 font-body font-semibold">
                         {gender === 'male' ? 'Laki-laki' : 'Perempuan'}
                       </div>
@@ -289,9 +287,7 @@ export default function SurveyScreen({
 
               {/* Name Input */}
               <div>
-                <label className="block text-gray-700 font-body font-medium mb-3">
-                  Nama Anak
-                </label>
+                <label className="block text-gray-700 font-body font-medium mb-3">Nama Anak</label>
                 <input
                   type="text"
                   value={childName}
@@ -314,7 +310,7 @@ export default function SurveyScreen({
                 { label: '7-8 Tahun', value: 7 },
                 { label: '8-9 Tahun', value: 8 },
                 { label: '9-10 Tahun', value: 9 },
-                { label: '11-12 Tahun', value: 11 }
+                { label: '11-12 Tahun', value: 11 },
               ].map((age, ageIndex) => (
                 <motion.button
                   key={`age-${age.label}-${ageIndex}`}
@@ -339,8 +335,10 @@ export default function SurveyScreen({
               {currentStepData.options?.map((option, index) => {
                 const isSelected = tempAnswers[currentStepData.id]?.includes(option);
                 // Create unique key using step id, option text, and index
-                const uniqueKey = `${currentStepData.id}-option-${index}-${option.replace(/\s+/g, '-').toLowerCase()}`;
-                
+                const uniqueKey = `${currentStepData.id}-option-${index}-${option
+                  .replace(/\s+/g, '-')
+                  .toLowerCase()}`;
+
                 return (
                   <motion.button
                     key={uniqueKey}
@@ -357,9 +355,7 @@ export default function SurveyScreen({
                     whileTap={{ scale: 0.99 }}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-body text-gray-900 leading-relaxed">
-                        {option}
-                      </span>
+                      <span className="font-body text-gray-900 leading-relaxed">{option}</span>
                       {isSelected && (
                         <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
                           <Check className="w-4 h-4 text-white" />
@@ -371,8 +367,6 @@ export default function SurveyScreen({
               })}
             </div>
           )}
-
-
         </motion.div>
       </div>
 

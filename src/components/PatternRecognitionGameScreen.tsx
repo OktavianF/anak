@@ -24,7 +24,11 @@ interface PatternElement {
   rotation: number;
 }
 
-export default function PatternRecognitionGameScreen({ navigateTo, addSticker, updateGameAssessment }: PatternRecognitionGameScreenProps) {
+export default function PatternRecognitionGameScreen({
+  navigateTo,
+  addSticker,
+  updateGameAssessment,
+}: PatternRecognitionGameScreenProps) {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [challenge, setChallenge] = useState<PatternChallenge | null>(null);
@@ -49,20 +53,24 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
   const sizes = ['small', 'medium', 'large'] as const;
 
   const generatePattern = useCallback((level: number): PatternChallenge => {
-    const difficulty: 'easy' | 'medium' | 'hard' = 
+    const difficulty: 'easy' | 'medium' | 'hard' =
       level <= 4 ? 'easy' : level <= 8 ? 'medium' : 'hard';
-    
+
     const gridSize = difficulty === 'easy' ? 3 : 4;
     const patternTypes = ['shape', 'color', 'size', 'rotation'];
-    const type = patternTypes[Math.floor(Math.random() * patternTypes.length)] as 'shape' | 'color' | 'size' | 'rotation';
-    
+    const type = patternTypes[Math.floor(Math.random() * patternTypes.length)] as
+      | 'shape'
+      | 'color'
+      | 'size'
+      | 'rotation';
+
     // Create base pattern
     const pattern: PatternElement[][] = [];
     const baseElement: PatternElement = {
       shape: shapes[Math.floor(Math.random() * shapes.length)],
       color: colors[Math.floor(Math.random() * colors.length)],
       size: sizes[Math.floor(Math.random() * sizes.length)],
-      rotation: 0
+      rotation: 0,
     };
 
     // Generate pattern based on type
@@ -70,37 +78,37 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
       pattern[row] = [];
       for (let col = 0; col < gridSize; col++) {
         let element: PatternElement;
-        
+
         switch (type) {
           case 'shape':
             element = {
               ...baseElement,
               shape: shapes[(shapes.indexOf(baseElement.shape) + row + col) % shapes.length],
-              color: colors[(row + col) % colors.length]
+              color: colors[(row + col) % colors.length],
             };
             break;
           case 'color':
             element = {
               ...baseElement,
-              color: colors[(row * gridSize + col) % colors.length]
+              color: colors[(row * gridSize + col) % colors.length],
             };
             break;
           case 'size':
             element = {
               ...baseElement,
-              size: sizes[(row + col) % sizes.length]
+              size: sizes[(row + col) % sizes.length],
             };
             break;
           case 'rotation':
             element = {
               ...baseElement,
-              rotation: ((row + col) * 45) % 360
+              rotation: ((row + col) * 45) % 360,
             };
             break;
           default:
             element = baseElement;
         }
-        
+
         pattern[row][col] = element;
       }
     }
@@ -116,12 +124,14 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
       do {
         missingRow = Math.floor(Math.random() * gridSize);
         missingCol = Math.floor(Math.random() * gridSize);
-      } while ((missingRow === 0 || missingRow === gridSize - 1) && 
-               (missingCol === 0 || missingCol === gridSize - 1));
+      } while (
+        (missingRow === 0 || missingRow === gridSize - 1) &&
+        (missingCol === 0 || missingCol === gridSize - 1)
+      );
     }
 
     const correct = pattern[missingRow][missingCol];
-    
+
     // Generate wrong choices
     const choices = [correct];
     while (choices.length < 4) {
@@ -129,20 +139,23 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
         shape: shapes[Math.floor(Math.random() * shapes.length)],
         color: colors[Math.floor(Math.random() * colors.length)],
         size: sizes[Math.floor(Math.random() * sizes.length)],
-        rotation: Math.floor(Math.random() * 8) * 45
+        rotation: Math.floor(Math.random() * 8) * 45,
       };
-      
+
       // Make sure it's different from correct answer
-      if (!choices.some(c => 
-        c.shape === wrongChoice.shape && 
-        c.color === wrongChoice.color && 
-        c.size === wrongChoice.size && 
-        c.rotation === wrongChoice.rotation
-      )) {
+      if (
+        !choices.some(
+          (c) =>
+            c.shape === wrongChoice.shape &&
+            c.color === wrongChoice.color &&
+            c.size === wrongChoice.size &&
+            c.rotation === wrongChoice.rotation
+        )
+      ) {
         choices.push(wrongChoice);
       }
     }
-    
+
     // Shuffle choices
     choices.sort(() => Math.random() - 0.5);
 
@@ -152,7 +165,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
       choices,
       correct,
       difficulty,
-      type
+      type,
     };
   }, []);
 
@@ -174,7 +187,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
     let interval: NodeJS.Timeout;
     if (isTimerRunning && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft(prev => {
+        setTimeLeft((prev) => {
           if (prev <= 1) {
             handleWrongAnswer();
             return 45;
@@ -188,25 +201,30 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
 
   const handleAnswer = (answer: PatternElement) => {
     if (!challenge || answerFeedback) return;
-    
+
     setSelectedAnswer(answer);
     setIsTimerRunning(false);
-    
-    const isCorrect = answer.shape === challenge.correct.shape &&
-                     answer.color === challenge.correct.color &&
-                     answer.size === challenge.correct.size &&
-                     answer.rotation === challenge.correct.rotation;
-    
+
+    const isCorrect =
+      answer.shape === challenge.correct.shape &&
+      answer.color === challenge.correct.color &&
+      answer.size === challenge.correct.size &&
+      answer.rotation === challenge.correct.rotation;
+
     if (isCorrect) {
       setAnswerFeedback('correct');
-      setScore(prev => prev + (challenge.difficulty === 'easy' ? 15 : challenge.difficulty === 'medium' ? 20 : 25));
-      setCorrectAnswers(prev => prev + 1);
-      
+      setScore(
+        (prev) =>
+          prev +
+          (challenge.difficulty === 'easy' ? 15 : challenge.difficulty === 'medium' ? 20 : 25)
+      );
+      setCorrectAnswers((prev) => prev + 1);
+
       setTimeout(() => {
         if (currentLevel >= maxLevel) {
           completeGame();
         } else {
-          setCurrentLevel(prev => prev + 1);
+          setCurrentLevel((prev) => prev + 1);
         }
       }, 2000);
     } else {
@@ -216,8 +234,8 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
 
   const handleWrongAnswer = () => {
     setAnswerFeedback('wrong');
-    setErrors(prev => prev + 1);
-    setLives(prev => {
+    setErrors((prev) => prev + 1);
+    setLives((prev) => {
       const newLives = prev - 1;
       if (newLives <= 0) {
         setTimeout(() => {
@@ -225,7 +243,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
         }, 2000);
       } else {
         setTimeout(() => {
-          setCurrentLevel(prev => prev + 1);
+          setCurrentLevel((prev) => prev + 1);
         }, 2000);
       }
       return newLives;
@@ -234,14 +252,22 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
 
   const completeGame = () => {
     if (gameCompletionHandled) return;
-    
+
     setGameCompletionHandled(true);
     const endTime = new Date();
-    const gameTimeSpent = gameStartTime ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000) : 0;
-    
+    const gameTimeSpent = gameStartTime
+      ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000)
+      : 0;
+
     const stars = getStarRating();
-    const finalScore = calculateAssessmentScore(stars, gameTimeSpent, errors, correctAnswers, hintsUsed);
-    
+    const finalScore = calculateAssessmentScore(
+      stars,
+      gameTimeSpent,
+      errors,
+      correctAnswers,
+      hintsUsed
+    );
+
     const sessionData = {
       timeSpent: gameTimeSpent,
       errors: errors,
@@ -252,9 +278,9 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
       hintsUsed: hintsUsed,
       stars: stars,
       timestamp: new Date().toISOString(),
-      domains: ['Logika Visual', 'Abstraksi', 'Spatial Intelligence']
+      domains: ['Logika Visual', 'Abstraksi', 'Spatial Intelligence'],
     };
-    
+
     updateGameAssessment('patternRecognition', sessionData);
     setGameCompleted(true);
     addSticker(lives > 0 ? 'pattern-master' : 'pattern-explorer');
@@ -263,13 +289,13 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
   const useHint = () => {
     if (!showHint && challenge) {
       setShowHint(true);
-      setHintsUsed(prev => prev + 1);
+      setHintsUsed((prev) => prev + 1);
     }
   };
 
   const getHintText = () => {
     if (!challenge) return '';
-    
+
     switch (challenge.type) {
       case 'shape':
         return 'Perhatikan urutan bentuk dalam baris dan kolom';
@@ -286,19 +312,32 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
 
   const renderShape = (element: PatternElement, size: string = 'w-8 h-8') => {
     const sizeMultiplier = element.size === 'small' ? 0.7 : element.size === 'large' ? 1.3 : 1;
-    const actualSize = size === 'w-8 h-8' ? `w-${Math.round(8 * sizeMultiplier)} h-${Math.round(8 * sizeMultiplier)}` : size;
-    
+    const actualSize =
+      size === 'w-8 h-8'
+        ? `w-${Math.round(8 * sizeMultiplier)} h-${Math.round(8 * sizeMultiplier)}`
+        : size;
+
     const style = {
       color: element.color,
       transform: `rotate(${element.rotation}deg)`,
-      fontSize: element.size === 'small' ? '1rem' : element.size === 'large' ? '2rem' : '1.5rem'
+      fontSize: element.size === 'small' ? '1rem' : element.size === 'large' ? '2rem' : '1.5rem',
     };
 
     switch (element.shape) {
       case 'circle':
-        return <div className={`${actualSize} rounded-full`} style={{backgroundColor: element.color, transform: style.transform}} />;
+        return (
+          <div
+            className={`${actualSize} rounded-full`}
+            style={{ backgroundColor: element.color, transform: style.transform }}
+          />
+        );
       case 'square':
-        return <div className={`${actualSize} rounded-md`} style={{backgroundColor: element.color, transform: style.transform}} />;
+        return (
+          <div
+            className={`${actualSize} rounded-md`}
+            style={{ backgroundColor: element.color, transform: style.transform }}
+          />
+        );
       case 'triangle':
         return <div style={style}>▲</div>;
       case 'star':
@@ -306,7 +345,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
       case 'diamond':
         return <div style={style}>♦</div>;
       default:
-        return <div className={actualSize} style={{backgroundColor: element.color}} />;
+        return <div className={actualSize} style={{ backgroundColor: element.color }} />;
     }
   };
 
@@ -316,24 +355,32 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
     return 'hard';
   };
 
-  const calculateAssessmentScore = (stars: number, timeSpent: number, errors: number, correct: number, hints: number) => {
+  const calculateAssessmentScore = (
+    stars: number,
+    timeSpent: number,
+    errors: number,
+    correct: number,
+    hints: number
+  ) => {
     const baseScore = stars * 30; // 30, 60, or 90
-    
+
     // Accuracy bonus
     const accuracy = correct / Math.max(currentLevel - 1, 1);
     const accuracyBonus = Math.floor(accuracy * 20);
-    
+
     // Time performance (reasonable time expectations for pattern recognition)
     const averageTimePerLevel = timeSpent / Math.max(currentLevel - 1, 1);
     const timeBonus = Math.max(0, Math.floor((90 - averageTimePerLevel) / 10)) * 2;
-    
+
     // Error penalty
     const errorPenalty = errors * 3;
-    
+
     // Hint penalty
     const hintPenalty = hints * 2;
-    
-    return Math.round(Math.max(10, baseScore + accuracyBonus + timeBonus - errorPenalty - hintPenalty));
+
+    return Math.round(
+      Math.max(10, baseScore + accuracyBonus + timeBonus - errorPenalty - hintPenalty)
+    );
   };
 
   const getPerformanceLevel = (score: number) => {
@@ -347,7 +394,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
   const getStarRating = () => {
     const accuracy = correctAnswers / Math.max(currentLevel - 1, 1);
     const hintsPerLevel = hintsUsed / Math.max(currentLevel - 1, 1);
-    
+
     if (accuracy >= 0.8 && hintsPerLevel <= 0.3) return 3;
     if (accuracy >= 0.6 && hintsPerLevel <= 0.6) return 2;
     return 1;
@@ -371,22 +418,30 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
   if (gameCompleted) {
     const stars = getStarRating();
     const endTime = new Date();
-    const gameTimeSpent = gameStartTime ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000) : 0;
-    const finalScore = calculateAssessmentScore(stars, gameTimeSpent, errors, correctAnswers, hintsUsed);
+    const gameTimeSpent = gameStartTime
+      ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000)
+      : 0;
+    const finalScore = calculateAssessmentScore(
+      stars,
+      gameTimeSpent,
+      errors,
+      correctAnswers,
+      hintsUsed
+    );
     const performance = getPerformanceLevel(finalScore);
-    
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="bg-white rounded-3xl p-8 text-center max-w-sm mx-4 shadow-2xl"
         >
           <motion.div
-            animate={{ 
-              scale: [1, 1.2, 1], 
-              rotate: [0, 10, -10, 0]
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 10, -10, 0],
             }}
             transition={{ duration: 0.8, repeat: 3 }}
             className="text-8xl mb-4"
@@ -403,10 +458,12 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
 
           {/* Stars */}
           <div className="flex justify-center space-x-1 mb-4">
-            {[1, 2, 3].map(star => (
-              <Star 
+            {[1, 2, 3].map((star) => (
+              <Star
                 key={star}
-                className={`w-8 h-8 ${star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'}`}
+                className={`w-8 h-8 ${
+                  star <= stars ? 'text-yellow-400 fill-current' : 'text-gray-200'
+                }`}
               />
             ))}
           </div>
@@ -415,12 +472,20 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
           <div className={`${performance.bg} rounded-2xl p-4 mb-4`}>
             <div className="flex items-center justify-between mb-3">
               <h3 className={`font-heading font-bold ${performance.color}`}>Assessment Result</h3>
-              <span className={`font-heading font-bold text-lg ${performance.color}`}>{finalScore}</span>
+              <span className={`font-heading font-bold text-lg ${performance.color}`}>
+                {finalScore}
+              </span>
             </div>
             <div className={`${performance.color} font-body text-sm space-y-1`}>
-              <p>Performance: <span className="font-bold">{performance.level}</span></p>
-              <p>Domain: <span className="font-bold">Logika Visual & Abstraksi</span></p>
-              <p>Level Tercapai: <span className="font-bold">{currentLevel}</span></p>
+              <p>
+                Performance: <span className="font-bold">{performance.level}</span>
+              </p>
+              <p>
+                Domain: <span className="font-bold">Logika Visual & Abstraksi</span>
+              </p>
+              <p>
+                Level Tercapai: <span className="font-bold">{currentLevel}</span>
+              </p>
             </div>
           </div>
 
@@ -433,11 +498,16 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
               </div>
               <div className="flex justify-between">
                 <span>Waktu Total:</span>
-                <span className="font-bold">{Math.floor(gameTimeSpent / 60)}:{(gameTimeSpent % 60).toString().padStart(2, '0')}</span>
+                <span className="font-bold">
+                  {Math.floor(gameTimeSpent / 60)}:
+                  {(gameTimeSpent % 60).toString().padStart(2, '0')}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Akurasi:</span>
-                <span className="font-bold">{Math.round((correctAnswers / Math.max(currentLevel - 1, 1)) * 100)}%</span>
+                <span className="font-bold">
+                  {Math.round((correctAnswers / Math.max(currentLevel - 1, 1)) * 100)}%
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Kesalahan:</span>
@@ -459,9 +529,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
           <div className="bg-yellow-50 rounded-2xl p-4 mb-6">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Trophy className="w-5 h-5 text-yellow-600" />
-              <span className="text-yellow-700 font-body font-semibold">
-                Hadiah Diperoleh!
-              </span>
+              <span className="text-yellow-700 font-body font-semibold">Hadiah Diperoleh!</span>
             </div>
             <p className="text-yellow-600 font-body text-sm">
               Stiker "{lives > 0 ? 'Pattern Master' : 'Pattern Explorer'}" ditambahkan!
@@ -536,7 +604,9 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
                 <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
                   <span className="text-purple-600 font-bold text-sm">1</span>
                 </div>
-                <p className="text-gray-600 font-body text-sm">Amati pola dalam grid bentuk & warna</p>
+                <p className="text-gray-600 font-body text-sm">
+                  Amati pola dalam grid bentuk & warna
+                </p>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
@@ -548,7 +618,9 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
                 <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
                   <span className="text-purple-600 font-bold text-sm">3</span>
                 </div>
-                <p className="text-gray-600 font-body text-sm">Selesaikan 12 level dengan 3 nyawa</p>
+                <p className="text-gray-600 font-body text-sm">
+                  Selesaikan 12 level dengan 3 nyawa
+                </p>
               </div>
             </div>
           </motion.div>
@@ -560,9 +632,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
             transition={{ delay: 0.1 }}
             className="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-2xl p-6 mb-6"
           >
-            <h3 className="text-purple-700 font-heading font-bold text-base mb-3">
-              Jenis Pola:
-            </h3>
+            <h3 className="text-purple-700 font-heading font-bold text-base mb-3">Jenis Pola:</h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
@@ -635,7 +705,9 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
           <div className="flex items-center justify-between text-center">
             <div>
-              <span className="text-white font-heading font-bold text-lg">Level {currentLevel}</span>
+              <span className="text-white font-heading font-bold text-lg">
+                Level {currentLevel}
+              </span>
               <p className="text-purple-100 font-body text-xs">dari {maxLevel}</p>
             </div>
             <div>
@@ -674,24 +746,40 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
         >
           <div className="flex items-center justify-between mb-3">
             <div>
-              <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                challenge.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
-                challenge.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                'bg-red-100 text-red-700'
-              }`}>
-                {challenge.difficulty === 'easy' ? 'Mudah' : 
-                 challenge.difficulty === 'medium' ? 'Sedang' : 'Sulit'}
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-bold ${
+                  challenge.difficulty === 'easy'
+                    ? 'bg-green-100 text-green-700'
+                    : challenge.difficulty === 'medium'
+                    ? 'bg-yellow-100 text-yellow-700'
+                    : 'bg-red-100 text-red-700'
+                }`}
+              >
+                {challenge.difficulty === 'easy'
+                  ? 'Mudah'
+                  : challenge.difficulty === 'medium'
+                  ? 'Sedang'
+                  : 'Sulit'}
               </span>
               <span className="ml-2 bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded-full">
-                Pola: {challenge.type === 'shape' ? 'Bentuk' : 
-                       challenge.type === 'color' ? 'Warna' :
-                       challenge.type === 'size' ? 'Ukuran' : 'Rotasi'}
+                Pola:{' '}
+                {challenge.type === 'shape'
+                  ? 'Bentuk'
+                  : challenge.type === 'color'
+                  ? 'Warna'
+                  : challenge.type === 'size'
+                  ? 'Ukuran'
+                  : 'Rotasi'}
               </span>
             </div>
             <motion.button
               onClick={useHint}
               disabled={showHint}
-              className={`p-2 rounded-xl ${showHint ? 'bg-gray-100 text-gray-400' : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'}`}
+              className={`p-2 rounded-xl ${
+                showHint
+                  ? 'bg-gray-100 text-gray-400'
+                  : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
+              }`}
               whileTap={{ scale: 0.95 }}
             >
               <Lightbulb className="w-5 h-5" />
@@ -713,9 +801,11 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
           <h3 className="text-gray-900 font-heading font-bold text-lg mb-4 text-center">
             Temukan elemen yang hilang:
           </h3>
-          <div className={`grid gap-3 mb-6 justify-center ${
-            challenge.pattern.length === 3 ? 'grid-cols-3' : 'grid-cols-4'
-          }`}>
+          <div
+            className={`grid gap-3 mb-6 justify-center ${
+              challenge.pattern.length === 3 ? 'grid-cols-3' : 'grid-cols-4'
+            }`}
+          >
             {challenge.pattern.map((row, rowIndex) =>
               row.map((element, colIndex) => (
                 <motion.div
@@ -752,7 +842,7 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
                       ? 'bg-gradient-to-br from-green-400 to-green-500 text-white'
                       : 'bg-gradient-to-br from-red-400 to-red-500 text-white'
                     : 'bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300'
-                } ${!!answerFeedback ? 'cursor-not-allowed' : 'hover:scale-105'}`}
+                } ${answerFeedback ? 'cursor-not-allowed' : 'hover:scale-105'}`}
                 whileHover={!answerFeedback ? { scale: 1.05 } : {}}
                 whileTap={!answerFeedback ? { scale: 0.95 } : {}}
                 initial={{ opacity: 0, y: 20 }}
@@ -785,8 +875,8 @@ export default function PatternRecognitionGameScreen({ navigateTo, addSticker, u
               }`}
             >
               <p className="font-bold">
-                {answerFeedback === 'correct' 
-                  ? '🎉 Hebat! Pola berhasil dikenali!' 
+                {answerFeedback === 'correct'
+                  ? '🎉 Hebat! Pola berhasil dikenali!'
                   : '❌ Belum tepat! Coba perhatikan pola lagi'}
               </p>
             </motion.div>

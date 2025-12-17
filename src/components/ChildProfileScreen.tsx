@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Star, Trophy, Coins, LogOut, Crown, Sparkles, Gift, Zap, Heart, Settings, ArrowLeft } from 'lucide-react';
+import {
+  Star,
+  Trophy,
+  Coins,
+  LogOut,
+  Crown,
+  Sparkles,
+  Gift,
+  Zap,
+  Heart,
+  Settings,
+  ArrowLeft,
+} from 'lucide-react';
 
 interface ChildProfileScreenProps {
   navigateTo: (screen: string) => void;
@@ -12,19 +24,19 @@ interface ChildProfileScreenProps {
   updateProfile: (data: any) => void;
 }
 
-export default function ChildProfileScreen({ 
-  navigateTo, 
-  childName, 
-  isParentMode, 
+export default function ChildProfileScreen({
+  navigateTo,
+  childName,
+  isParentMode,
   setIsParentMode,
   collectedStickers,
   profileData,
-  updateProfile
+  updateProfile,
 }: ChildProfileScreenProps) {
   const [showCustomization, setShowCustomization] = useState(false);
   const [currentCoins, setCurrentCoins] = useState(2580); // Virtual currency
   const [selectedCustomization, setSelectedCustomization] = useState('avatar');
-  
+
   // Avatar customization options
   const avatarOptions = ['👦', '👧', '🧒', '👶', '🐱', '🐶', '🦊', '🐼', '🐸', '🦄', '🐵', '🐨'];
   const outfitOptions = ['👕', '👔', '🦺', '👗', '🎽', '🧥'];
@@ -35,37 +47,108 @@ export default function ChildProfileScreen({
     { id: 'space', emoji: '🚀', color: 'from-purple-400 to-indigo-600' },
     { id: 'candy', emoji: '🍭', color: 'from-pink-400 to-rose-600' },
     { id: 'rainbow', emoji: '🌈', color: 'from-yellow-400 to-pink-500' },
-    { id: 'castle', emoji: '🏰', color: 'from-indigo-400 to-purple-600' }
+    { id: 'castle', emoji: '🏰', color: 'from-indigo-400 to-purple-600' },
   ];
 
   // Achievements/Badges with rarity levels
   const achievements = [
-    { id: 'memory-master', name: 'Memory Master', emoji: '🧠', rarity: 'legendary', earned: true, description: 'Ahli Memori Super!' },
-    { id: 'puzzle-genius', name: 'Puzzle Genius', emoji: '🧩', rarity: 'epic', earned: true, description: 'Penyelesai Puzzle Handal!' },
-    { id: 'speed-runner', name: 'Speed Runner', emoji: '⚡', rarity: 'rare', earned: true, description: 'Pelari Cepat!' },
-    { id: 'pattern-expert', name: 'Pattern Expert', emoji: '🎯', rarity: 'epic', earned: true, description: 'Ahli Pola!' },
-    { id: 'word-wizard', name: 'Word Wizard', emoji: '📚', rarity: 'rare', earned: true, description: 'Penyihir Kata!' },
-    { id: 'number-ninja', name: 'Number Ninja', emoji: '🔢', rarity: 'rare', earned: true, description: 'Ninja Angka!' },
-    { id: 'brain-champion', name: 'Brain Champion', emoji: '👑', rarity: 'legendary', earned: false, description: 'Juara Otak!' },
-    { id: 'super-learner', name: 'Super Learner', emoji: '🌟', rarity: 'epic', earned: false, description: 'Pelajar Super!' },
-    { id: 'creativity-king', name: 'Creativity King', emoji: '🎨', rarity: 'rare', earned: false, description: 'Raja Kreativitas!' }
+    {
+      id: 'memory-master',
+      name: 'Memory Master',
+      emoji: '🧠',
+      rarity: 'legendary',
+      earned: true,
+      description: 'Ahli Memori Super!',
+    },
+    {
+      id: 'puzzle-genius',
+      name: 'Puzzle Genius',
+      emoji: '🧩',
+      rarity: 'epic',
+      earned: true,
+      description: 'Penyelesai Puzzle Handal!',
+    },
+    {
+      id: 'speed-runner',
+      name: 'Speed Runner',
+      emoji: '⚡',
+      rarity: 'rare',
+      earned: true,
+      description: 'Pelari Cepat!',
+    },
+    {
+      id: 'pattern-expert',
+      name: 'Pattern Expert',
+      emoji: '🎯',
+      rarity: 'epic',
+      earned: true,
+      description: 'Ahli Pola!',
+    },
+    {
+      id: 'word-wizard',
+      name: 'Word Wizard',
+      emoji: '📚',
+      rarity: 'rare',
+      earned: true,
+      description: 'Penyihir Kata!',
+    },
+    {
+      id: 'number-ninja',
+      name: 'Number Ninja',
+      emoji: '🔢',
+      rarity: 'rare',
+      earned: true,
+      description: 'Ninja Angka!',
+    },
+    {
+      id: 'brain-champion',
+      name: 'Brain Champion',
+      emoji: '👑',
+      rarity: 'legendary',
+      earned: false,
+      description: 'Juara Otak!',
+    },
+    {
+      id: 'super-learner',
+      name: 'Super Learner',
+      emoji: '🌟',
+      rarity: 'epic',
+      earned: false,
+      description: 'Pelajar Super!',
+    },
+    {
+      id: 'creativity-king',
+      name: 'Creativity King',
+      emoji: '🎨',
+      rarity: 'rare',
+      earned: false,
+      description: 'Raja Kreativitas!',
+    },
   ];
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case 'legendary': return 'from-yellow-400 to-orange-500';
-      case 'epic': return 'from-purple-400 to-pink-500';
-      case 'rare': return 'from-blue-400 to-indigo-500';
-      default: return 'from-gray-400 to-gray-500';
+      case 'legendary':
+        return 'from-yellow-400 to-orange-500';
+      case 'epic':
+        return 'from-purple-400 to-pink-500';
+      case 'rare':
+        return 'from-blue-400 to-indigo-500';
+      default:
+        return 'from-gray-400 to-gray-500';
     }
   };
 
   const getRarityGlow = (rarity: string) => {
     switch (rarity) {
-      case 'legendary': return 'shadow-yellow-500/50';
-      case 'epic': return 'shadow-purple-500/50';
-      case 'rare': return 'shadow-blue-500/50';
-      default: return 'shadow-gray-500/50';
+      case 'legendary':
+        return 'shadow-yellow-500/50';
+      case 'epic':
+        return 'shadow-purple-500/50';
+      case 'rare':
+        return 'shadow-blue-500/50';
+      default:
+        return 'shadow-gray-500/50';
     }
   };
 
@@ -77,7 +160,7 @@ export default function ChildProfileScreen({
 
   const purchaseItem = (item: any, cost: number) => {
     if (currentCoins >= cost) {
-      setCurrentCoins(prev => prev - cost);
+      setCurrentCoins((prev) => prev - cost);
       updateProfile({ ...profileData, ...item });
     }
   };
@@ -90,21 +173,21 @@ export default function ChildProfileScreen({
           <motion.div
             key={i}
             className="absolute text-white text-opacity-40"
-            initial={{ 
+            initial={{
               x: Math.random() * window.innerWidth,
               y: Math.random() * window.innerHeight,
               rotate: 0,
-              scale: Math.random() * 0.5 + 0.5
+              scale: Math.random() * 0.5 + 0.5,
             }}
-            animate={{ 
+            animate={{
               y: [0, -20, 0],
               rotate: [0, 360, 0],
-              scale: [1, 1.2, 1]
+              scale: [1, 1.2, 1],
             }}
-            transition={{ 
+            transition={{
               duration: 4 + Math.random() * 2,
               repeat: Infinity,
-              delay: Math.random() * 2
+              delay: Math.random() * 2,
             }}
           >
             {['⭐', '✨', '🌟', '💫', '🎉', '🎈', '🎁', '🏆'][Math.floor(Math.random() * 8)]}
@@ -118,10 +201,10 @@ export default function ChildProfileScreen({
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           onClick={() => navigateTo('child-assessment')}
           className="absolute top-4 left-6 w-12 h-12 bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 shadow-lg"
-          whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.35)" }}
+          whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.35)' }}
           whileTap={{ scale: 0.9 }}
         >
           <ArrowLeft className="w-6 h-6 text-white" strokeWidth={2.5} />
@@ -131,7 +214,7 @@ export default function ChildProfileScreen({
         <motion.div
           initial={{ opacity: 0, y: -50, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="text-center"
         >
           {/* Large Customizable Avatar */}
@@ -143,20 +226,20 @@ export default function ChildProfileScreen({
           >
             {/* Avatar Container with Glow Effect */}
             <div className="relative">
-              <motion.div 
+              <motion.div
                 className="w-32 h-32 rounded-full bg-gradient-to-br from-white to-blue-100 flex items-center justify-center text-7xl shadow-2xl border-4 border-white"
-                animate={{ 
+                animate={{
                   boxShadow: [
-                    "0 0 20px rgba(255,255,255,0.5)",
-                    "0 0 40px rgba(255,255,255,0.8)",
-                    "0 0 20px rgba(255,255,255,0.5)"
-                  ]
+                    '0 0 20px rgba(255,255,255,0.5)',
+                    '0 0 40px rgba(255,255,255,0.8)',
+                    '0 0 20px rgba(255,255,255,0.5)',
+                  ],
                 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               >
                 <span>{profileData.avatar}</span>
               </motion.div>
-              
+
               {/* Customization Button */}
               <motion.button
                 className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg border-3 border-white"
@@ -171,20 +254,20 @@ export default function ChildProfileScreen({
           </motion.div>
 
           {/* Child Name with Fun Typography */}
-          <motion.h1 
+          <motion.h1
             className="text-white font-heading text-4xl mb-2 drop-shadow-lg"
-            animate={{ 
+            animate={{
               textShadow: [
-                "0 0 10px rgba(255,255,255,0.5)",
-                "0 0 20px rgba(255,255,255,0.8)",
-                "0 0 10px rgba(255,255,255,0.5)"
-              ]
+                '0 0 10px rgba(255,255,255,0.5)',
+                '0 0 20px rgba(255,255,255,0.8)',
+                '0 0 10px rgba(255,255,255,0.5)',
+              ],
             }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           >
             {childName} 🌟
           </motion.h1>
-          
+
           {/* Coins Display */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -194,18 +277,19 @@ export default function ChildProfileScreen({
           >
             <motion.div
               animate={{ rotate: [0, 360] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
             >
               <Coins className="w-6 h-6 text-yellow-300" />
             </motion.div>
-            <span className="text-white font-heading text-xl font-bold">{currentCoins.toLocaleString()}</span>
+            <span className="text-white font-heading text-xl font-bold">
+              {currentCoins.toLocaleString()}
+            </span>
           </motion.div>
         </motion.div>
       </div>
 
       {/* Main Content Tabs */}
       <div className="px-6 pb-20">
-
         {/* Achievement Gallery */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -216,19 +300,21 @@ export default function ChildProfileScreen({
           <div className="text-center mb-4">
             <h2 className="text-white font-heading text-2xl mb-2">🏆 Trophy Collection 🏆</h2>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-4">
             {achievements.map((achievement, index) => (
               <motion.div
                 key={achievement.id}
                 initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={{ 
-                  opacity: achievement.earned ? 1 : 0.3, 
+                animate={{
+                  opacity: achievement.earned ? 1 : 0.3,
                   scale: achievement.earned ? 1 : 0.9,
-                  rotate: 0
+                  rotate: 0,
                 }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative bg-gradient-to-br ${getRarityColor(achievement.rarity)} rounded-2xl p-4 text-center shadow-xl ${getRarityGlow(achievement.rarity)} ${
+                className={`relative bg-gradient-to-br ${getRarityColor(
+                  achievement.rarity
+                )} rounded-2xl p-4 text-center shadow-xl ${getRarityGlow(achievement.rarity)} ${
                   achievement.earned ? 'border-2 border-white' : 'border border-white/50'
                 }`}
                 whileHover={achievement.earned ? { scale: 1.1, rotate: 5 } : {}}
@@ -242,19 +328,19 @@ export default function ChildProfileScreen({
                     ✓
                   </motion.div>
                 )}
-                
+
                 <div className="text-3xl mb-2">{achievement.emoji}</div>
                 <div className="text-white text-xs font-bold">{achievement.name}</div>
-                
+
                 {achievement.earned && achievement.rarity === 'legendary' && (
                   <motion.div
                     className="absolute inset-0 rounded-2xl"
-                    animate={{ 
+                    animate={{
                       boxShadow: [
-                        "0 0 0px rgba(255,215,0,0)",
-                        "0 0 20px rgba(255,215,0,0.6)",
-                        "0 0 0px rgba(255,215,0,0)"
-                      ]
+                        '0 0 0px rgba(255,215,0,0)',
+                        '0 0 20px rgba(255,215,0,0.6)',
+                        '0 0 0px rgba(255,215,0,0)',
+                      ],
                     }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
@@ -271,16 +357,15 @@ export default function ChildProfileScreen({
           transition={{ delay: 0.6 }}
           onClick={handleSafeExit}
           className="w-full bg-white/25 backdrop-blur-md rounded-3xl p-4 border border-white/40 flex items-center justify-center space-x-3 text-white font-heading text-lg"
-          whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.3)" }}
+          whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.3)' }}
           whileTap={{ scale: 0.98 }}
         >
           <LogOut className="w-6 h-6" />
           <span>Kembali</span>
           <motion.div
             animate={{ x: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-          </motion.div>
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          ></motion.div>
         </motion.button>
       </div>
 
@@ -309,7 +394,7 @@ export default function ChildProfileScreen({
               {[
                 { id: 'avatar', name: 'Avatar', emoji: '👤' },
                 { id: 'outfit', name: 'Outfit', emoji: '👕' },
-                { id: 'hat', name: 'Hat', emoji: '🎩' }
+                { id: 'hat', name: 'Hat', emoji: '🎩' },
               ].map((category) => (
                 <button
                   key={category.id}
@@ -328,9 +413,12 @@ export default function ChildProfileScreen({
 
             {/* Customization Items */}
             <div className="grid grid-cols-4 gap-3 mb-6">
-              {(selectedCustomization === 'avatar' ? avatarOptions : 
-                selectedCustomization === 'outfit' ? outfitOptions : hatOptions)
-                .map((item, index) => (
+              {(selectedCustomization === 'avatar'
+                ? avatarOptions
+                : selectedCustomization === 'outfit'
+                ? outfitOptions
+                : hatOptions
+              ).map((item, index) => (
                 <button
                   key={index}
                   onClick={() => purchaseItem({ avatar: item }, 100)}
