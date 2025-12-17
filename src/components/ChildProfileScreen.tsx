@@ -1,37 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import {
-  Star,
-  Trophy,
-  Coins,
-  LogOut,
-  Crown,
-  Sparkles,
-  Gift,
-  Zap,
-  Heart,
-  Settings,
-  ArrowLeft,
-} from 'lucide-react';
+import { Coins, LogOut, Settings, ArrowLeft } from 'lucide-react';
 
 interface ChildProfileScreenProps {
   navigateTo: (screen: string) => void;
   childName: string;
-  isParentMode: boolean;
-  setIsParentMode: (mode: boolean) => void;
-  collectedStickers: string[];
-  profileData: any;
-  updateProfile: (data: any) => void;
+  isParentMode?: boolean;
+  setIsParentMode?: (mode: boolean) => void;
+  collectedStickers?: string[];
+  profileData: { avatar?: string; coins?: number; name?: string };
+  updateProfile?: (data: Partial<{ avatar?: string; coins?: number; name?: string }>) => void;
 }
 
 export default function ChildProfileScreen({
   navigateTo,
   childName,
-  isParentMode,
-  setIsParentMode,
-  collectedStickers,
   profileData,
   updateProfile,
+  setIsParentMode,
 }: ChildProfileScreenProps) {
   const [showCustomization, setShowCustomization] = useState(false);
   const [currentCoins, setCurrentCoins] = useState(2580); // Virtual currency
@@ -41,14 +27,7 @@ export default function ChildProfileScreen({
   const avatarOptions = ['👦', '👧', '🧒', '👶', '🐱', '🐶', '🦊', '🐼', '🐸', '🦄', '🐵', '🐨'];
   const outfitOptions = ['👕', '👔', '🦺', '👗', '🎽', '🧥'];
   const hatOptions = ['🎩', '👑', '🧢', '🎓', '👒', '⛑️'];
-  const backgroundOptions = [
-    { id: 'forest', emoji: '🌲', color: 'from-green-400 to-emerald-600' },
-    { id: 'ocean', emoji: '🌊', color: 'from-blue-400 to-cyan-600' },
-    { id: 'space', emoji: '🚀', color: 'from-purple-400 to-indigo-600' },
-    { id: 'candy', emoji: '🍭', color: 'from-pink-400 to-rose-600' },
-    { id: 'rainbow', emoji: '🌈', color: 'from-yellow-400 to-pink-500' },
-    { id: 'castle', emoji: '🏰', color: 'from-indigo-400 to-purple-600' },
-  ];
+  
 
   // Achievements/Badges with rarity levels
   const achievements = [
@@ -158,7 +137,10 @@ export default function ChildProfileScreen({
     navigateTo('home');
   };
 
-  const purchaseItem = (item: any, cost: number) => {
+  const purchaseItem = (
+    item: Partial<{ avatar?: string; coins?: number; name?: string }>,
+    cost: number
+  ) => {
     if (currentCoins >= cost) {
       setCurrentCoins((prev) => prev - cost);
       updateProfile({ ...profileData, ...item });
