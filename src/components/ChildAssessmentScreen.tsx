@@ -1,34 +1,18 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import {
-  ArrowLeft,
-  User,
-  Home,
-  Brain,
-  MessageCircle,
-  Target,
-  Zap,
-  Award,
-  Sparkles,
-  Heart,
-  Trophy,
-  Play,
-} from 'lucide-react';
+import { Brain, Zap, Sparkles, Play } from 'lucide-react';
 
 interface ChildAssessmentScreenProps {
   navigateTo: (screen: string) => void;
   childName: string;
   isParentMode: boolean;
   setIsParentMode: (mode: boolean) => void;
-  chcAssessments: any;
+  chcAssessments?: unknown;
 }
 
 export default function ChildAssessmentScreen({
   navigateTo,
   childName,
-  isParentMode,
-  setIsParentMode,
-  chcAssessments,
 }: ChildAssessmentScreenProps) {
   const chcDomains = [
     {
