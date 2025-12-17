@@ -1,6 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Volume2, VolumeX, Music } from 'lucide-react';
+
+// Helper to obtain a cross-browser AudioContext constructor without using `any`.
+const getAudioContextConstructor = (): (new () => AudioContext) | null => {
+  const win = window as unknown as {
+    AudioContext?: typeof AudioContext;
+    webkitAudioContext?: typeof AudioContext;
+  };
+  return win.AudioContext ?? win.webkitAudioContext ?? null;
+};
 
 interface AudioControlsProps {
   className?: string;
@@ -11,24 +20,32 @@ export const AudioControls: React.FC<AudioControlsProps> = ({ className = '' }) 
   const [isPlaying, setIsPlaying] = useState(false);
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    // Play a small feedback sound when toggling
-    if (!isMuted) {
-      playToggleSound();
-    }
+    setIsMuted((prev) => {
+      const next = !prev;
+      // Play a small feedback sound when toggling from unmuted -> muted
+      if (!prev) {
+        playToggleSound();
+      }
+      return next;
+    });
   };
 
   const toggleMusic = () => {
-    setIsPlaying(!isPlaying);
-    if (!isPlaying && !isMuted) {
-      playBackgroundMusic();
-    } else {
-      stopBackgroundMusic();
-    }
+    setIsPlaying((prev) => {
+      const next = !prev;
+      if (next && !isMuted) {
+        playBackgroundMusic();
+      } else {
+        stopBackgroundMusic();
+      }
+      return next;
+    });
   };
 
   const playToggleSound = () => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = getAudioContextConstructor();
+    if (!AudioCtor) return;
+    const audioContext = new AudioCtor();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
@@ -48,7 +65,9 @@ export const AudioControls: React.FC<AudioControlsProps> = ({ className = '' }) 
 
   const playBackgroundMusic = () => {
     // Simple background music loop
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = getAudioContextConstructor();
+    if (!AudioCtor) return;
+    const audioContext = new AudioCtor();
 
     const playMelodyLoop = () => {
       if (!isPlaying || isMuted) return;
@@ -63,7 +82,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({ className = '' }) 
 
       let startTime = audioContext.currentTime;
 
-      melody.forEach((note, index) => {
+      melody.forEach((note) => {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
 
@@ -165,7 +184,9 @@ export const useAudioFeedback = () => {
     if (isMuted) return;
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtor = getAudioContextConstructor();
+      if (!AudioCtor) return;
+      const audioContext = new AudioCtor();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -190,7 +211,9 @@ export const useAudioFeedback = () => {
     if (isMuted) return;
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtor = getAudioContextConstructor();
+      if (!AudioCtor) return;
+      const audioContext = new AudioCtor();
 
       const notes = [
         { freq: 523.25, start: 0, duration: 0.2 }, // C5
@@ -226,7 +249,9 @@ export const useAudioFeedback = () => {
     if (isMuted) return;
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtor = getAudioContextConstructor();
+      if (!AudioCtor) return;
+      const audioContext = new AudioCtor();
 
       // Coin-like collect sound
       const frequencies = [800, 1000];
@@ -258,7 +283,9 @@ export const useAudioFeedback = () => {
     if (isMuted) return;
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtor = getAudioContextConstructor();
+      if (!AudioCtor) return;
+      const audioContext = new AudioCtor();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -285,7 +312,9 @@ export const useAudioFeedback = () => {
     if (isMuted) return;
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtor = getAudioContextConstructor();
+      if (!AudioCtor) return;
+      const audioContext = new AudioCtor();
 
       // Achievement fanfare
       const melody = [
@@ -326,6 +355,6 @@ export const useAudioFeedback = () => {
     playWhooshSound,
     playAchievementSound,
     isMuted,
-    toggleMute: () => setIsMuted(!isMuted),
+    toggleMute: () => setIsMuted((p) => !p),
   };
 };
