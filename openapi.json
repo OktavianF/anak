@@ -1,0 +1,211 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ANAK-KMIPN Backend API",
+    "version": "1.0.0",
+    "description": "RESTful API untuk aplikasi assessment, edukasi, dan konsultasi anak & orang tua."
+  },
+  "servers": [
+    { "url": "https://api.anak-kmipn.com/v1" }
+  ],
+  "paths": {
+    "/children": {
+      "get": {
+        "summary": "List semua anak",
+        "responses": { "200": { "description": "Daftar anak" } }
+      },
+      "post": {
+        "summary": "Tambah anak baru",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Child" } }
+          }
+        },
+        "responses": { "201": { "description": "Anak berhasil ditambahkan" } }
+      }
+    },
+    "/children/{childId}": {
+      "get": {
+        "summary": "Detail anak",
+        "parameters": [
+          { "name": "childId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Detail anak" } }
+      },
+      "put": {
+        "summary": "Update data anak",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Child" } }
+          }
+        },
+        "responses": { "200": { "description": "Anak berhasil diupdate" } }
+      },
+      "delete": {
+        "summary": "Hapus anak",
+        "responses": { "204": { "description": "Anak berhasil dihapus" } }
+      }
+    },
+    "/children/{childId}/assessments": {
+      "get": {
+        "summary": "List hasil assessment anak",
+        "responses": { "200": { "description": "Daftar hasil assessment" } }
+      },
+      "post": {
+        "summary": "Submit hasil assessment anak",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Assessment" } }
+          }
+        },
+        "responses": { "201": { "description": "Assessment berhasil disimpan" } }
+      }
+    },
+    "/children/{childId}/games": {
+      "get": {
+        "summary": "List progress game anak",
+        "responses": { "200": { "description": "Daftar progress game" } }
+      }
+    },
+    "/children/{childId}/stickers": {
+      "get": {
+        "summary": "List stiker anak",
+        "responses": { "200": { "description": "Daftar stiker" } }
+      }
+    },
+    "/doctors": {
+      "get": {
+        "summary": "List dokter",
+        "responses": { "200": { "description": "Daftar dokter" } }
+      }
+    },
+    "/doctors/{doctorId}": {
+      "get": {
+        "summary": "Detail dokter",
+        "responses": { "200": { "description": "Detail dokter" } }
+      }
+    },
+    "/consultations": {
+      "get": {
+        "summary": "List konsultasi",
+        "responses": { "200": { "description": "Daftar konsultasi" } }
+      },
+      "post": {
+        "summary": "Buat konsultasi baru",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Consultation" } }
+          }
+        },
+        "responses": { "201": { "description": "Konsultasi berhasil dibuat" } }
+      }
+    },
+    "/payments": {
+      "post": {
+        "summary": "Buat pembayaran konsultasi",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Payment" } }
+          }
+        },
+        "responses": { "201": { "description": "Pembayaran berhasil" } }
+      }
+    },
+    "/chat": {
+      "get": {
+        "summary": "List pesan chat",
+        "responses": { "200": { "description": "Daftar pesan chat" } }
+      },
+      "post": {
+        "summary": "Kirim pesan chat",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ChatMessage" } }
+          }
+        },
+        "responses": { "201": { "description": "Pesan berhasil dikirim" } }
+      }
+    },
+    "/survey": {
+      "get": {
+        "summary": "Ambil data survey anak",
+        "responses": { "200": { "description": "Data survey" } }
+      },
+      "post": {
+        "summary": "Submit data survey anak",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Survey" } }
+          }
+        },
+        "responses": { "201": { "description": "Survey berhasil disimpan" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Child": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "age": { "type": "integer" },
+          "gender": { "type": "string" },
+          "avatar": { "type": "string" },
+          "favoriteActivity": { "type": "string" }
+        }
+      },
+      "Assessment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "childId": { "type": "string" },
+          "domain": { "type": "string" },
+          "score": { "type": "number" },
+          "date": { "type": "string", "format": "date" }
+        }
+      },
+      "Consultation": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "doctorId": { "type": "string" },
+          "childId": { "type": "string" },
+          "date": { "type": "string", "format": "date-time" },
+          "status": { "type": "string" }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "consultationId": { "type": "string" },
+          "amount": { "type": "number" },
+          "status": { "type": "string" }
+        }
+      },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "senderId": { "type": "string" },
+          "receiverId": { "type": "string" },
+          "message": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Survey": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "childId": { "type": "string" },
+          "personality": { "type": "array", "items": { "type": "string" } },
+          "activities": { "type": "array", "items": { "type": "string" } },
+          "learningStyle": { "type": "array", "items": { "type": "string" } },
+          "interests": { "type": "array", "items": { "type": "string" } },
+          "hobbies": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
