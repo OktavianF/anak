@@ -12,17 +12,11 @@ export type ScreenName =
   | 'splash'
   | 'survey'
   | 'home'
-  | 'cognitive-test'
-  | 'linguistic-test'
-  | 'personality-test'
-  | 'interest-talent-test'
-  | 'test-room'
   | 'game'
   | 'memory-game'
   | 'word-puzzle-game'
   | 'number-sequence-game'
   | 'pattern-recognition-game'
-  | 'motor-tips'
   | 'motor-test-game'
   | 'progress'
   | 'profile'
@@ -42,14 +36,6 @@ export interface ProfileData {
   backgroundColor: string;
   favoriteColor: string;
   badges: string[];
-}
-
-export interface SurveyData {
-  parentName?: string;
-  relationship?: string;
-  childBirthDate?: string;
-  concerns?: string[];
-  goals?: string[];
 }
 
 export interface Doctor {

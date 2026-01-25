@@ -21,3 +21,4 @@ export type GameType =
   | 'patternRecognition'
   | 'puzzle'
   | 'coloring';
+

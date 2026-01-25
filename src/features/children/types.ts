@@ -8,13 +8,6 @@ export interface Child {
   avatar: string;
 }
 
-export interface ProfileData {
-  avatar: string;
-  backgroundColor: string;
-  favoriteColor: string;
-  badges: string[];
-}
-
 export interface Sticker {
   id: string;
   name: string;
