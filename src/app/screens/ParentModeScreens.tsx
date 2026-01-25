@@ -9,7 +9,6 @@ import {
   LinguisticTestScreen,
   PersonalityTestScreen,
   InterestTalentTestScreen,
-  TestRoomScreen,
   MotorTestGameScreen,
   MotorTipsScreen,
 } from '@/features/assessments';
@@ -158,9 +157,6 @@ export function ParentModeScreens({
 
     case 'interest-talent-test':
       return <InterestTalentTestScreen {...commonProps} />;
-
-    case 'test-room':
-      return <TestRoomScreen {...commonProps} />;
 
     case 'game':
       return <GameScreen {...commonProps} chcAssessments={chcAssessments} />;

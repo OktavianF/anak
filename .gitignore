@@ -1,0 +1,70 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnp.*
+
+# Vite / Build
+dist/
+.vite/
+build/
+out/
+
+# Production
+/.output/
+
+# Env files
+.env
+.env.*.local
+.env.local
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.cache/
+.next/
+.vercel/
+
+# Testing
+coverage/
+.jest/
+
+# Misc
+*.seed
+*.tgz
+
+# Prisma
+prisma/dev.db
+
+# Ignore local env for backend folder if present
+/backend/.env
+/backend/node_modules/
+
+# Ignore local assets built by tools
+/public/build/
+
+# Editor swap/temp files
+*~
+*.swp
+
+# Mac resource forks
+._*
