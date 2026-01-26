@@ -68,7 +68,6 @@ export function ParentModeScreens({
   updateChcAssessment,
   selectedDoctor,
   switchToChildMode,
-  handleSurveyComplete,
 }: ParentModeScreensProps) {
   const commonProps = {
     navigateTo,

@@ -49,12 +49,6 @@ export const stickerDatabase = {
     description: 'Expert dalam fonemik',
     rarity: 'epic',
   },
-  'animal-mbti-complete': {
-    name: 'Personality Explorer',
-    emoji: '🦁',
-    description: 'Temukan kepribadian hewan',
-    rarity: 'legendary',
-  },
 
   // Game Stickers
   'memory-master': {

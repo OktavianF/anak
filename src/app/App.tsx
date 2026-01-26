@@ -123,10 +123,6 @@ export default function App() {
         setChildAge={childProfile.setChildAge}
         profileData={childProfile.profileData}
         updateProfile={childProfile.updateProfile}
-        surveyData={childProfile.surveyData}
-        updateSurveyData={childProfile.updateSurveyData}
-        mbtiResult={childProfile.mbtiResult}
-        setMbtiResult={childProfile.setMbtiResult}
         chcTests={chcTests}
         chcAssessments={chcAssessments}
         updateChcTestResults={updateChcTestResults}

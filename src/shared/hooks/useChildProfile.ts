@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ProfileData, SurveyData } from '../types/app';
+import { ProfileData } from '../types/app';
 
 const INITIAL_PROFILE: ProfileData = {
   avatar: '🦄',
@@ -7,8 +7,6 @@ const INITIAL_PROFILE: ProfileData = {
   favoriteColor: 'blue',
   badges: ['super-star', 'brain-explorer'],
 };
-
-const INITIAL_SURVEY: SurveyData = {};
 
 export function useChildProfile() {
   // Child basic info
@@ -19,18 +17,8 @@ export function useChildProfile() {
   // Profile customization
   const [profileData, setProfileData] = useState<ProfileData>(INITIAL_PROFILE);
 
-  // Survey data
-  const [surveyData, setSurveyData] = useState<SurveyData>(INITIAL_SURVEY);
-
-  // MBTI result
-  const [mbtiResult, setMbtiResult] = useState<string | null>(null);
-
   const updateProfile = useCallback((newData: Partial<ProfileData>) => {
     setProfileData((prev) => ({ ...prev, ...newData }));
-  }, []);
-
-  const updateSurveyData = useCallback((newData: Partial<SurveyData>) => {
-    setSurveyData((prev) => ({ ...prev, ...newData }));
   }, []);
 
   return {
@@ -45,13 +33,5 @@ export function useChildProfile() {
     // Profile
     profileData,
     updateProfile,
-
-    // Survey
-    surveyData,
-    updateSurveyData,
-
-    // MBTI
-    mbtiResult,
-    setMbtiResult,
   };
 }

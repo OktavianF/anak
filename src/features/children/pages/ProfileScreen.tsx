@@ -33,14 +33,12 @@ interface ProfileScreenProps {
   collectedStickers: string[];
   profileData: Record<string, unknown>;
   updateProfile: (data: Record<string, unknown>) => void;
-  mbtiResult?: Record<string, unknown>;
 }
 
 export default function ProfileScreen({ navigateTo }: ProfileScreenProps) {
   const [activeSection, setActiveSection] = useState('account');
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [showChildForm, setShowChildForm] = useState(false);
-  const [showNotificationSettings, setShowNotificationSettings] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

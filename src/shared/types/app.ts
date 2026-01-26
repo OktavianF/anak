@@ -10,7 +10,6 @@ export type AppMode = 'child' | 'parent';
 
 export type ScreenName =
   | 'splash'
-  | 'survey'
   | 'home'
   | 'game'
   | 'memory-game'
@@ -58,3 +57,4 @@ export interface CommonScreenProps {
   addSticker: (stickerId: string) => void;
   collectedStickers: string[];
 }
+ 
