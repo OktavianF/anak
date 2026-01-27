@@ -13,7 +13,6 @@ export function useProfileCustomization(
 ) {
   const [showCustomization, setShowCustomization] = useState(false);
   const [currentCoins, setCurrentCoins] = useState(initialCoins);
-  const [selectedCustomization, setSelectedCustomization] = useState('avatar');
 
   const purchaseItem = (item: Partial<ProfileData>, cost: number) => {
     if (currentCoins >= cost) {
@@ -28,8 +27,6 @@ export function useProfileCustomization(
   return {
     showCustomization,
     currentCoins,
-    selectedCustomization,
-    setSelectedCustomization,
     purchaseItem,
     toggleCustomization,
     closeCustomization,

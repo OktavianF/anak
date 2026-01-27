@@ -1,10 +1,18 @@
 // Avatar customization options
 export const avatarOptions = ['👦', '👧', '🧒', '👶', '🐱', '🐶', '🦊', '🐼', '🐸', '🦄', '🐵', '🐨'];
-export const outfitOptions = ['👕', '👔', '🦺', '👗', '🎽', '🧥'];
-export const hatOptions = ['🎩', '👑', '🧢', '🎓', '👒', '⛑️'];
+
+// Achievement/Sticker info type
+export type AchievementInfo = {
+  id: string;
+  name: string;
+  emoji: string;
+  description: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  earned?: boolean;
+};
 
 // Achievements/Badges with rarity levels
-export const achievements = [
+export const achievements: AchievementInfo[] = [
   {
     id: 'memory-master',
     name: 'Memory Master',
@@ -81,6 +89,18 @@ export const achievements = [
 
 export const customizationCategories = [
   { id: 'avatar', name: 'Avatar', emoji: '👤' },
-  { id: 'outfit', name: 'Outfit', emoji: '👕' },
-  { id: 'hat', name: 'Hat', emoji: '🎩' },
 ];
+
+// Create a lookup object from achievements array for quick access
+export const achievementsDatabase: Record<string, Omit<AchievementInfo, 'id' | 'earned'>> = 
+  achievements.reduce((acc, achievement) => {
+    acc[achievement.id] = {
+      name: achievement.name,
+      emoji: achievement.emoji,
+      description: achievement.description,
+      rarity: achievement.rarity,
+    };
+    return acc;
+  }, {} as Record<string, Omit<AchievementInfo, 'id' | 'earned'>>);
+
+export type AchievementId = (typeof achievements)[number]['id'];

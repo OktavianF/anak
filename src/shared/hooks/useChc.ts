@@ -8,8 +8,7 @@ export type ChcDomainKey =
   | 'processingSpeed'
   | 'auditoryProcessing'
   | 'reactionSpeed'
-  | 'longTermMemory'
-  | 'personality';
+  | 'longTermMemory';
 
 export type ChcTestResult = {
   completed: boolean;
@@ -30,7 +29,6 @@ const initialState: ChcState = {
   auditoryProcessing: { completed: false, score: 0, total: 10, percentage: 0 },
   reactionSpeed: { completed: false, score: 0, total: 10, percentage: 0 },
   longTermMemory: { completed: false, score: 0, total: 10, percentage: 0 },
-  personality: { completed: false },
 };
 
 export function useChc() {

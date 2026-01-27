@@ -1,13 +1,18 @@
-// Reports feature services
+// Reports feature services - CHC Theory based
 import { apiClient } from '@/lib/axios';
 
 export interface ProgressReport {
   childId: string;
   period: string;
-  cognitiveProgress: number;
-  linguisticProgress: number;
-  motorProgress: number;
-  socialProgress: number;
+  // CHC Domain Progress
+  fluidReasoningProgress: number;      // Gf
+  comprehensionKnowledgeProgress: number; // Gc
+  visualProcessingProgress: number;    // Gv
+  workingMemoryProgress: number;       // Gsm
+  processingSpeedProgress: number;     // Gs
+  auditoryProcessingProgress: number;  // Ga
+  longTermMemoryProgress: number;      // Glr
+  reactionSpeedProgress: number;       // Gt
   overallProgress: number;
   recommendations: string[];
 }

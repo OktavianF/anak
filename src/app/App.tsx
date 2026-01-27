@@ -6,7 +6,7 @@ import { useChildProfile } from '@/shared/hooks/useChildProfile';
 import { useChc } from '@/shared/hooks/useChc';
 import { useChcAssessments } from '@/shared/hooks/useChcAssessments';
 import { useNavigation } from '@/shared/hooks/useNavigation';
-import { useStickers } from '@/shared/hooks/useStickers';
+import { useStickers } from '@/features/children/hooks/useStickers';
 
 // Shared Components
 import { StickerNotification, PINInputModal } from '@/shared/components';

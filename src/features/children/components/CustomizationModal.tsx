@@ -1,13 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Coins } from 'lucide-react';
-import { avatarOptions, outfitOptions, hatOptions, customizationCategories } from '../constants/profileOptions';
+import { avatarOptions } from '../constants/profileOptions';
 
 interface CustomizationModalProps {
   isOpen: boolean;
   currentCoins: number;
-  selectedCategory: string;
-  onCategorySelect: (category: string) => void;
   onPurchase: (item: { avatar: string }, cost: number) => void;
   onClose: () => void;
 }
@@ -15,25 +13,10 @@ interface CustomizationModalProps {
 export function CustomizationModal({
   isOpen,
   currentCoins,
-  selectedCategory,
-  onCategorySelect,
   onPurchase,
   onClose,
 }: CustomizationModalProps) {
   if (!isOpen) return null;
-
-  const getItems = () => {
-    switch (selectedCategory) {
-      case 'avatar':
-        return avatarOptions;
-      case 'outfit':
-        return outfitOptions;
-      case 'hat':
-        return hatOptions;
-      default:
-        return avatarOptions;
-    }
-  };
 
   return (
     <motion.div
@@ -47,34 +30,16 @@ export function CustomizationModal({
         className="bg-white rounded-3xl p-6 max-w-sm w-full max-h-[80vh] overflow-y-auto"
       >
         <div className="text-center mb-6">
-          <h3 className="text-slate-800 font-heading text-2xl mb-2">🛍️ Avatar Shop 🛍️</h3>
+          <h3 className="text-slate-800 font-heading text-2xl mb-2">👤 Pilih Avatar 👤</h3>
           <div className="flex items-center justify-center space-x-2">
             <Coins className="w-5 h-5 text-yellow-500" />
             <span className="text-slate-600 font-bold">{currentCoins.toLocaleString()}</span>
           </div>
         </div>
 
-        {/* Customization Categories */}
-        <div className="grid grid-cols-3 gap-2 mb-6">
-          {customizationCategories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => onCategorySelect(category.id)}
-              className={`p-3 rounded-2xl text-center transition-all ${
-                selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              <div className="text-2xl mb-1">{category.emoji}</div>
-              <div className="text-xs font-medium">{category.name}</div>
-            </button>
-          ))}
-        </div>
-
-        {/* Customization Items */}
+        {/* Avatar Items */}
         <div className="grid grid-cols-4 gap-3 mb-6">
-          {getItems().map((item, index) => (
+          {avatarOptions.map((item, index) => (
             <button
               key={index}
               onClick={() => onPurchase({ avatar: item }, 100)}
@@ -92,7 +57,7 @@ export function CustomizationModal({
           onClick={onClose}
           className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-2xl font-heading font-bold"
         >
-          Close Shop
+          Tutup
         </button>
       </motion.div>
     </motion.div>

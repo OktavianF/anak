@@ -5,8 +5,9 @@ import {
   BarChart3,
   User,
   Brain,
-  Theater,
-  Target,
+  Eye,
+  Zap,
+  Database,
 } from 'lucide-react';
 
 export const navigationItems = [
@@ -17,37 +18,46 @@ export const navigationItems = [
   { icon: User, label: 'Profile', screen: 'profile' },
 ];
 
+// CHC-based test display configuration
 export const testDisplayConfig = [
   {
-    id: 'cognitive',
-    title: 'Kognitif',
+    id: 'fluidReasoning',
+    title: 'Penalaran Fluida (Gf)',
     IconComponent: Brain,
     bgColor: 'bg-blue-50',
     progressColor: 'bg-blue-500',
-    testKey: 'cognitive',
+    testKey: 'fluidReasoning',
   },
   {
-    id: 'linguistic',
-    title: 'Linguistik',
+    id: 'comprehensionKnowledge',
+    title: 'Pemahaman & Pengetahuan (Gc)',
     IconComponent: MessageSquare,
-    bgColor: 'bg-orange-50',
-    progressColor: 'bg-orange-500',
-    testKey: 'linguistic',
-  },
-  {
-    id: 'personality',
-    title: 'Kepribadian',
-    IconComponent: Theater,
     bgColor: 'bg-purple-50',
     progressColor: 'bg-purple-500',
-    testKey: 'personality',
+    testKey: 'comprehensionKnowledge',
   },
   {
-    id: 'motor',
-    title: 'Motorik',
-    IconComponent: Target,
-    bgColor: 'bg-green-50',
-    progressColor: 'bg-green-500',
-    testKey: 'motor',
+    id: 'visualProcessing',
+    title: 'Pemrosesan Visual (Gv)',
+    IconComponent: Eye,
+    bgColor: 'bg-cyan-50',
+    progressColor: 'bg-cyan-500',
+    testKey: 'visualProcessing',
+  },
+  {
+    id: 'workingMemory',
+    title: 'Memori Kerja (Gsm)',
+    IconComponent: Database,
+    bgColor: 'bg-emerald-50',
+    progressColor: 'bg-emerald-500',
+    testKey: 'workingMemory',
+  },
+  {
+    id: 'processingSpeed',
+    title: 'Kecepatan Pemrosesan (Gs)',
+    IconComponent: Zap,
+    bgColor: 'bg-yellow-50',
+    progressColor: 'bg-yellow-500',
+    testKey: 'processingSpeed',
   },
 ];

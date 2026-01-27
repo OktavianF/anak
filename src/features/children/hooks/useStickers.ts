@@ -1,16 +1,15 @@
 import { useState, useCallback } from 'react';
-import { stickerDatabase, StickerId, StickerInfo } from '../constants/stickerDatabase';
+import { achievementsDatabase, type AchievementInfo } from '@/features/children/constants/profileOptions';
 
 const INITIAL_STICKERS: string[] = [
-  'cognitive-test-complete',
   'memory-master',
-  'panda-buddy',
-  'level-up',
+  'puzzle-genius',
+  'speed-runner',
 ];
 
 export function useStickers() {
   const [collectedStickers, setCollectedStickers] = useState<string[]>(INITIAL_STICKERS);
-  const [notification, setNotification] = useState<StickerInfo | null>(null);
+  const [notification, setNotification] = useState<(AchievementInfo & { id: string }) | null>(null);
 
   const addSticker = useCallback((stickerId: string) => {
     setCollectedStickers((prev) => {
@@ -18,12 +17,12 @@ export function useStickers() {
         return prev;
       }
 
-      // Show notification if sticker exists in database
-      const stickerInfo = stickerDatabase[stickerId as StickerId];
-      if (stickerInfo) {
+      // Show notification if achievement exists in database
+      const achievementInfo = achievementsDatabase[stickerId];
+      if (achievementInfo) {
         setNotification({
           id: stickerId,
-          ...stickerInfo,
+          ...achievementInfo,
         });
       }
 

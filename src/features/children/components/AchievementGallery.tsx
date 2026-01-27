@@ -1,18 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { getRarityColor, getRarityGlow } from '../utils/rarityUtils';
-
-interface Achievement {
-  id: string;
-  name: string;
-  emoji: string;
-  rarity: string;
-  earned: boolean;
-  description: string;
-}
-
+import type { AchievementInfo } from '../constants/profileOptions';
+ 
 interface AchievementGalleryProps {
-  achievements: Achievement[];
+  achievements: AchievementInfo[];
 }
 
 export function AchievementGallery({ achievements }: AchievementGalleryProps) {

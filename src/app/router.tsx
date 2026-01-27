@@ -5,12 +5,8 @@
 
 export type ScreenName =
   | 'splash'
-  | 'survey'
   | 'home'
   | 'cognitive-test'
-  | 'linguistic-test'
-  | 'personality-test'
-  | 'interest-talent-test'
   | 'test-room'
   | 'game'
   | 'memory-game'

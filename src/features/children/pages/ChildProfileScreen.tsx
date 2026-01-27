@@ -33,8 +33,6 @@ export default function ChildProfileScreen({
   const {
     showCustomization,
     currentCoins,
-    selectedCustomization,
-    setSelectedCustomization,
     purchaseItem,
     toggleCustomization,
     closeCustomization,
@@ -115,8 +113,6 @@ export default function ChildProfileScreen({
       <CustomizationModal
         isOpen={showCustomization}
         currentCoins={currentCoins}
-        selectedCategory={selectedCustomization}
-        onCategorySelect={setSelectedCustomization}
         onPurchase={purchaseItem}
         onClose={closeCustomization}
       />
