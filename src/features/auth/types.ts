@@ -16,11 +16,3 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
-
-export interface SurveyData {
-  parentName?: string;
-  relationship?: string;
-  childBirthDate?: string;
-  concerns?: string[];
-  goals?: string[];
-}

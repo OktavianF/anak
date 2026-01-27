@@ -4,8 +4,6 @@ export { ScheduleReminders } from './ScheduleReminders';
 export { ChcRecommendations } from './ChcRecommendations';
 export { RecentActivities } from './RecentActivities';
 export { HomeBottomNav } from './HomeBottomNav';
-export { SurveyHeader } from './SurveyHeader';
 export { GenderNameInput } from './GenderNameInput';
 export { AgeSelection } from './AgeSelection';
 export { MultipleChoice } from './MultipleChoice';
-export { SurveyBottomActions } from './SurveyBottomActions';
