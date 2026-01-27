@@ -4,7 +4,6 @@ import {
   WordPuzzleGameScreen,
   NumberSequenceGameScreen,
   PatternRecognitionGameScreen,
-  GameScreen,
 } from '@/features/games';
 import { ChildAssessmentScreen, ChildProfileScreen } from '@/features/children';
 import type { CommonScreenProps, ProfileData } from '@/shared/types';
@@ -67,6 +66,7 @@ export function ChildModeScreens({
           isParentMode={isParentMode}
           setIsParentMode={setIsParentMode}
           chcAssessments={chcAssessments}
+          requestParentAccess={requestParentAccess}
         />
       );
 
@@ -85,11 +85,13 @@ export function ChildModeScreens({
 
     default:
       return (
-        <GameScreen
-          {...commonProps}
+        <ChildAssessmentScreen
+          navigateTo={navigateTo}
+          childName={childName}
+          isParentMode={isParentMode}
+          setIsParentMode={setIsParentMode}
           chcAssessments={chcAssessments}
           requestParentAccess={requestParentAccess}
-          showParentAccessButton={true}
         />
       );
   }

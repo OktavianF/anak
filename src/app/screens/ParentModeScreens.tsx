@@ -4,7 +4,6 @@ import {
   HomeScreen,
 } from '@/features/auth';
 import {
-  GameScreen,
   MemoryGameScreen,
   WordPuzzleGameScreen,
   NumberSequenceGameScreen,
@@ -44,7 +43,6 @@ interface ParentModeScreensProps extends CommonScreenProps {
   updateChcAssessment: (gameType: string, sessionData: unknown) => void;
   selectedDoctor: Doctor | null;
   switchToChildMode: () => void;
-  handleSurveyComplete: () => void;
 }
 
 export function ParentModeScreens({
@@ -91,9 +89,6 @@ export function ParentModeScreens({
           switchToChildMode={switchToChildMode}
         />
       );
-
-    case 'game':
-      return <GameScreen {...commonProps} chcAssessments={chcAssessments} />;
 
     case 'memory-game':
       return <MemoryGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;

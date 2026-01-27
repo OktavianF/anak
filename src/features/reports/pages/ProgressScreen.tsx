@@ -871,28 +871,6 @@ export default function ProgressScreen({
                   </div>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-3">
-                <motion.button
-                  onClick={() => navigateTo('test-room')}
-                  className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-4 rounded-2xl font-medium shadow-lg shadow-indigo-500/25 flex items-center justify-center space-x-2 text-sm"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Brain className="w-4 h-4" />
-                  <span>Tes CHC Lengkap</span>
-                </motion.button>
-                <motion.button
-                  onClick={() => navigateTo('game')}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 px-4 rounded-2xl font-medium shadow-lg shadow-emerald-500/25 flex items-center justify-center space-x-2 text-sm"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Latihan Targeted</span>
-                </motion.button>
-              </div>
             </motion.div>
           </>
         )}

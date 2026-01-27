@@ -8,11 +8,13 @@ interface ChildAssessmentScreenProps {
   isParentMode: boolean;
   setIsParentMode: (mode: boolean) => void;
   chcAssessments?: unknown;
+  requestParentAccess?: () => void;
 }
 
 export default function ChildAssessmentScreen({
   navigateTo,
   childName,
+  requestParentAccess,
 }: ChildAssessmentScreenProps) {
   const chcDomains = [
     {
@@ -643,8 +645,7 @@ export default function ChildAssessmentScreen({
               animate={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
               onClick={() => {
-                setIsParentMode(true);
-                navigateTo('home');
+                requestParentAccess?.();
               }}
               className="flex items-center space-x-2 bg-white/25 backdrop-blur-md rounded-3xl p-3 border border-white/40 hover:bg-white/35 transition-all duration-300 shadow-xl justify-self-end"
               whileHover={{

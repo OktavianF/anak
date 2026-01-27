@@ -6,7 +6,6 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isParentMode, setIsParentMode] = useState(false);
   const [showPINModal, setShowPINModal] = useState(false);
-  const [isFirstTime, setIsFirstTime] = useState(true);
 
   const switchToParentMode = useCallback(() => {
     setAppMode('parent');
@@ -32,7 +31,6 @@ export function useAuth() {
   }, []);
 
   const completeFirstTimeSetup = useCallback(() => {
-    setIsFirstTime(false);
     setIsAuthenticated(true);
     setAppMode('parent');
     setIsParentMode(true);
@@ -43,7 +41,6 @@ export function useAuth() {
     isAuthenticated,
     isParentMode,
     showPINModal,
-    isFirstTime,
     setIsParentMode,
     switchToParentMode,
     switchToChildMode,

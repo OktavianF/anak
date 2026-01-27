@@ -1,5 +1,4 @@
 // Games feature exports
-export { default as GameScreen } from './pages/GameScreen';
 export { default as MemoryGameScreen } from './pages/MemoryGameScreen';
 export { default as WordPuzzleGameScreen } from './pages/WordPuzzleGameScreen';
 export { default as NumberSequenceGameScreen } from './pages/NumberSequenceGameScreen';

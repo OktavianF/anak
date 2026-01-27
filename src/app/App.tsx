@@ -36,12 +36,6 @@ export default function App() {
     }
   }, [navigation.currentScreen, auth, navigation]);
 
-  // Handle survey completion
-  const handleSurveyComplete = () => {
-    auth.completeFirstTimeSetup();
-    navigation.setCurrentScreen('home');
-  };
-
   // Handle parent mode switch with navigation
   const handleSwitchToParentMode = () => {
     auth.switchToParentMode();
@@ -66,9 +60,6 @@ export default function App() {
           setChildGender={childProfile.setChildGender}
           childAge={childProfile.childAge}
           setChildAge={childProfile.setChildAge}
-          surveyData={childProfile.surveyData}
-          updateSurveyData={childProfile.updateSurveyData}
-          onSurveyComplete={handleSurveyComplete}
         />
       </AppContainer>
     );
@@ -129,7 +120,6 @@ export default function App() {
         updateChcAssessment={updateChcAssessment}
         selectedDoctor={navigation.selectedDoctor}
         switchToChildMode={handleSwitchToChildMode}
-        handleSurveyComplete={handleSurveyComplete}
       />
       <StickerNotification
         sticker={stickers.notification}

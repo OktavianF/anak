@@ -1,18 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import {
-  ArrowLeft,
-  Home,
-  MessageSquare,
-  BarChart3,
-  User,
-  BookOpen,
-  Stethoscope,
-  Users,
-  Heart,
-  Clock,
-  Award,
-} from 'lucide-react';
+import { ArrowLeft, Heart } from 'lucide-react';
+
+// Local components
+import { ConsultationCard } from '../components/ConsultationCard';
+import { ConsultationNav } from '../components/ConsultationNav';
+
+// Constants
+import { consultationOptions } from '../constants/consultationOptions';
 
 interface ConsultationScreenProps {
   navigateTo: (screen: string, data?: any) => void;
@@ -25,45 +20,16 @@ export default function ConsultationScreen({
   isParentMode,
   setIsParentMode,
 }: ConsultationScreenProps) {
-  const consultationOptions = [
-    {
-      id: 'parent-guide',
-      title: 'Panduan Orang Tua',
-      description: 'Tips dan panduan lengkap untuk mendampingi perkembangan anak',
-      icon: BookOpen,
-      color: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
-      textColor: 'text-blue-600',
-      features: [
-        'Panduan perkembangan anak',
-        'Tips parenting',
-        'Aktivitas edukatif',
-        'Milestone tracking',
-      ],
-      action: () => navigateTo('parent-guide'),
-    },
-    {
-      id: 'doctor-consultation',
-      title: 'Konsultasi Dokter',
-      description: 'Konsultasi langsung dengan dokter anak dan psikolog berpengalaman',
-      icon: Stethoscope,
-      color: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
-      textColor: 'text-green-600',
-      features: [
-        'Konsultasi real-time',
-        'Dokter bersertifikat',
-        'Sesi privat & aman',
-        'Rekam medis digital',
-      ],
-      action: () => {
-        if (!isParentMode && setIsParentMode) {
-          setIsParentMode(true);
-        }
-        navigateTo('doctor-list');
-      },
-    },
-  ];
+  const handleOptionAction = (optionId: string) => {
+    if (optionId === 'parent-guide') {
+      navigateTo('parent-guide');
+    } else if (optionId === 'doctor-consultation') {
+      if (!isParentMode && setIsParentMode) {
+        setIsParentMode(true);
+      }
+      navigateTo('doctor-list');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -107,87 +73,17 @@ export default function ConsultationScreen({
       <div className="px-6 -mt-4 pb-24">
         <div className="space-y-6">
           {consultationOptions.map((option, index) => (
-            <motion.div
+            <ConsultationCard
               key={option.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-            >
-              {/* Header */}
-              <div className="flex items-start space-x-4 mb-4">
-                <div
-                  className={`w-16 h-16 bg-gradient-to-r ${option.color} rounded-2xl flex items-center justify-center shadow-lg`}
-                >
-                  <option.icon className="w-8 h-8 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-gray-900 font-heading font-bold text-xl mb-2">
-                    {option.title}
-                  </h3>
-                  <p className="text-gray-600 font-body text-sm leading-relaxed">
-                    {option.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div className="mb-6">
-                <h4 className="text-gray-700 font-heading font-semibold text-sm mb-3">
-                  Yang Anda Dapatkan:
-                </h4>
-                <div className="grid grid-cols-2 gap-3">
-                  {option.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
-                      <span className="text-gray-600 font-body text-xs">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <motion.button
-                onClick={option.action}
-                className={`w-full bg-gradient-to-r ${option.color} text-white py-4 px-6 rounded-xl font-heading font-bold text-base shadow-lg`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {option.id === 'parent-guide' ? 'Buka Panduan' : 'Pilih Dokter'}
-              </motion.button>
-            </motion.div>
+              option={option}
+              index={index}
+              onAction={() => handleOptionAction(option.id)}
+            />
           ))}
         </div>
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100">
-        <div className="flex justify-around py-3">
-          {[
-            { icon: Home, label: 'Home', screen: 'home' },
-            { icon: MessageSquare, label: 'Consultation', screen: 'consultation' },
-            { icon: Users, label: 'Community', screen: 'community' },
-            { icon: BarChart3, label: 'Progress', screen: 'progress' },
-            { icon: User, label: 'Profile', screen: 'profile' },
-          ].map((item) => {
-            // Determine active tab by comparing with current screen
-            const isActive = item.screen === 'consultation';
-            return (
-              <motion.button
-                key={item.screen}
-                onClick={() => navigateTo(item.screen)}
-                className={`flex flex-col items-center space-y-1 py-2 px-3 ${
-                  isActive ? 'text-purple-500' : 'text-gray-400'
-                }`}
-                whileTap={{ scale: 0.95 }}
-              >
-                <item.icon size={16} />
-                <span className="text-xs font-body font-medium">{item.label}</span>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
+      <ConsultationNav navigateTo={navigateTo} activeColor="text-purple-500" />
     </div>
   );
 }
