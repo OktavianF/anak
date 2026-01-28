@@ -1,1 +1,1 @@
-export * from './profileOptions';
+export * from './stickerDatabase';

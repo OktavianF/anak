@@ -3,15 +3,15 @@ import { motion } from 'motion/react';
 import { LogOut, ArrowLeft } from 'lucide-react';
 
 // Local components
-import { AnimatedBackground } from '../components/AnimatedBackground';
-import { ProfileAvatar } from '../components/ProfileAvatar';
-import { CoinsDisplay } from '../components/CoinsDisplay';
-import { AchievementGallery } from '../components/AchievementGallery';
-import { CustomizationModal } from '../components/CustomizationModal';
+import { AnimatedBackground } from '../components/profile/AnimatedBackground';
+import { ProfileAvatar } from '../components/profile/ProfileAvatar';
+import { CoinsDisplay } from '../components/profile/CoinsDisplay';
+import { AchievementGallery } from '../components/profile/AchievementGallery';
+import { CustomizationModal } from '../components/profile/CustomizationModal';
 
 // Local hooks & constants
 import { useProfileCustomization, ProfileData } from '../hooks/useProfileCustomization';
-import { achievements } from '../constants/profileOptions';
+import { achievements } from '../constants/stickerDatabase';
 
 interface ChildProfileScreenProps {
   navigateTo: (screen: string) => void;

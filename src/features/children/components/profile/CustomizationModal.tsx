@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Coins } from 'lucide-react';
-import { avatarOptions } from '../constants/profileOptions';
+import { avatarOptions } from '../../constants/stickerDatabase';
 
 interface CustomizationModalProps {
   isOpen: boolean;

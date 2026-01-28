@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { getRarityColor, getRarityGlow } from '../utils/rarityUtils';
-import type { AchievementInfo } from '../constants/profileOptions';
+import { getRarityColor, getRarityGlow } from '../../utils/rarityUtils';
+import type { AchievementInfo } from '../../constants/stickerDatabase';
  
 interface AchievementGalleryProps {
   achievements: AchievementInfo[];
@@ -16,7 +16,7 @@ export function AchievementGallery({ achievements }: AchievementGalleryProps) {
       className="bg-white/20 backdrop-blur-lg rounded-3xl p-6 mb-6 border border-white/30"
     >
       <div className="text-center mb-4">
-        <h2 className="text-white font-heading text-2xl mb-2">🏆 Trophy Collection 🏆</h2>
+        <h2 className="text-white font-heading text-2xl mb-2">✨ Koleksi Stiker ✨</h2>
       </div>
 
       <div className="grid grid-cols-3 gap-4">

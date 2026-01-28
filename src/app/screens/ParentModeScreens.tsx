@@ -10,8 +10,8 @@ import {
   PatternRecognitionGameScreen,
 } from '@/features/games';
 import { ProgressScreen } from '@/features/reports';
+import { ProfileScreen } from '@/features/parent';
 import {
-  ProfileScreen,
   ChildAssessmentScreen,
   ChildProfileScreen,
 } from '@/features/children';

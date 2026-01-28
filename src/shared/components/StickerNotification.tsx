@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Star, Trophy, Sparkles } from 'lucide-react';
+import { Star, Sparkles } from 'lucide-react';
 
 interface StickerNotificationProps {
   sticker: {
@@ -109,13 +109,13 @@ export default function StickerNotification({ sticker, onClose }: StickerNotific
 
             {/* Content */}
             <div className="relative text-center">
-              {/* Header with Trophy */}
+              {/* Header with Star */}
               <div className="flex items-center justify-center space-x-2 mb-4">
                 <motion.div
                   animate={{ rotate: [0, -10, 10, -10, 0] }}
                   transition={{ duration: 0.5, repeat: 2 }}
                 >
-                  <Trophy className="w-6 h-6 text-yellow-500" />
+                  <Star className="w-6 h-6 text-yellow-500" />
                 </motion.div>
                 <h3 className="text-gray-900 font-heading font-bold text-lg">Stiker Baru!</h3>
                 <motion.div

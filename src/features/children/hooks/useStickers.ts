@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { achievementsDatabase, type AchievementInfo } from '@/features/children/constants/profileOptions';
+import { achievementsDatabase, type AchievementInfo } from '@/features/children/constants/stickerDatabase';
 
 const INITIAL_STICKERS: string[] = [
   'memory-master',
