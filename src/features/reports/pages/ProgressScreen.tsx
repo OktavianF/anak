@@ -9,12 +9,9 @@ import {
   Calendar,
   TrendingUp,
   Brain,
-  Heart,
-  MessageCircle,
   Zap,
   Target,
   Award,
-  Sparkles,
   Trophy,
   ChevronRight,
   Activity,
@@ -30,15 +27,13 @@ import {
   Bar,
 } from 'recharts';
 
-type ChcDomainKey =
-  | 'fluidReasoning'
-  | 'comprehensionKnowledge'
-  | 'visualProcessing'
-  | 'workingMemory'
-  | 'longTermMemory'
-  | 'processingSpeed'
-  | 'auditoryProcessing'
-  | 'reactionSpeed';
+/**
+ * 3 Domain CHC yang didukung:
+ * - fluidReasoning (Gf)  - Penalaran Logis
+ * - visualProcessing (Gv) - Pemrosesan Visual  
+ * - workingMemory (Gsm)   - Memori Kerja
+ */
+type ChcDomainKey = 'fluidReasoning' | 'visualProcessing' | 'workingMemory';
 
 type ChcTest = {
   chcDomain?: string;
@@ -85,7 +80,7 @@ export default function ProgressScreen({
   const calculateChcUserStats = () => {
     const chcDomains = Object.values(chcTestResults).filter(isCompletedChcTest);
     const completedTests = chcDomains.length;
-    const totalChcTests = 8; // 8 CHC broad abilities
+    const totalChcTests = 3; // 3 CHC broad abilities: Gf, Gv, Gsm
 
     let totalScore = 0;
     let totalPossible = 0;
@@ -131,39 +126,35 @@ export default function ProgressScreen({
 
   const userStats = calculateChcUserStats();
 
-  // CHC Weekly progress data
+  // CHC Weekly progress data (3 Domain: Gf, Gv, Gsm)
   const chcWeeklyData = [
     {
       week: 'Minggu 1',
       fluidReasoning: 65,
-      comprehensionKnowledge: 70,
       visualProcessing: 58,
       workingMemory: 72,
     },
     {
       week: 'Minggu 2',
       fluidReasoning: 68,
-      comprehensionKnowledge: 73,
       visualProcessing: 62,
       workingMemory: 75,
     },
     {
       week: 'Minggu 3',
       fluidReasoning: 72,
-      comprehensionKnowledge: 76,
       visualProcessing: 65,
       workingMemory: 78,
     },
     {
       week: 'Minggu 4',
       fluidReasoning: 75,
-      comprehensionKnowledge: 82,
       visualProcessing: 68,
       workingMemory: 82,
     },
   ];
 
-  // CHC Chart data for each broad ability
+  // CHC Chart data for each broad ability (3 Domain: Gf, Gv, Gsm)
   const chcChartData = {
     fluidReasoning: [
       {
@@ -183,26 +174,6 @@ export default function ProgressScreen({
         score: 68,
         target: 75,
         description: 'Kemampuan menalar dengan angka',
-      },
-    ],
-    comprehensionKnowledge: [
-      {
-        narrowAbility: 'Perkembangan Bahasa',
-        score: 85,
-        target: 90,
-        description: 'Pemahaman bahasa dan komunikasi',
-      },
-      {
-        narrowAbility: 'Pengetahuan Leksikal',
-        score: 82,
-        target: 85,
-        description: 'Kosakata dan makna kata',
-      },
-      {
-        narrowAbility: 'Informasi Umum',
-        score: 78,
-        target: 82,
-        description: 'Pengetahuan dunia dan budaya',
       },
     ],
     visualProcessing: [
@@ -245,89 +216,9 @@ export default function ProgressScreen({
         description: 'Kapasitas memori jangka pendek',
       },
     ],
-    longTermMemory: [
-      {
-        narrowAbility: 'Memori Asosiasi',
-        score: 70,
-        target: 78,
-        description: 'Mengingat hubungan antar informasi',
-      },
-      {
-        narrowAbility: 'Pembelajaran Bermakna',
-        score: 75,
-        target: 82,
-        description: 'Menyimpan informasi dengan makna',
-      },
-      {
-        narrowAbility: 'Pemanggilan Bebas',
-        score: 68,
-        target: 75,
-        description: 'Mengingat tanpa petunjuk',
-      },
-    ],
-    processingSpeed: [
-      {
-        narrowAbility: 'Kecepatan Persepsi',
-        score: 85,
-        target: 90,
-        description: 'Kecepatan mengenali informasi visual',
-      },
-      {
-        narrowAbility: 'Kecepatan Numerik',
-        score: 82,
-        target: 88,
-        description: 'Kecepatan dalam tugas numerik',
-      },
-      {
-        narrowAbility: 'Kecepatan Membaca',
-        score: 78,
-        target: 85,
-        description: 'Kecepatan dalam membaca',
-      },
-    ],
-    auditoryProcessing: [
-      {
-        narrowAbility: 'Kodifikasi Fonetik',
-        score: 72,
-        target: 80,
-        description: 'Memproses bunyi bahasa',
-      },
-      {
-        narrowAbility: 'Diskriminasi Bunyi',
-        score: 75,
-        target: 82,
-        description: 'Membedakan bunyi serupa',
-      },
-      {
-        narrowAbility: 'Pemrosesan Temporal',
-        score: 68,
-        target: 75,
-        description: 'Memproses urutan bunyi',
-      },
-    ],
-    reactionSpeed: [
-      {
-        narrowAbility: 'Waktu Reaksi Sederhana',
-        score: 80,
-        target: 85,
-        description: 'Kecepatan respons dasar',
-      },
-      {
-        narrowAbility: 'Waktu Reaksi Pilihan',
-        score: 75,
-        target: 82,
-        description: 'Kecepatan membuat keputusan',
-      },
-      {
-        narrowAbility: 'Kecepatan Perbandingan Mental',
-        score: 78,
-        target: 85,
-        description: 'Kecepatan membandingkan informasi',
-      },
-    ],
   };
 
-  // Generate CHC-based progress data
+  // Generate CHC-based progress data (3 Domain: Gf, Gv, Gsm)
   const generateChcProgressData = () => {
     const chcProgressData = [
       {
@@ -342,20 +233,6 @@ export default function ProgressScreen({
         narrowAbilities: ['Penalaran Induktif', 'Penalaran Deduktif', 'Penalaran Kuantitatif'],
         developmentLevel: 'Sesuai Usia',
         cognitiveImportance: 'Sangat Penting untuk belajar konsep baru dan pemecahan masalah',
-        ageRange: '5-12 tahun',
-      },
-      {
-        chcCode: 'Gc',
-        category: 'Comprehension-Knowledge',
-        categoryIndonesian: 'Pemahaman-Pengetahuan',
-        color: 'orange',
-        testId: 'comprehension-knowledge-test',
-        icon: MessageCircle,
-        description: 'Pengetahuan yang diperoleh dan kemampuan memahami bahasa',
-        keyDomain: 'comprehensionKnowledge',
-        narrowAbilities: ['Perkembangan Bahasa', 'Pengetahuan Leksikal', 'Informasi Umum'],
-        developmentLevel: 'Sangat Baik',
-        cognitiveImportance: 'Fundamental untuk prestasi akademik dan komunikasi',
         ageRange: '5-12 tahun',
       },
       {
@@ -384,66 +261,6 @@ export default function ProgressScreen({
         narrowAbilities: ['Memori Angka', 'Memori Kerja', 'Rentang Memori'],
         developmentLevel: 'Sesuai Usia',
         cognitiveImportance: 'Krusial untuk perhatian, konsentrasi, dan pembelajaran',
-        ageRange: '5-12 tahun',
-      },
-      {
-        chcCode: 'Glr',
-        category: 'Long-Term Storage & Retrieval',
-        categoryIndonesian: 'Penyimpanan & Pemanggilan Memori',
-        color: 'indigo',
-        testId: 'long-term-memory-test',
-        icon: Award,
-        description: 'Kemampuan menyimpan dan mengambil informasi jangka panjang',
-        keyDomain: 'longTermMemory',
-        narrowAbilities: ['Memori Asosiasi', 'Pembelajaran Bermakna', 'Pemanggilan Bebas'],
-        developmentLevel: 'Baik',
-        cognitiveImportance: 'Esensial untuk pembelajaran dan akumulasi pengetahuan',
-        ageRange: '5-12 tahun',
-      },
-      {
-        chcCode: 'Gs',
-        category: 'Processing Speed',
-        categoryIndonesian: 'Kecepatan Pemrosesan',
-        color: 'pink',
-        testId: 'processing-speed-test',
-        icon: Sparkles,
-        description: 'Kecepatan melakukan tugas kognitif sederhana dengan akurat',
-        keyDomain: 'processingSpeed',
-        narrowAbilities: ['Kecepatan Persepsi', 'Kecepatan Numerik', 'Kecepatan Membaca'],
-        developmentLevel: 'Sangat Baik',
-        cognitiveImportance: 'Mendukung efisiensi dalam tugas akademik dan sehari-hari',
-        ageRange: '5-12 tahun',
-      },
-      {
-        chcCode: 'Ga',
-        category: 'Auditory Processing',
-        categoryIndonesian: 'Pemrosesan Auditori',
-        color: 'teal',
-        testId: 'auditory-processing-test',
-        icon: Heart,
-        description: 'Kemampuan memproses dan menganalisis informasi auditori',
-        keyDomain: 'auditoryProcessing',
-        narrowAbilities: ['Kodifikasi Fonetik', 'Diskriminasi Bunyi', 'Pemrosesan Temporal'],
-        developmentLevel: 'Sesuai Usia',
-        cognitiveImportance: 'Fundamental untuk perkembangan bahasa dan membaca',
-        ageRange: '5-12 tahun',
-      },
-      {
-        chcCode: 'Gt',
-        category: 'Reaction & Decision Speed',
-        categoryIndonesian: 'Kecepatan Reaksi & Keputusan',
-        color: 'amber',
-        testId: 'reaction-speed-test',
-        icon: Trophy,
-        description: 'Kecepatan dalam mengambil keputusan dan bereaksi',
-        keyDomain: 'reactionSpeed',
-        narrowAbilities: [
-          'Waktu Reaksi Sederhana',
-          'Waktu Reaksi Pilihan',
-          'Kecepatan Perbandingan Mental',
-        ],
-        developmentLevel: 'Baik',
-        cognitiveImportance: 'Penting untuk respons cepat dan pengambilan keputusan',
         ageRange: '5-12 tahun',
       },
     ];
@@ -646,7 +463,7 @@ export default function ProgressScreen({
               <p className="text-white font-semibold text-sm">
                 {userStats.strengths && userStats.strengths[0]
                   ? userStats.strengths[0].domain
-                  : 'Gc'}
+                  : 'Gf'}
               </p>
             </div>
             <div className="text-center">
@@ -830,7 +647,7 @@ export default function ProgressScreen({
                   <p className="text-slate-700 text-xs">
                     {userStats.strengths && userStats.strengths[0]
                       ? `Domain ${userStats.strengths[0].domain} menunjukkan performa terbaik dengan skor ${userStats.strengths[0].score}%`
-                      : 'Comprehension-Knowledge (Gc) dan Processing Speed (Gs) menunjukkan perkembangan yang baik'}
+                      : 'Fluid Reasoning (Gf) dan Working Memory (Gsm) menunjukkan perkembangan yang baik'}
                   </p>
                 </div>
                 <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50">
@@ -841,7 +658,7 @@ export default function ProgressScreen({
                   <p className="text-slate-700 text-xs">
                     {userStats.needsImprovement && userStats.needsImprovement[0]
                       ? `Domain ${userStats.needsImprovement[0].domain} memerlukan stimulasi tambahan`
-                      : 'Visual Processing (Gv) dan Working Memory (Gsm) dapat ditingkatkan melalui latihan terfokus'}
+                      : 'Visual Processing (Gv) dapat ditingkatkan melalui latihan terfokus'}
                   </p>
                 </div>
               </div>
@@ -921,15 +738,6 @@ export default function ProgressScreen({
                     />
                     <Line
                       type="monotone"
-                      dataKey="comprehensionKnowledge"
-                      stroke="#f59e0b"
-                      strokeWidth={3}
-                      dot={{ fill: '#f59e0b', strokeWidth: 2, r: 5 }}
-                      activeDot={{ r: 7, stroke: '#f59e0b', strokeWidth: 2, fill: '#fff' }}
-                      name="Comprehension-Knowledge (Gc)"
-                    />
-                    <Line
-                      type="monotone"
                       dataKey="visualProcessing"
                       stroke="#8b5cf6"
                       strokeWidth={3}
@@ -951,16 +759,10 @@ export default function ProgressScreen({
               </div>
 
               {/* CHC Legend */}
-              <div className="grid grid-cols-2 gap-3 mt-6">
+              <div className="grid grid-cols-3 gap-3 mt-6">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-indigo-500 rounded-full shadow-sm"></div>
                   <span className="text-xs font-medium text-slate-600">Fluid Reasoning (Gf)</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full shadow-sm"></div>
-                  <span className="text-xs font-medium text-slate-600">
-                    Comprehension-Knowledge (Gc)
-                  </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-violet-500 rounded-full shadow-sm"></div>
@@ -977,7 +779,7 @@ export default function ProgressScreen({
                 <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
                   <h4 className="text-blue-800 font-medium text-sm mb-2">Interpretasi CHC</h4>
                   <p className="text-blue-700 text-xs leading-relaxed">
-                    Grafik menunjukkan pola perkembangan 4 domain CHC utama. Tren peningkatan yang
+                    Grafik menunjukkan pola perkembangan 3 domain CHC utama (Gf, Gv, Gsm). Tren peningkatan yang
                     konsisten mengindikasikan maturasi kognitif yang sehat sesuai dengan teori
                     perkembangan Cattell-Horn-Carroll.
                   </p>
@@ -986,7 +788,7 @@ export default function ProgressScreen({
             </div>
 
             {/* CHC Weekly Summary Cards */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {[
                 {
                   label: 'Fluid Reasoning (Gf)',
@@ -996,15 +798,6 @@ export default function ProgressScreen({
                   color: 'indigo',
                   icon: Brain,
                   chcCode: 'Gf',
-                },
-                {
-                  label: 'Comprehension-Knowledge (Gc)',
-                  shortLabel: 'Pemahaman-Pengetahuan',
-                  value: 82,
-                  change: '+12',
-                  color: 'amber',
-                  icon: MessageCircle,
-                  chcCode: 'Gc',
                 },
                 {
                   label: 'Visual Processing (Gv)',
@@ -1082,18 +875,13 @@ export default function ProgressScreen({
           >
             {/* CHC Domain Analysis Charts */}
             {Object.entries(chcChartData)
-              .slice(0, 4)
+              .slice(0, 3)
               .map(([chcDomain, data], index) => {
                 const getChcColor = (domain: string) => {
                   const colorMap: { [key: string]: string } = {
                     fluidReasoning: '#6366f1',
-                    comprehensionKnowledge: '#f59e0b',
                     visualProcessing: '#8b5cf6',
                     workingMemory: '#10b981',
-                    longTermMemory: '#6366f1',
-                    processingSpeed: '#ec4899',
-                    auditoryProcessing: '#06b6d4',
-                    reactionSpeed: '#f59e0b',
                   };
                   return colorMap[domain] || '#6b7280';
                 };
@@ -1101,13 +889,8 @@ export default function ProgressScreen({
                 const getIconForChcDomain = (domain: string): React.ComponentType<React.SVGProps<SVGSVGElement>> => {
                   const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
                     fluidReasoning: Brain,
-                    comprehensionKnowledge: MessageCircle,
                     visualProcessing: Target,
                     workingMemory: Zap,
-                    longTermMemory: Award,
-                    processingSpeed: Sparkles,
-                    auditoryProcessing: Heart,
-                    reactionSpeed: Trophy,
                   };
                   return iconMap[domain] || Brain;
                 };
@@ -1120,11 +903,6 @@ export default function ProgressScreen({
                       code: 'Gf',
                       name: 'Fluid Reasoning',
                       description: 'Kemampuan menalar dan memecahkan masalah baru',
-                    },
-                    comprehensionKnowledge: {
-                      code: 'Gc',
-                      name: 'Comprehension-Knowledge',
-                      description: 'Pengetahuan yang diperoleh dan pemahaman bahasa',
                     },
                     visualProcessing: {
                       code: 'Gv',

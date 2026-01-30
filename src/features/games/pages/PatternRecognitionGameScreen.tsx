@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, RotateCcw, Trophy, Star, Lightbulb, Clock, Eye } from 'lucide-react';
+import { useGameAssessment } from '../hooks/useGameAssessment';
 
 interface PatternRecognitionGameScreenProps {
   navigateTo: (screen: string) => void;
@@ -29,6 +30,9 @@ export default function PatternRecognitionGameScreen({
   addSticker,
   updateGameAssessment,
 }: PatternRecognitionGameScreenProps) {
+  // Use the game assessment hook for CHC-based Fluid Reasoning (Gf) scoring
+  const { calculateAssessment: calculateChcAssessment } = useGameAssessment();
+  
   const [gameStarted, setGameStarted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [challenge, setChallenge] = useState<PatternChallenge | null>(null);
@@ -259,26 +263,57 @@ export default function PatternRecognitionGameScreen({
       ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000)
       : 0;
 
-    const stars = getStarRating();
-    const finalScore = calculateAssessmentScore(
-      stars,
-      gameTimeSpent,
-      errors,
-      correctAnswers,
-      hintsUsed
-    );
+    // Calculate accuracy based on correct answers vs total attempts
+    const totalAttempts = correctAnswers + errors;
+    const accuracy = totalAttempts > 0 
+      ? Math.round((correctAnswers / totalAttempts) * 100) 
+      : 0;
+
+    // Use the new CHC-based assessment system for Fluid Reasoning (Gf)
+    const assessmentResult = calculateChcAssessment('patternRecognition', {
+      // Base parameters
+      accuracy: accuracy,
+      completionTime: gameTimeSpent,
+      errors: errors,
+      attempts: totalAttempts,
+      difficulty: getDifficultyForLevel(currentLevel - 1),
+      
+      // Fluid Reasoning specific parameters (Gf)
+      complexityLevel: currentLevel,
+      hintUsage: hintsUsed,
+      patternRecognitionScore: accuracy,
+      consecutiveCorrect: correctAnswers, // Simplified: using total correct
+      averageTimePerProblem: totalAttempts > 0 ? gameTimeSpent / totalAttempts : 0,
+    });
 
     const sessionData = {
+      // Legacy fields for backward compatibility
       timeSpent: gameTimeSpent,
       errors: errors,
-      score: finalScore,
+      score: assessmentResult.finalScore,
       difficulty: getDifficultyForLevel(currentLevel - 1),
       level: currentLevel,
       correctAnswers: correctAnswers,
       hintsUsed: hintsUsed,
-      stars: stars,
-      timestamp: new Date().toISOString(),
-      domains: ['Logika Visual', 'Abstraksi', 'Spatial Intelligence'],
+      stars: assessmentResult.starRating,
+      timestamp: assessmentResult.timestamp,
+      
+      // New CHC-based fields
+      domain: assessmentResult.domain, // 'Gf' for Fluid Reasoning
+      finalScore: assessmentResult.finalScore,
+      starRating: assessmentResult.starRating,
+      developmentLevel: assessmentResult.developmentLevel,
+      feedback: assessmentResult.feedback,
+      parentRecommendation: assessmentResult.parentRecommendation,
+      scoreBreakdown: assessmentResult.scoreBreakdown,
+      
+      // Fluid Reasoning specific metrics
+      complexityLevel: currentLevel,
+      patternRecognitionScore: accuracy,
+      accuracy: accuracy,
+      
+      // Legacy domain names (for old UI)
+      domains: ['Penalaran Logis (Gf)', 'Logika Visual', 'Abstraksi', 'Spatial Intelligence'],
     };
 
     updateGameAssessment('patternRecognition', sessionData);

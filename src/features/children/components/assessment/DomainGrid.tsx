@@ -10,7 +10,7 @@ interface DomainGridProps {
 export function DomainGrid({ domains, onDomainClick }: DomainGridProps) {
   return (
     <div className="px-6 py-4">
-      <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto">
+      <div className="grid gap-4 max-w-7xl mx-auto">
         {domains.map((domain, index) => (
           <DomainCard
             key={domain.id}

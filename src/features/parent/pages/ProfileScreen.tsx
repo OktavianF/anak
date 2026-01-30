@@ -113,7 +113,7 @@ export default function ProfileScreen({ navigateTo }: ProfileScreenProps) {
       duration: '60 menit',
       type: 'Assessment Review',
       summary:
-        'Review hasil assessment menunjukkan Rafi memiliki kekuatan di area working memory, namun perlu stimulasi tambahan untuk processing speed.',
+        'Review hasil assessment menunjukkan Rafi memiliki kekuatan di area working memory dan visual processing.',
       status: 'completed',
     },
     {

@@ -32,8 +32,7 @@ export const ChcRecommendations: React.FC<ChcRecommendationsProps> = ({ onViewPr
             <span className="text-emerald-800 font-medium text-sm">Kekuatan Kognitif</span>
           </div>
           <p className="text-slate-700 text-xs">
-            Comprehension-Knowledge (Gc) dan Processing Speed (Gs) menunjukkan perkembangan yang
-            baik
+            Fluid Reasoning (Gf) dan Working Memory (Gsm) menunjukkan perkembangan yang baik
           </p>
         </div>
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50">
@@ -42,8 +41,7 @@ export const ChcRecommendations: React.FC<ChcRecommendationsProps> = ({ onViewPr
             <span className="text-amber-800 font-medium text-sm">Area Pengembangan</span>
           </div>
           <p className="text-slate-700 text-xs">
-            Visual Processing (Gv) dan Working Memory (Gsm) dapat ditingkatkan melalui latihan
-            terfokus
+            Visual Processing (Gv) dapat ditingkatkan melalui latihan terfokus
           </p>
         </div>
       </div>

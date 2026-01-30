@@ -1,14 +1,4 @@
-import {
-  Home,
-  MessageSquare,
-  Users,
-  BarChart3,
-  User,
-  Brain,
-  Eye,
-  Zap,
-  Database,
-} from 'lucide-react';
+import { Home, MessageSquare, Users, BarChart3, User, Brain, Eye, Database } from 'lucide-react';
 
 export const navigationItems = [
   { icon: Home, label: 'Home', screen: 'home' },
@@ -18,7 +8,7 @@ export const navigationItems = [
   { icon: User, label: 'Profile', screen: 'profile' },
 ];
 
-// CHC-based test display configuration
+// CHC-based test display configuration (3 domains: Gf, Gv, Gsm)
 export const testDisplayConfig = [
   {
     id: 'fluidReasoning',
@@ -27,14 +17,6 @@ export const testDisplayConfig = [
     bgColor: 'bg-blue-50',
     progressColor: 'bg-blue-500',
     testKey: 'fluidReasoning',
-  },
-  {
-    id: 'comprehensionKnowledge',
-    title: 'Pemahaman & Pengetahuan (Gc)',
-    IconComponent: MessageSquare,
-    bgColor: 'bg-purple-50',
-    progressColor: 'bg-purple-500',
-    testKey: 'comprehensionKnowledge',
   },
   {
     id: 'visualProcessing',
@@ -51,13 +33,5 @@ export const testDisplayConfig = [
     bgColor: 'bg-emerald-50',
     progressColor: 'bg-emerald-500',
     testKey: 'workingMemory',
-  },
-  {
-    id: 'processingSpeed',
-    title: 'Kecepatan Pemrosesan (Gs)',
-    IconComponent: Zap,
-    bgColor: 'bg-yellow-50',
-    progressColor: 'bg-yellow-500',
-    testKey: 'processingSpeed',
   },
 ];

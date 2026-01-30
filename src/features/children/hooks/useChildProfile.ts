@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ProfileData } from '../types/app';
+import { ProfileData } from '../../../shared/types/app';
 
 const INITIAL_PROFILE: ProfileData = {
   avatar: '🦄',

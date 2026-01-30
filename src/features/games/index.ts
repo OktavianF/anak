@@ -8,3 +8,10 @@ export { default as ColoringGameScreen } from './pages/ColoringGameScreen';
 
 // Coloring game components
 export * from './components/coloring';
+
+// Hooks
+export { useGameAssessment } from './hooks/useGameAssessment';
+
+// Types
+export * from './types';
+export * from './types/assessmentParams';

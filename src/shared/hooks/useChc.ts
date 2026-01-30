@@ -1,14 +1,12 @@
 import { useCallback, useState } from 'react';
 
-export type ChcDomainKey =
-  | 'fluidReasoning'
-  | 'comprehensionKnowledge'
-  | 'visualProcessing'
-  | 'workingMemory'
-  | 'processingSpeed'
-  | 'auditoryProcessing'
-  | 'reactionSpeed'
-  | 'longTermMemory';
+/**
+ * 3 Domain CHC yang didukung:
+ * - fluidReasoning (Gf)  - Penalaran Logis
+ * - visualProcessing (Gv) - Pemrosesan Visual  
+ * - workingMemory (Gsm)   - Memori Kerja
+ */
+export type ChcDomainKey = 'fluidReasoning' | 'visualProcessing' | 'workingMemory';
 
 export type ChcTestResult = {
   completed: boolean;
@@ -22,13 +20,8 @@ export type ChcState = Record<ChcDomainKey, ChcTestResult>;
 
 const initialState: ChcState = {
   fluidReasoning: { completed: false, score: 0, total: 10, percentage: 0 },
-  comprehensionKnowledge: { completed: false, score: 0, total: 10, percentage: 0 },
   visualProcessing: { completed: false, score: 0, total: 10, percentage: 0 },
   workingMemory: { completed: false, score: 0, total: 10, percentage: 0 },
-  processingSpeed: { completed: false, score: 0, total: 10, percentage: 0 },
-  auditoryProcessing: { completed: false, score: 0, total: 10, percentage: 0 },
-  reactionSpeed: { completed: false, score: 0, total: 10, percentage: 0 },
-  longTermMemory: { completed: false, score: 0, total: 10, percentage: 0 },
 };
 
 export function useChc() {
@@ -51,22 +44,27 @@ export function useChc() {
 
   const updateChcAssessment = useCallback(
     (gameType: string, sessionData: any) => {
-      // Minimal mapping example; can be extended and moved to a config file
+      // Mapping game types ke 3 domain CHC
       const gameToChcMapping: Record<string, ChcDomainKey | undefined> = {
+        // Fluid Reasoning (Gf)
         numberSequence: 'fluidReasoning',
-        patternRecognition: 'visualProcessing',
+        patternRecognition: 'fluidReasoning',
+        logicPuzzle: 'fluidReasoning',
+        wordPuzzle: 'fluidReasoning', // Fallback ke Gf
+        // Visual Processing (Gv)
+        puzzle: 'visualProcessing',
+        coloring: 'visualProcessing',
+        findDifference: 'visualProcessing',
+        tangram: 'visualProcessing',
+        // Working Memory (Gsm)
         memory: 'workingMemory',
-        wordPuzzle: 'comprehensionKnowledge',
-        motor: 'reactionSpeed',
-        auditory: 'auditoryProcessing',
-        processing: 'processingSpeed',
-        longTermMemory: 'longTermMemory',
+        simonSays: 'workingMemory',
+        sequenceRecall: 'workingMemory',
       };
 
       const domain = gameToChcMapping[gameType];
       if (!domain) return;
 
-      // Example: update with a simple score/percentage
       const score = sessionData?.score ?? 0;
       const total = sessionData?.total ?? 10;
       const percentage = total > 0 ? Math.round((score / total) * 100) : 0;

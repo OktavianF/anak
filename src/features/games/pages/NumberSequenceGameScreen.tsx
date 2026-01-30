@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, RotateCcw, Trophy, Star, CheckCircle, Lightbulb, Clock } from 'lucide-react';
+import { useGameAssessment } from '../hooks/useGameAssessment';
 
 interface NumberSequenceGameScreenProps {
   navigateTo: (screen: string) => void;
@@ -22,6 +23,9 @@ export default function NumberSequenceGameScreen({
   addSticker,
   updateGameAssessment,
 }: NumberSequenceGameScreenProps) {
+  // Use the game assessment hook for CHC-based Fluid Reasoning (Gf) scoring
+  const { calculateAssessment: calculateChcAssessment } = useGameAssessment();
+  
   const [gameStarted, setGameStarted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [challenge, setChallenge] = useState<SequenceChallenge | null>(null);
@@ -241,26 +245,58 @@ export default function NumberSequenceGameScreen({
       ? Math.floor((endTime.getTime() - gameStartTime.getTime()) / 1000)
       : 0;
 
-    const stars = getStarRating();
-    const finalScore = calculateAssessmentScore(
-      stars,
-      gameTimeSpent,
-      errors,
-      correctAnswers,
-      hintsUsed
-    );
+    // Calculate accuracy
+    const totalAttempts = correctAnswers + errors;
+    const accuracy = totalAttempts > 0 
+      ? Math.round((correctAnswers / totalAttempts) * 100) 
+      : 0;
+
+    // Use the new CHC-based assessment system for Fluid Reasoning (Gf)
+    // Number sequences measure quantitative reasoning - a narrow ability under Gf
+    const assessmentResult = calculateChcAssessment('numberSequence', {
+      // Base parameters
+      accuracy: accuracy,
+      completionTime: gameTimeSpent,
+      errors: errors,
+      attempts: totalAttempts,
+      difficulty: getDifficultyForLevel(currentLevel - 1),
+      
+      // Fluid Reasoning specific parameters (Gf)
+      complexityLevel: currentLevel,
+      hintUsage: hintsUsed,
+      patternRecognitionScore: accuracy, // Recognizing number patterns
+      consecutiveCorrect: correctAnswers,
+      averageTimePerProblem: totalAttempts > 0 ? gameTimeSpent / totalAttempts : 0,
+    });
 
     const sessionData = {
+      // Legacy fields for backward compatibility
       timeSpent: gameTimeSpent,
       errors: errors,
-      score: finalScore,
+      score: assessmentResult.finalScore,
       difficulty: getDifficultyForLevel(currentLevel - 1),
       level: currentLevel,
       correctAnswers: correctAnswers,
       hintsUsed: hintsUsed,
-      stars: stars,
-      timestamp: new Date().toISOString(),
-      domains: ['Logika', 'Matematika', 'Pattern Recognition'],
+      stars: assessmentResult.starRating,
+      timestamp: assessmentResult.timestamp,
+      
+      // New CHC-based fields
+      domain: assessmentResult.domain, // 'Gf' for Fluid Reasoning
+      finalScore: assessmentResult.finalScore,
+      starRating: assessmentResult.starRating,
+      developmentLevel: assessmentResult.developmentLevel,
+      feedback: assessmentResult.feedback,
+      parentRecommendation: assessmentResult.parentRecommendation,
+      scoreBreakdown: assessmentResult.scoreBreakdown,
+      
+      // Fluid Reasoning specific metrics (Quantitative Reasoning)
+      complexityLevel: currentLevel,
+      patternRecognitionScore: accuracy,
+      accuracy: accuracy,
+      
+      // Legacy domain names (for old UI)
+      domains: ['Penalaran Kuantitatif (Gf)', 'Logika', 'Matematika', 'Pattern Recognition'],
     };
 
     updateGameAssessment('numberSequence', sessionData);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, RotateCcw, Trophy, Star, CheckCircle, Lightbulb, Shuffle } from 'lucide-react';
+import { useGameAssessment } from '../hooks/useGameAssessment';
 
 interface WordPuzzleGameScreenProps {
   navigateTo: (screen: string) => void;
@@ -30,6 +31,9 @@ export default function WordPuzzleGameScreen({
   addSticker,
   updateGameAssessment,
 }: WordPuzzleGameScreenProps) {
+  // Use the game assessment hook for CHC-based scoring (mapped to Gf temporarily)
+  const { calculateAssessment: calculateChcAssessment } = useGameAssessment();
+  
   const [gameStarted, setGameStarted] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [letters, setLetters] = useState<LetterTile[]>([]);
@@ -273,7 +277,55 @@ export default function WordPuzzleGameScreen({
             setIsProcessingWord(false);
           }, 2000);
         } else {
-          // Game completed - send final assessment
+          // Game completed - calculate CHC-based assessment
+          // WordPuzzle menggunakan domain Gf (Fluid Reasoning)
+          const totalTime = Math.floor((Date.now() - gameStartTime) / 1000);
+          const totalAttempts = wordsCompleted + errors + 1; // +1 for current word
+          const accuracy = Math.round(((wordsCompleted + 1) / totalAttempts) * 100);
+          
+          // Use the CHC-based assessment system (mapped to Gf)
+          const assessmentResult = calculateChcAssessment('wordPuzzle', {
+            // Base parameters
+            accuracy: accuracy,
+            completionTime: totalTime,
+            errors: errors,
+            attempts: totalAttempts,
+            difficulty: word.difficulty,
+            
+            // Fluid Reasoning parameters (temporary mapping)
+            level: word.difficulty === 'easy' ? 1 : word.difficulty === 'medium' ? 2 : 3,
+            hintsUsed: hintsUsed + (showImage ? 1 : 0),
+            patternRecognitionScore: accuracy,
+            consecutiveCorrect: wordsCompleted + 1,
+          });
+
+          const sessionData = {
+            // Legacy fields for backward compatibility
+            timeSpent: totalTime,
+            errors: errors,
+            score: assessmentResult.finalScore,
+            hintsUsed: hintsUsed + (showImage ? 1 : 0),
+            difficulty: word.difficulty,
+            timestamp: assessmentResult.timestamp,
+            wordsCompleted: wordsCompleted + 1,
+            
+            // New CHC-based fields
+            domain: assessmentResult.domain, // 'Gf' (Fluid Reasoning)
+            finalScore: assessmentResult.finalScore,
+            starRating: assessmentResult.starRating,
+            developmentLevel: assessmentResult.developmentLevel,
+            feedback: assessmentResult.feedback,
+            parentRecommendation: assessmentResult.parentRecommendation,
+            scoreBreakdown: assessmentResult.scoreBreakdown,
+            
+            // Word puzzle specific metrics
+            vocabularyScore: wordsCompleted + 1,
+            accuracy: accuracy,
+            
+            // Legacy domain names (for old UI)
+            domains: ['Penalaran Logis (Gf)', 'Kosakata', 'Pemecahan Masalah'],
+          };
+
           setTimeout(() => {
             updateGameAssessment('wordPuzzle', sessionData);
             setGameCompleted(true);

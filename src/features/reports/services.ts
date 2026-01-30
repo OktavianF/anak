@@ -1,18 +1,13 @@
-// Reports feature services - CHC Theory based
+// Reports feature services - CHC Theory based (3 Domain: Gf, Gv, Gsm)
 import { apiClient } from '@/lib/axios';
 
 export interface ProgressReport {
   childId: string;
   period: string;
-  // CHC Domain Progress
-  fluidReasoningProgress: number;      // Gf
-  comprehensionKnowledgeProgress: number; // Gc
-  visualProcessingProgress: number;    // Gv
-  workingMemoryProgress: number;       // Gsm
-  processingSpeedProgress: number;     // Gs
-  auditoryProcessingProgress: number;  // Ga
-  longTermMemoryProgress: number;      // Glr
-  reactionSpeedProgress: number;       // Gt
+  // CHC Domain Progress (3 Domain)
+  fluidReasoningProgress: number;      // Gf - Penalaran Logis
+  visualProcessingProgress: number;    // Gv - Pemrosesan Visual
+  workingMemoryProgress: number;       // Gsm - Memori Kerja
   overallProgress: number;
   recommendations: string[];
 }

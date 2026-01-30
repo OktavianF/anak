@@ -22,3 +22,5 @@ export type GameType =
   | 'puzzle'
   | 'coloring';
 
+// Re-export assessment types
+export * from './types/assessmentParams';

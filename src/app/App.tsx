@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 // Custom Hooks from shared
 import { useAuth } from '@/shared/hooks/useAuth';
-import { useChildProfile } from '@/shared/hooks/useChildProfile';
+import { useChildProfile } from '@/features/children/hooks/useChildProfile';
 import { useChc } from '@/shared/hooks/useChc';
 import { useChcAssessments } from '@/shared/hooks/useChcAssessments';
 import { useNavigation } from '@/shared/hooks/useNavigation';

@@ -11,6 +11,7 @@ import {
   Sparkles,
   Crown,
 } from 'lucide-react';
+import { useGameAssessment } from '../hooks/useGameAssessment';
 
 interface MemoryGameScreenProps {
   navigateTo: (screen: string) => void;
@@ -30,6 +31,9 @@ export default function MemoryGameScreen({
   addSticker,
   updateGameAssessment,
 }: MemoryGameScreenProps) {
+  // Use the game assessment hook for proper CHC-based scoring
+  const { calculateAssessment } = useGameAssessment();
+  
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
@@ -183,26 +187,62 @@ export default function MemoryGameScreen({
       setGameCompleted(true);
       setGameCompletionHandled(true);
 
-      // Calculate final score for assessment
-      const stars = getStarRating(moves, gameTime);
-      const score = calculateScore(stars, gameTime, errors, difficulty);
+      // Calculate accuracy based on errors vs moves
+      const accuracy = Math.max(0, Math.round(((moves - errors) / moves) * 100));
 
-      // Update assessment data
+      // Use the new CHC-based assessment system for Working Memory (Gsm)
+      const assessmentResult = calculateAssessment('memory', {
+        // Base parameters
+        accuracy: accuracy,
+        completionTime: gameTime,
+        errors: errors,
+        attempts: moves,
+        difficulty: difficulty,
+        
+        // Working Memory specific parameters (Gsm)
+        memoryCapacity: matchedPairs, // Number of pairs remembered
+        sequenceAccuracy: accuracy,
+        recallDelay: 800, // Card flip delay in ms
+        orderErrors: 0, // Not applicable for this game
+        itemErrors: errors,
+        longestStreak: bestStreak,
+        maxCombo: comboMultiplier,
+      });
+
+      // Update assessment data with new format
       const sessionData = {
+        // Legacy fields for backward compatibility
         timeSpent: gameTime,
         errors: errors,
-        score: score,
+        score: assessmentResult.finalScore,
         difficulty: difficulty,
         moves: moves,
-        stars: stars,
-        timestamp: new Date().toISOString(),
-        domains: ['Konsentrasi', 'Memori Jangka Pendek'],
+        stars: assessmentResult.starRating,
+        timestamp: assessmentResult.timestamp,
+        
+        // New CHC-based fields
+        domain: assessmentResult.domain, // 'Gsm' for Working Memory
+        finalScore: assessmentResult.finalScore,
+        starRating: assessmentResult.starRating,
+        developmentLevel: assessmentResult.developmentLevel,
+        feedback: assessmentResult.feedback,
+        parentRecommendation: assessmentResult.parentRecommendation,
+        scoreBreakdown: assessmentResult.scoreBreakdown,
+        
+        // Working Memory specific metrics
+        memoryCapacity: matchedPairs,
+        longestStreak: bestStreak,
+        maxCombo: comboMultiplier,
+        accuracy: accuracy,
+        
+        // Legacy domain names (for old UI)
+        domains: ['Memori Kerja (Gsm)', 'Konsentrasi', 'Memori Jangka Pendek'],
       };
 
       updateGameAssessment('memory', sessionData);
       addSticker('memory-master');
     }
-  }, [matchedPairs, difficulty, gameCompletionHandled]);
+  }, [matchedPairs, difficulty, gameCompletionHandled, calculateAssessment, bestStreak, comboMultiplier]);
 
   const resetGame = () => {
     setGameStarted(false);

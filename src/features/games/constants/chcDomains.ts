@@ -11,12 +11,18 @@ export interface ChcDomain {
   childFriendlyTitle: string;
 }
 
+/**
+ * 3 Domain CHC yang didukung:
+ * - Gf  (Fluid Reasoning)    - Penalaran Logis
+ * - Gv  (Visual Processing)  - Pemrosesan Visual
+ * - Gsm (Working Memory)     - Memori Kerja
+ */
 export const chcDomainsData: ChcDomain[] = [
   {
     id: 'fluid-reasoning',
     title: 'Puzzle & Logic',
     subtitle: 'Gf',
-    description: 'Ayo berpikir seperti detektif! 🕵️‍♂️',
+    description: 'Ayo berpikir seperti detektif! 🕵️',
     icon: '🧩',
     color: 'from-blue-400 via-indigo-500 to-purple-500',
     borderColor: 'border-blue-300',
@@ -25,23 +31,11 @@ export const chcDomainsData: ChcDomain[] = [
     childFriendlyTitle: 'Detektif Pintar',
   },
   {
-    id: 'comprehension-knowledge',
-    title: 'Word Adventure',
-    subtitle: 'Gc',
-    description: 'Jelajahi dunia kata-kata ajaib! 📚',
-    icon: '📖',
-    color: 'from-purple-400 via-pink-500 to-rose-500',
-    borderColor: 'border-purple-300',
-    shadowColor: 'shadow-purple-300/40',
-    gameScreen: 'word-puzzle-game',
-    childFriendlyTitle: 'Penjelajah Kata',
-  },
-  {
     id: 'visual-processing',
     title: 'Magic Eyes',
     subtitle: 'Gv',
     description: 'Lihat dunia dengan mata ajaib! 👁️✨',
-    icon: '🐋',
+    icon: '👁️',
     color: 'from-cyan-400 via-teal-500 to-blue-600',
     borderColor: 'border-cyan-300',
     shadowColor: 'shadow-cyan-300/40',
@@ -59,53 +53,5 @@ export const chcDomainsData: ChcDomain[] = [
     shadowColor: 'shadow-emerald-300/40',
     gameScreen: 'memory-game',
     childFriendlyTitle: 'Raja Memori',
-  },
-  {
-    id: 'long-term-memory',
-    title: 'Treasure Vault',
-    subtitle: 'Glr',
-    description: 'Simpan harta karun di memori! 💎',
-    icon: '🏛️',
-    color: 'from-amber-400 via-yellow-500 to-orange-600',
-    borderColor: 'border-amber-300',
-    shadowColor: 'shadow-amber-300/40',
-    gameScreen: 'memory-game',
-    childFriendlyTitle: 'Penjaga Harta',
-  },
-  {
-    id: 'processing-speed',
-    title: 'Speed Racer',
-    subtitle: 'Gs',
-    description: 'Balap pemikiran super cepat! 🏎️💨',
-    icon: '⚡',
-    color: 'from-yellow-400 via-orange-500 to-red-500',
-    borderColor: 'border-yellow-300',
-    shadowColor: 'shadow-yellow-300/40',
-    gameScreen: 'number-sequence-game',
-    childFriendlyTitle: 'Pembalap Cerdas',
-  },
-  {
-    id: 'auditory-processing',
-    title: 'Sound Detective',
-    subtitle: 'Ga',
-    description: 'Dengarkan petualangan bunyi! 🎧🔍',
-    icon: '🎵',
-    color: 'from-pink-400 via-rose-500 to-purple-600',
-    borderColor: 'border-pink-300',
-    shadowColor: 'shadow-pink-300/40',
-    gameScreen: 'word-puzzle-game',
-    childFriendlyTitle: 'Detektif Suara',
-  },
-  {
-    id: 'reaction-speed',
-    title: 'Quick Ninja',
-    subtitle: 'Gt',
-    description: 'Jadilah ninja super cepat! ⚡🥷',
-    icon: '🥷',
-    color: 'from-slate-400 via-gray-600 to-slate-700',
-    borderColor: 'border-slate-300',
-    shadowColor: 'shadow-slate-300/40',
-    gameScreen: 'pattern-recognition-game',
-    childFriendlyTitle: 'Ninja Cepat',
   },
 ];

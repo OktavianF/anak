@@ -1,5 +1,6 @@
 // CHC-Based Assessment Initial State
 // Based on Cattell-Horn-Carroll theory of cognitive abilities
+// 3 Domain yang didukung: Gf, Gv, Gsm
 
 export interface ChcAssessmentSession {
   date: string;
@@ -24,13 +25,8 @@ export interface ChcAssessment {
 
 export interface ChcAssessments {
   fluidReasoning: ChcAssessment;
-  comprehensionKnowledge: ChcAssessment;
   visualProcessing: ChcAssessment;
   workingMemory: ChcAssessment;
-  longTermMemory: ChcAssessment;
-  processingSpeed: ChcAssessment;
-  auditoryProcessing: ChcAssessment;
-  reactionSpeed: ChcAssessment;
 }
 
 export const initialChcAssessments: ChcAssessments = {
@@ -47,20 +43,6 @@ export const initialChcAssessments: ChcAssessments = {
     lastPlayed: null,
     sessions: [],
     developmentLevel: 'Sesuai Usia',
-  },
-  // Comprehension-Knowledge (Gc) - Pengetahuan & pemahaman bahasa
-  comprehensionKnowledge: {
-    totalPlayed: 0,
-    averageTime: 0,
-    averageErrors: 0,
-    averageScore: 0,
-    bestScore: 0,
-    difficulty: 'medium',
-    chcDomain: 'Gc',
-    narrowAbilities: ['Perkembangan Bahasa', 'Pengetahuan Leksikal', 'Informasi Umum'],
-    lastPlayed: null,
-    sessions: [],
-    developmentLevel: 'Sangat Baik',
   },
   // Visual Processing (Gv) - Kemampuan analisis & manipulasi visual
   visualProcessing: {
@@ -89,65 +71,5 @@ export const initialChcAssessments: ChcAssessments = {
     lastPlayed: null,
     sessions: [],
     developmentLevel: 'Sesuai Usia',
-  },
-  // Long-Term Storage and Retrieval (Glr) - Kemampuan menyimpan & mengambil memori jangka panjang
-  longTermMemory: {
-    totalPlayed: 0,
-    averageTime: 0,
-    averageErrors: 0,
-    averageScore: 0,
-    bestScore: 0,
-    difficulty: 'medium',
-    chcDomain: 'Glr',
-    narrowAbilities: [
-      'Penyimpanan dan Pemanggilan',
-      'Kelancaran Asosiasi',
-      'Pembelajaran Bermakna',
-    ],
-    lastPlayed: null,
-    sessions: [],
-    developmentLevel: 'Baik',
-  },
-  // Processing Speed (Gs) - Kecepatan melakukan tugas kognitif sederhana
-  processingSpeed: {
-    totalPlayed: 0,
-    averageTime: 0,
-    averageErrors: 0,
-    averageScore: 0,
-    bestScore: 0,
-    difficulty: 'medium',
-    chcDomain: 'Gs',
-    narrowAbilities: ['Kecepatan Persepsi', 'Kecepatan Numerik', 'Kecepatan Membaca'],
-    lastPlayed: null,
-    sessions: [],
-    developmentLevel: 'Sangat Baik',
-  },
-  // Auditory Processing (Ga) - Kemampuan memproses suara & bunyi
-  auditoryProcessing: {
-    totalPlayed: 0,
-    averageTime: 0,
-    averageErrors: 0,
-    averageScore: 0,
-    bestScore: 0,
-    difficulty: 'medium',
-    chcDomain: 'Ga',
-    narrowAbilities: ['Diskriminasi Auditori', 'Memori Auditori', 'Pemrosesan Temporal'],
-    lastPlayed: null,
-    sessions: [],
-    developmentLevel: 'Sesuai Usia',
-  },
-  // Reaction and Decision Speed (Gt) - Kecepatan dalam mengambil keputusan
-  reactionSpeed: {
-    totalPlayed: 0,
-    averageTime: 0,
-    averageErrors: 0,
-    averageScore: 0,
-    bestScore: 0,
-    difficulty: 'medium',
-    chcDomain: 'Gt',
-    narrowAbilities: ['Waktu Reaksi Sederhana', 'Waktu Reaksi Pilihan', 'Kecepatan Keputusan'],
-    lastPlayed: null,
-    sessions: [],
-    developmentLevel: 'Baik',
   },
 };
