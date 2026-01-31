@@ -16,11 +16,8 @@ export interface GameProgress {
 
 export type GameType = 
   | 'memory'
-  | 'wordPuzzle'
   | 'numberSequence'
-  | 'patternRecognition'
-  | 'puzzle'
-  | 'coloring';
+  | 'patternRecognition';
 
 // Re-export assessment types
 export * from './types/assessmentParams';

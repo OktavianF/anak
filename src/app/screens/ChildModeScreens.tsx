@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   MemoryGameScreen,
-  WordPuzzleGameScreen,
   NumberSequenceGameScreen,
   PatternRecognitionGameScreen,
 } from '@/features/games';
@@ -44,9 +43,6 @@ export function ChildModeScreens({
   switch (currentScreen) {
     case 'memory-game':
       return <MemoryGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
-
-    case 'word-puzzle-game':
-      return <WordPuzzleGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
 
     case 'number-sequence-game':
       return (

@@ -5,7 +5,6 @@ import {
 } from '@/features/auth';
 import {
   MemoryGameScreen,
-  WordPuzzleGameScreen,
   NumberSequenceGameScreen,
   PatternRecognitionGameScreen,
 } from '@/features/games';
@@ -90,21 +89,6 @@ export function ParentModeScreens({
         />
       );
 
-    case 'memory-game':
-      return <MemoryGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
-
-    case 'word-puzzle-game':
-      return <WordPuzzleGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />;
-
-    case 'number-sequence-game':
-      return (
-        <NumberSequenceGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />
-      );
-
-    case 'pattern-recognition-game':
-      return (
-        <PatternRecognitionGameScreen {...commonProps} updateGameAssessment={updateChcAssessment} />
-      );
 
     case 'progress':
       return (
