@@ -26,35 +26,8 @@ import {
   BarChart,
   Bar,
 } from 'recharts';
-
-/**
- * 3 Domain CHC yang didukung:
- * - fluidReasoning (Gf)  - Penalaran Logis
- * - visualProcessing (Gv) - Pemrosesan Visual  
- * - workingMemory (Gsm)   - Memori Kerja
- */
-type ChcDomainKey = 'fluidReasoning' | 'visualProcessing' | 'workingMemory';
-
-type ChcTest = {
-  chcDomain?: string;
-  completed?: boolean;
-  score?: number;
-  total?: number;
-  percentage?: number;
-  developmentLevel?: string;
-  completedDate?: string;
-  narrowAbilityScores?: Record<string, number>;
-};
-
-type ChcAssess = {
-  totalPlayed?: number;
-  developmentLevel?: string;
-  averageScore?: number;
-  lastPlayed?: string;
-};
-
-type ChcTestResults = Partial<Record<ChcDomainKey, ChcTest>>;
-type ChcAssessments = Partial<Record<ChcDomainKey, ChcAssess>>;
+import type { ChcTestResults, ChcAssessments, ChcDomainKey } from '../constants/chcData';
+import { calculateChcUserStats } from '../utils/chcUtils';
 
 interface ProgressScreenProps {
   navigateTo: (screen: string) => void;
@@ -74,57 +47,7 @@ export default function ProgressScreen({
 }: ProgressScreenProps) {
   const [activeTab, setActiveTab] = useState<'current' | 'weekly' | 'charts'>('current');
 
-  // Calculate CHC-based user stats
-  const isCompletedChcTest = (test?: ChcTest): test is ChcTest => !!test && !!test.chcDomain && test.completed === true;
-
-  const calculateChcUserStats = () => {
-    const chcDomains = Object.values(chcTestResults).filter(isCompletedChcTest);
-    const completedTests = chcDomains.length;
-    const totalChcTests = 3; // 3 CHC broad abilities: Gf, Gv, Gsm
-
-    let totalScore = 0;
-    let totalPossible = 0;
-
-    chcDomains.forEach((test) => {
-      if (test.completed && test.score !== undefined) {
-        totalScore += test.score;
-        totalPossible += test.total ?? 0;
-      }
-    });
-
-    const averagePercentage =
-      totalPossible > 0 ? Math.round((totalScore / totalPossible) * 100) : 0;
-
-    // CHC-based cognitive profile interpretation
-    let cognitiveProfile = 'Perkembangan Awal';
-    if (averagePercentage >= 85) cognitiveProfile = 'Profil Kognitif Superior';
-    else if (averagePercentage >= 70) cognitiveProfile = 'Profil Kognitif Rata-rata Tinggi';
-    else if (averagePercentage >= 55) cognitiveProfile = 'Profil Kognitif Rata-rata';
-    else if (averagePercentage >= 40) cognitiveProfile = 'Profil Kognitif Rata-rata Rendah';
-
-    // Calculate cognitive strengths and weaknesses
-    const domainPerformance = chcDomains
-      .map((test) => ({
-        domain: test.chcDomain,
-        score: test.percentage || 0,
-        developmentLevel: test.developmentLevel || 'Belum Diukur',
-      }))
-      .sort((a, b) => b.score - a.score);
-
-    return {
-      name: childName,
-      level: completedTests + 1,
-      score: averagePercentage,
-      cognitiveProfile: cognitiveProfile,
-      completedTests: completedTests,
-      totalTests: totalChcTests,
-      strengths: domainPerformance.slice(0, 3),
-      needsImprovement: domainPerformance.slice(-2),
-      overallCognitiveAge: Math.round(averagePercentage / 10) + 4, // Rough age equivalent
-    };
-  };
-
-  const userStats = calculateChcUserStats();
+  const userStats = calculateChcUserStats(childName, chcTestResults);
 
   // CHC Weekly progress data (3 Domain: Gf, Gv, Gsm)
   const chcWeeklyData = [

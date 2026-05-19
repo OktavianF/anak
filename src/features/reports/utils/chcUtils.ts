@@ -27,7 +27,7 @@ export function calculateChcUserStats(
 ): ChcUserStats {
   const chcDomains = Object.values(chcTestResults).filter(isCompletedChcTest);
   const completedTests = chcDomains.length;
-  const totalChcTests = 8;
+  const totalChcTests = 3; // 3 CHC broad abilities: Gf, Gv, Gsm
 
   let totalScore = 0;
   let totalPossible = 0;
