@@ -1,0 +1,363 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ==================== ENUMS ====================
+
+enum anak_role {
+  PARENT
+  ADMIN
+  DOCTOR
+}
+
+enum anak_gender {
+  MALE
+  FEMALE
+}
+
+enum anak_chc_domain {
+  Gf
+  Gv
+  Gsm
+}
+
+enum anak_difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum anak_development_level {
+  BELOW
+  AVERAGE
+  ABOVE
+  EXCELLENT
+}
+
+enum anak_sticker_rarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum anak_doctor_availability {
+  ONLINE
+  BUSY
+  OFFLINE
+}
+
+enum anak_appointment_status {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum anak_payment_status {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum anak_message_type {
+  TEXT
+  IMAGE
+  FILE
+}
+
+// ==================== USERS ====================
+
+model anak_users {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email      String    @unique
+  password   String
+  name       String
+  role       anak_role @default(PARENT)
+  pin        String?
+  created_at DateTime? @default(now()) @db.Timestamptz()
+  updated_at DateTime? @default(now()) @db.Timestamptz()
+
+  children       anak_children[]
+  refresh_tokens anak_refresh_tokens[]
+  posts          anak_posts[]
+  comments       anak_comments[]
+  post_likes     anak_post_likes[]
+}
+
+model anak_refresh_tokens {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token      String   @unique
+  user_id    String   @db.Uuid
+  expires_at DateTime @db.Timestamptz()
+  created_at DateTime? @default(now()) @db.Timestamptz()
+
+  anak_users anak_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+// ==================== CHILDREN ====================
+
+model anak_children {
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  parent_id        String      @db.Uuid
+  name             String
+  gender           anak_gender
+  birth_date       DateTime    @db.Date
+  age              Int
+  avatar           String?
+  background_color String?
+  favorite_color   String?
+  created_at       DateTime?   @default(now()) @db.Timestamptz()
+  updated_at       DateTime?   @default(now()) @db.Timestamptz()
+
+  anak_users        anak_users              @relation(fields: [parent_id], references: [id], onDelete: Cascade)
+  game_sessions     anak_game_sessions[]
+  assessment_results anak_assessment_results[]
+  child_stickers    anak_child_stickers[]
+  appointments      anak_appointments[]
+  progress_reports  anak_progress_reports[]
+}
+
+// ==================== GAME SESSIONS ====================
+
+model anak_game_sessions {
+  id           String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  child_id     String           @db.Uuid
+  game_type    String
+  chc_domain   anak_chc_domain
+  score        Int              @default(0)
+  duration     Int              @default(0)
+  level        Int              @default(1)
+  difficulty   anak_difficulty  @default(EASY)
+  completed_at DateTime?        @default(now()) @db.Timestamptz()
+
+  child            anak_children           @relation(fields: [child_id], references: [id], onDelete: Cascade)
+  telemetry        anak_game_telemetry?
+  assessment_result anak_assessment_results?
+
+  @@index([child_id, game_type])
+  @@index([child_id, chc_domain])
+}
+
+model anak_game_telemetry {
+  id                       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  session_id               String  @unique @db.Uuid
+  accuracy                 Float   @default(0)
+  completion_time          Float   @default(0)
+  errors                   Int     @default(0)
+  attempts                 Int     @default(1)
+  hints_used               Int     @default(0)
+  consecutive_correct      Int?    @default(0)
+  complexity_level         Int?
+  pattern_recognition_score Float?
+  average_time_per_problem Float?
+  tap_precision            Float?
+  rotation_accuracy        Float?
+  visual_scan_time         Float?
+  moves_count              Int?
+  movement_efficiency      Float?
+  memory_capacity          Int?
+  sequence_accuracy        Float?
+  recall_delay             Float?
+  order_errors             Int?
+  item_errors              Int?
+  longest_streak           Int?
+  max_combo                Int?
+
+  session anak_game_sessions @relation(fields: [session_id], references: [id], onDelete: Cascade)
+}
+
+// ==================== ASSESSMENTS ====================
+
+model anak_assessment_results {
+  id                    String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  child_id              String                @db.Uuid
+  session_id            String                @unique @db.Uuid
+  chc_domain            anak_chc_domain
+  game_type             String
+  final_score           Float                 @default(0)
+  star_rating           Int                   @default(1)
+  development_level     anak_development_level @default(AVERAGE)
+  score_breakdown       Json                  @default("{}")
+  feedback              String                @default("")
+  parent_recommendation String                @default("")
+  created_at            DateTime?             @default(now()) @db.Timestamptz()
+
+  child   anak_children      @relation(fields: [child_id], references: [id], onDelete: Cascade)
+  session anak_game_sessions @relation(fields: [session_id], references: [id], onDelete: Cascade)
+
+  @@index([child_id, chc_domain])
+}
+
+// ==================== STICKERS ====================
+
+model anak_stickers {
+  id          String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sticker_id  String              @unique
+  name        String
+  emoji       String
+  description String
+  rarity      anak_sticker_rarity @default(COMMON)
+
+  child_stickers anak_child_stickers[]
+}
+
+model anak_child_stickers {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  child_id   String   @db.Uuid
+  sticker_id String   @db.Uuid
+  earned_at  DateTime? @default(now()) @db.Timestamptz()
+
+  child   anak_children @relation(fields: [child_id], references: [id], onDelete: Cascade)
+  sticker anak_stickers @relation(fields: [sticker_id], references: [id])
+
+  @@unique([child_id, sticker_id])
+}
+
+// ==================== CONSULTATION ====================
+
+model anak_doctors {
+  id           String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String
+  specialty    String
+  experience   String
+  rating       Float?                   @default(0)
+  rating_count Int?                     @default(0)
+  price        Int                      @default(0)
+  image        String?
+  bio          String?
+  education    String?
+  verified     Boolean?                 @default(false)
+  availability anak_doctor_availability? @default(ONLINE)
+  created_at   DateTime?                @default(now()) @db.Timestamptz()
+
+  appointments anak_appointments[]
+  time_slots   anak_time_slots[]
+}
+
+model anak_time_slots {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  doctor_id String   @db.Uuid
+  date      DateTime @db.Date
+  time      String
+  available Boolean? @default(true)
+
+  doctor anak_doctors @relation(fields: [doctor_id], references: [id], onDelete: Cascade)
+}
+
+model anak_appointments {
+  id         String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  doctor_id  String                  @db.Uuid
+  child_id   String                  @db.Uuid
+  date       DateTime                @db.Date
+  time       String
+  status     anak_appointment_status? @default(PENDING)
+  notes      String?
+  created_at DateTime?               @default(now()) @db.Timestamptz()
+  updated_at DateTime?               @default(now()) @db.Timestamptz()
+
+  doctor   anak_doctors        @relation(fields: [doctor_id], references: [id])
+  child    anak_children       @relation(fields: [child_id], references: [id], onDelete: Cascade)
+  payment  anak_payments?
+  messages anak_chat_messages[]
+}
+
+model anak_payments {
+  id             String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  appointment_id String              @unique @db.Uuid
+  amount         Int
+  status         anak_payment_status? @default(PENDING)
+  method         String?
+  paid_at        DateTime?           @db.Timestamptz()
+  created_at     DateTime?           @default(now()) @db.Timestamptz()
+
+  appointment anak_appointments @relation(fields: [appointment_id], references: [id])
+}
+
+model anak_chat_messages {
+  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  appointment_id String            @db.Uuid
+  sender_id      String            @db.Uuid
+  content        String
+  type           anak_message_type? @default(TEXT)
+  created_at     DateTime?         @default(now()) @db.Timestamptz()
+
+  appointment anak_appointments @relation(fields: [appointment_id], references: [id], onDelete: Cascade)
+
+  @@index([appointment_id, created_at])
+}
+
+// ==================== COMMUNITY ====================
+
+model anak_posts {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  author_id  String    @db.Uuid
+  content    String
+  tags       String[]  @default([])
+  created_at DateTime? @default(now()) @db.Timestamptz()
+  updated_at DateTime? @default(now()) @db.Timestamptz()
+
+  author   anak_users      @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  comments anak_comments[]
+  likes    anak_post_likes[]
+
+  @@index([created_at(sort: Desc)])
+}
+
+model anak_comments {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  post_id    String    @db.Uuid
+  author_id  String    @db.Uuid
+  content    String
+  created_at DateTime? @default(now()) @db.Timestamptz()
+
+  post   anak_posts @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  author anak_users @relation(fields: [author_id], references: [id], onDelete: Cascade)
+}
+
+model anak_post_likes {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  post_id String @db.Uuid
+  user_id String @db.Uuid
+
+  post anak_posts @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  user anak_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([post_id, user_id])
+}
+
+model anak_guides {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  description String
+  content     String
+  category    String
+  age_range   String
+  image       String?
+  created_at  DateTime? @default(now()) @db.Timestamptz()
+}
+
+// ==================== REPORTS ====================
+
+model anak_progress_reports {
+  id                         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  child_id                   String    @db.Uuid
+  period                     String
+  fluid_reasoning_progress   Float?    @default(0)
+  visual_processing_progress Float?    @default(0)
+  working_memory_progress    Float?    @default(0)
+  overall_progress           Float?    @default(0)
+  recommendations            String[]  @default([])
+  generated_at               DateTime? @default(now()) @db.Timestamptz()
+
+  child anak_children @relation(fields: [child_id], references: [id], onDelete: Cascade)
+
+  @@index([child_id, generated_at(sort: Desc)])
+}

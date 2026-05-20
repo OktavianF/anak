@@ -25,16 +25,15 @@ export default function App() {
   const navigation = useNavigation();
   const stickers = useStickers();
 
-  // Auto-navigate from splash to home after 3 seconds
+  // Auto-navigate from splash to login after 3 seconds
   useEffect(() => {
     if (navigation.currentScreen === 'splash') {
       const timer = setTimeout(() => {
-        auth.authenticate();
-        navigation.setCurrentScreen('home');
+        navigation.setCurrentScreen('login');
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [navigation.currentScreen, auth, navigation]);
+  }, [navigation.currentScreen, navigation]);
 
   // Handle parent mode switch with navigation
   const handleSwitchToParentMode = () => {
@@ -48,12 +47,13 @@ export default function App() {
     navigation.setCurrentScreen('game');
   };
 
-  // Render authentication screens (splash, survey) if not authenticated
+  // Render authentication screens (splash, login) if not authenticated
   if (!auth.isAuthenticated) {
     return (
       <AppContainer>
         <AuthScreens
           currentScreen={navigation.currentScreen}
+          navigateTo={navigation.setCurrentScreen}
           childName={childProfile.childName}
           setChildName={childProfile.setChildName}
           childGender={childProfile.childGender}

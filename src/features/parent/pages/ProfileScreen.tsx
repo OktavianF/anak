@@ -24,6 +24,9 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
+import { useAuth } from '@/shared/hooks/useAuth';
+import { useChildProfile } from '@/features/children/hooks/useChildProfile';
+
 interface ProfileScreenProps {
   navigateTo: (screen: string) => void;
   isParentMode: boolean;
@@ -48,40 +51,21 @@ export default function ProfileScreen({ navigateTo }: ProfileScreenProps) {
     confirm: false,
   });
 
-  // Parent Account Data
-  const [parentAccount, setParentAccount] = useState({
-    name: 'Sarah Wijaya',
-    email: 'sarah.wijaya@gmail.com',
-    phone: '+62 812-3456-7890',
-    occupation: 'Dokter',
-    location: 'Jakarta Selatan',
-  });
+  const { user } = useAuth();
+  const { children, addChild: addChildToStore, deleteChild: deleteChildFromStore, fetchChildren } = useChildProfile();
+  
+  React.useEffect(() => {
+    fetchChildren();
+  }, [fetchChildren]);
 
-  // Children Profiles
-  const [children, setChildren] = useState([
-    {
-      id: 1,
-      name: 'Maya Wijaya',
-      age: 6,
-      gender: 'female',
-      avatar:
-        'https://images.unsplash.com/photo-1646039254748-78649b967501?w=200&h=200&fit=crop&auto=format',
-      lastAssessment: '3 hari yang lalu',
-      assessmentProgress: 75,
-      favoriteActivity: 'Memory Games',
-    },
-    {
-      id: 2,
-      name: 'Rafi Wijaya',
-      age: 9,
-      gender: 'male',
-      avatar:
-        'https://images.unsplash.com/photo-1758782213616-7b4cd41eff29?w=200&h=200&fit=crop&auto=format',
-      lastAssessment: '1 minggu yang lalu',
-      assessmentProgress: 60,
-      favoriteActivity: 'Pattern Recognition',
-    },
-  ]);
+  // Parent Account Data (Fallback to dummy if user not loaded yet)
+  const parentAccount = {
+    name: user?.name || 'Sarah Wijaya',
+    email: user?.email || 'sarah.wijaya@gmail.com',
+    phone: user?.phone || '+62 812-3456-7890',
+    occupation: user?.occupation || 'Dokter',
+    location: 'Jakarta Selatan',
+  };
 
   // Notification Settings
   const [notificationSettings, setNotificationSettings] = useState({
@@ -139,24 +123,25 @@ export default function ProfileScreen({ navigateTo }: ProfileScreenProps) {
     }));
   };
 
-  const addChild = () => {
-    const newChild = {
-      id: Date.now(),
-      name: '',
-      age: 0,
-      gender: 'male',
-      avatar:
-        'https://images.unsplash.com/photo-1758782213616-7b4cd41eff29?w=200&h=200&fit=crop&auto=format',
-      lastAssessment: 'Belum pernah',
-      assessmentProgress: 0,
-      favoriteActivity: 'Belum ada',
-    };
-    setChildren([...children, newChild]);
-    setShowChildForm(true);
+  const addChild = async () => {
+    try {
+      await addChildToStore({
+        name: 'Anak Baru',
+        gender: 'MALE',
+        birth_date: new Date().toISOString(),
+      });
+      setShowChildForm(true);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const deleteChild = (id: number) => {
-    setChildren(children.filter((child) => child.id !== id));
+  const deleteChild = async (id: any) => {
+    try {
+      await deleteChildFromStore(id.toString());
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const menuSections = [
@@ -394,23 +379,23 @@ export default function ProfileScreen({ navigateTo }: ProfileScreenProps) {
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="bg-slate-50 rounded-xl p-3">
                 <div className="text-slate-500 text-sm mb-1">Assessment Terakhir</div>
-                <div className="text-slate-800 font-medium">{child.lastAssessment}</div>
+                <div className="text-slate-800 font-medium">{'Belum ada'}</div>
               </div>
               <div className="bg-slate-50 rounded-xl p-3">
                 <div className="text-slate-500 text-sm mb-1">Aktivitas Favorit</div>
-                <div className="text-slate-800 font-medium">{child.favoriteActivity}</div>
+                <div className="text-slate-800 font-medium">{'Belum ada'}</div>
               </div>
             </div>
 
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-slate-700 text-sm font-medium">Progress Assessment</span>
-                <span className="text-indigo-600 font-bold">{child.assessmentProgress}%</span>
+                <span className="text-indigo-600 font-bold">{0}%</span>
               </div>
               <div className="w-full bg-white rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-blue-500 to-indigo-600 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${child.assessmentProgress}%` }}
+                  style={{ width: `${0}%` }}
                 />
               </div>
             </div>

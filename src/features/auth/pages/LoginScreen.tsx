@@ -2,24 +2,32 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Eye, EyeOff } from 'lucide-react';
 import anakLogo from '@/assets/e98844b3cc7b597ff0b79e0a631a430f264ab517.png';
+import { useAuth } from '@/shared/hooks/useAuth';
 
 interface LoginScreenProps {
   navigateTo: () => void;
 }
 
 export default function LoginScreen({ navigateTo }: LoginScreenProps) {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleLogin = () => {
-    setIsLoading(true);
-    setTimeout(() => {
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      setErrorMsg('');
+      await login({ email, password });
       setIsLoading(false);
       navigateTo();
-    }, 1500);
+    } catch (error) {
+      setIsLoading(false);
+      setErrorMsg('Email atau password salah');
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -62,6 +70,11 @@ export default function LoginScreen({ navigateTo }: LoginScreenProps) {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="space-y-6"
         >
+          {errorMsg && (
+            <div className="bg-red-50 text-red-500 p-3 rounded-xl text-sm mb-4">
+              {errorMsg}
+            </div>
+          )}
           {/* Email Input */}
           <div>
             <input

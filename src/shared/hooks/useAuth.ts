@@ -1,52 +1,25 @@
-import { useState, useCallback } from 'react';
-import { AppMode } from '../types/app';
+import { useAuthStore } from '../../store/authStore';
 
 export function useAuth() {
-  const [appMode, setAppMode] = useState<AppMode>('child');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isParentMode, setIsParentMode] = useState(false);
-  const [showPINModal, setShowPINModal] = useState(false);
-
-  const switchToParentMode = useCallback(() => {
-    setAppMode('parent');
-    setIsParentMode(true);
-    setShowPINModal(false);
-  }, []);
-
-  const switchToChildMode = useCallback(() => {
-    setAppMode('child');
-    setIsParentMode(false);
-  }, []);
-
-  const requestParentAccess = useCallback(() => {
-    setShowPINModal(true);
-  }, []);
-
-  const closePINModal = useCallback(() => {
-    setShowPINModal(false);
-  }, []);
-
-  const authenticate = useCallback(() => {
-    setIsAuthenticated(true);
-  }, []);
-
-  const completeFirstTimeSetup = useCallback(() => {
-    setIsAuthenticated(true);
-    setAppMode('parent');
-    setIsParentMode(true);
-  }, []);
-
+  const store = useAuthStore();
+  
   return {
-    appMode,
-    isAuthenticated,
-    isParentMode,
-    showPINModal,
-    setIsParentMode,
-    switchToParentMode,
-    switchToChildMode,
-    requestParentAccess,
-    closePINModal,
-    authenticate,
-    completeFirstTimeSetup,
+    appMode: store.appMode,
+    isAuthenticated: store.isAuthenticated,
+    isParentMode: store.isParentMode,
+    showPINModal: store.showPINModal,
+    setIsParentMode: (mode: boolean) => store.setAppMode(mode ? 'parent' : 'child'),
+    switchToParentMode: () => store.setAppMode('parent'),
+    switchToChildMode: () => store.setAppMode('child'),
+    requestParentAccess: () => store.setShowPINModal(true),
+    closePINModal: () => store.setShowPINModal(false),
+    authenticate: () => {}, // Handled by login now
+    completeFirstTimeSetup: () => {}, 
+    // Add real methods
+    login: store.login,
+    logout: store.logout,
+    verifyPIN: store.verifyPIN,
+    user: store.user,
+    fetchProfile: store.fetchProfile,
   };
 }
